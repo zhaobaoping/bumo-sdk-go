@@ -1,4 +1,3 @@
-
 # Bumo Go SDK
 
 ## 概述
@@ -70,6 +69,7 @@
 
 #### 包导入
 >导入使用的包
+
 ```
 import (
 
@@ -79,17 +79,20 @@ import (
 
 #### 初始化结构体
 >初始化Error和BumoSdk结构体
+
 ```
    var Err bumo.Error
    var bumosdk bumo.BumoSdk
 ```
 #### 新建链接
 >获取相应的链接
+
 ```
   	bumosdk.Newbumo(url)
 ```
 #### 生成未激活账户
 >通过调用Account的CreateInactive生成账户，例如：
+
 ```
     newPublicKey, newPrivateKey, newAddress, Err := bumosdk.Account.CreateInactive()
 ```
