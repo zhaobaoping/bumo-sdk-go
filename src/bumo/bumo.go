@@ -6,7 +6,6 @@ import (
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"io/ioutil"
 	"net/http"
 	"strconv"
 
@@ -68,31 +67,40 @@ func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
 		return 0, Err
 	}
 	if response.StatusCode == 200 {
-		body, err := ioutil.ReadAll(response.Body)
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
 		if err != nil {
-			Err.Code = IOUTIL_READALL_ERROR
+			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
 			return 0, Err
 		}
-		var data map[string]interface{}
-		err = json.Unmarshal(body, &data)
-		if err != nil {
-			Err.Code = JSON_UNMARSHAL_ERROR
-			Err.Err = err
-			return 0, Err
-		}
-		if data["error_code"].(float64) == 0 {
+		if data["error_code"].(json.Number) == "0" {
 			result := data["result"].(map[string]interface{})
 			header := result["header"].(map[string]interface{})
-			seq := header["seq"].(float64)
+			seqstr := header["seq"].(json.Number)
+			seq, err := strconv.ParseInt(string(seqstr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, Err
+			}
 			Err.Code = SUCCESS
 			Err.Err = nil
-			return int64(seq), Err
+			return seq, Err
 		} else {
-			if data["error_code"].(float64) == 4 {
+			if data["error_code"].(json.Number) == "4" {
 				return 0, sdkErr(BLOCK_NOT_EXIST)
 			}
-			return 0, getErr(data["error_code"].(float64))
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, Err
+			}
+			return 0, getErr(float64(errorCode))
 		}
 	} else {
 		Err.Code = response.StatusCode
@@ -124,16 +132,12 @@ func (bumosdk *BumoSdk) CheckBlockStatus() (bool, Error) {
 		return false, Err
 	}
 	if response.StatusCode == 200 {
-		body, err := ioutil.ReadAll(response.Body)
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
 		if err != nil {
-			Err.Code = IOUTIL_READALL_ERROR
-			Err.Err = err
-			return false, Err
-		}
-		var data map[string]interface{}
-		err = json.Unmarshal(body, &data)
-		if err != nil {
-			Err.Code = JSON_UNMARSHAL_ERROR
+			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
 			return false, Err
 		}
@@ -172,15 +176,16 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
-		body, _ := ioutil.ReadAll(response.Body)
-		var data map[string]interface{}
-		err := json.Unmarshal(body, &data)
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
 		if err != nil {
-			Err.Code = JSON_UNMARSHAL_ERROR
+			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
 			return "", Err
 		}
-		if data["error_code"].(float64) == 0 {
+		if data["error_code"].(json.Number) == "0" {
 			result := data["result"]
 			Mdata, err := json.Marshal(&result)
 			if err != nil {
@@ -192,10 +197,17 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 			Err.Err = nil
 			return string(Mdata), Err
 		} else {
-			if data["error_code"].(float64) == 4 {
+			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(TRANSACTION_NOT_EXIST)
 			}
-			return "", getErr(data["error_code"].(float64))
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			return "", getErr(float64(errorCode))
 		}
 	} else {
 		Err.Code = response.StatusCode
@@ -230,20 +242,16 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
-		body, err := ioutil.ReadAll(response.Body)
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
 		if err != nil {
-			Err.Code = IOUTIL_READALL_ERROR
+			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
 			return "", Err
 		}
-		var data map[string]interface{}
-		err = json.Unmarshal(body, &data)
-		if err != nil {
-			Err.Code = JSON_UNMARSHAL_ERROR
-			Err.Err = err
-			return "", Err
-		}
-		if data["error_code"].(float64) == 0 {
+		if data["error_code"].(json.Number) == "0" {
 			result := data["result"]
 			Mdata, err := json.Marshal(&result)
 			if err != nil {
@@ -255,10 +263,17 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 			Err.Err = nil
 			return string(Mdata), Err
 		} else {
-			if data["error_code"].(float64) == 4 {
+			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(TRANSACTION_NOT_EXIST)
 			}
-			return "", getErr(data["error_code"].(float64))
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			return "", getErr(float64(errorCode))
 		}
 	} else {
 		Err.Code = response.StatusCode
@@ -293,20 +308,16 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
-		body, err := ioutil.ReadAll(response.Body)
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
 		if err != nil {
-			Err.Code = IOUTIL_READALL_ERROR
+			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
 			return "", Err
 		}
-		var data map[string]interface{}
-		err = json.Unmarshal(body, &data)
-		if err != nil {
-			Err.Code = JSON_UNMARSHAL_ERROR
-			Err.Err = err
-			return "", Err
-		}
-		if data["error_code"].(float64) == 0 {
+		if data["error_code"].(json.Number) == "0" {
 			result := data["result"]
 			Mdata, err := json.Marshal(&result)
 			if err != nil {
@@ -318,10 +329,17 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 			Err.Err = nil
 			return string(Mdata), Err
 		} else {
-			if data["error_code"].(float64) == 4 {
+			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(BLOCK_NOT_EXIST)
 			}
-			return "", getErr(data["error_code"].(float64))
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			return "", getErr(float64(errorCode))
 		}
 	} else {
 		Err.Code = response.StatusCode
@@ -517,7 +535,13 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 			if tx["actual_fee"] == nil {
 				return 0, 0, sdkErr(TRANSACTION_INVALID)
 			}
-			actualFee := tx["actual_fee"].(float64)
+			actualFeestr := tx["actual_fee"].(json.Number)
+			actualFee, err := strconv.ParseInt(string(actualFeestr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, 0, Err
+			}
 			transactionEnv := tx["transaction_env"].(map[string]interface{})
 			transaction := transactionEnv["transaction"].(map[string]interface{})
 			if transaction["gas_price"] == nil {
@@ -541,7 +565,7 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 		}
 	} else {
 		Err.Code = response.StatusCode
-		Err.Err = errors.New(string(response.Status))
+		Err.Err = errors.New(response.Status)
 		return 0, 0, Err
 	}
 }
@@ -658,7 +682,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 		}
 	} else {
 		Err.Code = response.StatusCode
-		Err.Err = errors.New(string(response.Status))
+		Err.Err = errors.New(response.Status)
 		return "", Err
 	}
 }
