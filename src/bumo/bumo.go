@@ -534,7 +534,7 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 		}
 	} else {
 		Err.Code = response.StatusCode
-		Err.Err = errors.New(response.Status)
+		Err.Err = errors.New(string(response.Status))
 		return 0, 0, Err
 	}
 }
