@@ -16,7 +16,7 @@ var bumosdk bumo.BumoSdk
 var Err bumo.Error
 
 func Test_Newbumo(t *testing.T) {
-	url := "http://127.0.0.1:36002"
+	url := "http://seed1.bumotest.io:26002"
 	bumosdk.Newbumo(url)
 	t.Log("Test_Newbumo succeed")
 }
