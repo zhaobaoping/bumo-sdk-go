@@ -528,7 +528,14 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 			Err.Err = nil
 			return int64(actualFee), int64(gasPrice), Err
 		} else {
-			Err.Code = int(data["error_code"].(float64) + 10000)
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, 0, Err
+			}
+			Err.Code = int(float64(errorCode) + 10000)
 			Err.Err = errors.New(data["error_desc"].(string))
 			return 0, 0, Err
 		}
@@ -651,7 +658,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 		}
 	} else {
 		Err.Code = response.StatusCode
-		Err.Err = errors.New(response.Status)
+		Err.Err = errors.New(string(response.Status))
 		return "", Err
 	}
 }
