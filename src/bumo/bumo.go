@@ -360,7 +360,10 @@ func (bumosdk *BumoSdk) CreateTransactionWithDefaultFee(sourceAddress string, no
 		return "", sdkErr(INVALID_OPERATION)
 	}
 	var feeLimit int64
-	gasPrice := bumosdk.getGasPrice()
+	gasPrice, Err := bumosdk.getGasPrice()
+	if Err.Err != nil {
+		return "", Err
+	}
 	operations := &protocol.Operation{}
 	err := proto.Unmarshal(operation, operations)
 	if err != nil {
@@ -408,7 +411,10 @@ func (bumosdk *BumoSdk) CreateTransactionWithFee(sourceAddress string, nonce int
 	if !keypair.CheckAddress(sourceAddress) {
 		return "", sdkErr(INVALID_SOURCEADDRESS)
 	}
-	newgasPrice := bumosdk.getGasPrice()
+	newgasPrice, Err := bumosdk.getGasPrice()
+	if Err.Err != nil {
+		return "", Err
+	}
 	if nonce < 0 {
 		return "", sdkErr(INVALID_NONCE)
 	}
@@ -688,7 +694,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 }
 
 //获取最新gasPrice
-func (bumosdk *BumoSdk) getGasPrice() int64 {
+func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
 	var buf bytes.Buffer
 	get := "/getLedger?with_fee=true"
 	buf.WriteString(bumosdk.Account.url)
@@ -697,11 +703,15 @@ func (bumosdk *BumoSdk) getGasPrice() int64 {
 	client := &http.Client{}
 	reqest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
-		return 0
+		Err.Code = HTTP_NEWREQUEST_ERROR
+		Err.Err = err
+		return 0, Err
 	}
 	response, err := client.Do(reqest)
 	if err != nil {
-		return 0
+		Err.Code = CLIENT_DO_ERROR
+		Err.Err = err
+		return 0, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
@@ -709,21 +719,43 @@ func (bumosdk *BumoSdk) getGasPrice() int64 {
 		decoder.UseNumber()
 		err = decoder.Decode(&data)
 		if err != nil {
-			return 0
+			Err.Code = DECODER_DECODE_ERROR
+			Err.Err = err
+			return 0, Err
 		}
 		if data["error_code"].(json.Number) == "0" {
 			result := data["result"].(map[string]interface{})
 			fees := result["fees"].(map[string]interface{})
-			gasPricejs := fees["gas_price"].(json.Number)
+			gasPricejs, ok := fees["gas_price"].(json.Number)
+			if ok != true {
+				Err.Code = SUCCESS
+				Err.Err = nil
+				return 0, Err
+			}
 			gasPrice, err := strconv.ParseInt(string(gasPricejs), 10, 64)
 			if err != nil {
-				return 0
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, Err
 			}
-			return gasPrice
+			Err.Code = SUCCESS
+			Err.Err = nil
+			return gasPrice, Err
 		} else {
-			return 0
+			errorCodejs := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, Err
+			}
+			Err.Code = int(float64(errorCode) + 10000)
+			Err.Err = errors.New(data["error_desc"].(string))
+			return 0, Err
 		}
 	} else {
-		return 0
+		Err.Code = response.StatusCode
+		Err.Err = errors.New(response.Status)
+		return 0, Err
 	}
 }
