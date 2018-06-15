@@ -1019,41 +1019,39 @@ Err  |    bumo.Error      |错误描述   |
 10202|Transaction does not exist.
 10203|Block does not exist.
 10204|The parameter is wrong.
-10205|The function 'Keypair_create' failed.
-10206|The function 'Proto_marshal' failed.
-10207|The function 'Proto_unmarshal' failed.
-10208|The function 'Http_newrequest' failed.
-10209|The function 'Client_do' failed.
-10210|The function 'Json_unmarshal' failed.
-10211|The function 'Json_marshal' failed.
-10212|The function 'Ioutil_readall' failed.
+10205|The function 'keypair.Create' failed.
+10206|The function 'proto.Marshal' failed.
+10207|The function 'proto.Unmarshal' failed.
+10208|The function 'http.NewRequest' failed.
+10209|The function 'client.Do' failed.
+10210|The function 'json.Unarshal' failed.
+10211|The function 'json.Marshal' failed.
+10212|The function 'ioutil.ReadAll' failed.
 10213|The function 'Transaction is invalid' failed.
-10214|The function 'Keypair_getencpublickey' failed.
-10215|The function 'Keypair_checkaddress' failed.
-10216|The function 'Hex_decodestring' failed.
-10217|The function 'Signature_sign' failed.
-10218|The function 'Decoder_decode' failed.
-10219|The function 'strconv_ParseInt' failed.
-10220|The parameter 'Amount' is invalid.
-10221|The parameter 'Code' is invalid.
-10222|The parameter 'Issueaddress' is invalid.
-10223|The parameter 'Sourceaddress' is invalid.
-10224|The parameter 'Destaddress' is invalid.
-10225|The parameter 'Initbalance' is invalid.
-10226|The parameter 'Payload' is invalid.
-10227|The parameter 'Nonce' is invalid.
-10228|The parameter 'Operation' is invalid.
-10229|The parameter 'GasPrice' is invalid.
-10230|The parameter 'FeeLimit' is invalid.
-10231|The parameter 'SignatureNumber' is invalid.
-10232|The parameter 'TransactionBlob' is invalid.
-10233|The parameter 'PrivateKey' is invalid.
-10234|The parameter 'PublicKey' is invalid.
-10235|The parameter 'SignData' is invalid.
-10236|The parameter 'Signatures' is invalid.
-10237|The parameter 'Key' is invalid.
-10238|The parameter 'Value' is invalid.
-10239|The parameter 'Version' is invalid.
-10240|The parameter 'SignerAddress' is invalid.
-
-
+10214|The function 'keypair.GetEncPublicKey' failed.
+10215|The function 'keypair.CheckAddress' failed.
+10216|The function 'hex.DecodeString' failed.
+10217|The function 'signature.Sign' failed.
+10218|The function 'decoder.Decode' failed.
+10219|The function 'strconv.ParseInt' failed.
+10220|The parameter 'amount' is invalid.
+10221|The parameter 'code' is invalid.
+10222|The parameter 'issueAddress' is invalid.
+10223|The parameter 'sourceAddress' is invalid.
+10224|The parameter 'destAddress' is invalid.
+10225|The parameter 'initBalance' is invalid.
+10226|The parameter 'payload' is invalid.
+10227|The parameter 'nonce' is invalid.
+10228|The parameter 'operation' is invalid.
+10229|The parameter 'gasPrice' is invalid.
+10230|The parameter 'feeLimit' is invalid.
+10231|The parameter 'signatureNumber' is invalid.
+10232|The parameter 'transactionBlob' is invalid.
+10233|The parameter 'privateKey' is invalid.
+10234|The parameter 'publicKey' is invalid.
+10235|The parameter 'signData' is invalid.
+10236|The parameter 'signatures' is invalid.
+10237|The parameter 'key' is invalid.
+10238|The parameter 'value' is invalid.
+10239|The parameter 'version' is invalid.
+10240|The parameter 'signerAddress' is invalid.
