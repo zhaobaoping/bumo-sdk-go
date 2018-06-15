@@ -1004,15 +1004,15 @@ Err  |    bumo.Error      |错误描述   |
 10015|Dest account already exists.
 10016|Fee not enough.
 10017|Query result not exist.
-10018|Discard transaction because of lower fee  in queue..
+10018|Discard transaction because of lower fee  in queue.
 10019|Include invalid arguments.
 10020|Fail.
 10093|Not enough weight.
 10099|Nonce incorrect.
 10100|BU is not enough.
-10101|Sourc eaddress equal to dest address.
-10102|Dest account already exists.
-10103|Account no texist.
+10101|Source address equal to dest address.
+10102|Dest address already exists.
+10103|Account not exist.
 10111|Fee not enough.
 10160|Discard transaction, because of lower fee in queue.
 10201|Account does not exist.
