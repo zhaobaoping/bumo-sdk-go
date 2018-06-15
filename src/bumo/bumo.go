@@ -218,7 +218,7 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 
 //根据高度查询交易
 func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
-	if blockNumber <= 0 {
+	if blockNumber < 0 {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
 	bnstr := strconv.FormatInt(blockNumber, 10)
@@ -264,7 +264,7 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 			return string(Mdata), Err
 		} else {
 			if data["error_code"].(json.Number) == "4" {
-				return "", sdkErr(TRANSACTION_NOT_EXIST)
+				return "", sdkErr(BLOCK_NOT_EXIST)
 			}
 			errorCodejs := data["error_code"].(json.Number)
 			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
@@ -285,7 +285,7 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 //查询区块头
 func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 	if blockNumber <= 0 {
-		return "", sdkErr(SUCCESS)
+		return "", sdkErr(INVALID_PARAMETER)
 	}
 	bnstr := strconv.FormatInt(blockNumber, 10)
 	str := "/getLedger?seq="
@@ -605,7 +605,46 @@ func (bumosdk *BumoSdk) SignTransaction(transactionBlob string, privateKey strin
 	return sign_data, publicKey, Err
 }
 
-//提交交易
+//多签名
+func (bumosdk *BumoSdk) MultiSignTransaction(transactionBlob string, privateKey []string) ([]Signatures, Error) {
+	if transactionBlob == "" {
+		return nil, sdkErr(INVALID_TRANSACTIONBLOB)
+	}
+	for i := range privateKey {
+		if !keypair.CheckPrivateKey(privateKey[i]) {
+			return nil, sdkErr(INVALID_PRIVATEKEY)
+		}
+	}
+	signatures := make([]Signatures, len(privateKey))
+	var err error
+	for i := range privateKey {
+		signatures[i].Public_key, err = keypair.GetEncPublicKey(privateKey[i])
+		if err != nil {
+			Err.Code = KEYPAIR_GETENCPUBLICKEY_ERROR
+			Err.Err = err
+			return nil, Err
+		}
+	}
+
+	TransactionBlob, err := hex.DecodeString(transactionBlob)
+	if err != nil {
+		Err.Code = HEX_DECODESTRING_ERROR
+		Err.Err = err
+		return nil, Err
+	}
+	for i := range privateKey {
+		signatures[i].Sign_data, err = signature.Sign(privateKey[i], TransactionBlob)
+		if err != nil {
+			Err.Code = SIGNATURE_SIGN_ERROR
+			Err.Err = err
+			return nil, Err
+		}
+	}
+
+	return signatures, Err
+}
+
+//单签名交易提交
 func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData string, publicKey string) (string, Error) {
 	if signData == "" {
 		return "", sdkErr(INVALID_SIGNDATA)
@@ -613,7 +652,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	if transactionBlob == "" {
 		return "", sdkErr(INVALID_TRANSACTIONBLOB)
 	}
-	if publicKey == "" {
+	if !keypair.CheckPublicKey(publicKey) {
 		return "", sdkErr(INVALID_PUBLICKEY)
 	}
 	request := make(map[string]interface{})
@@ -625,6 +664,89 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	items[0]["signatures"] = signatures
 	signatures[0]["sign_data"] = signData
 	signatures[0]["public_key"] = publicKey
+	request["items"] = items
+	deal_js, err := json.Marshal(request)
+	if err != nil {
+		Err.Code = JSON_MARSHAL_ERROR
+		Err.Err = err
+		return "", Err
+	}
+	str := "/submitTransaction"
+	var buf bytes.Buffer
+	buf.WriteString(bumosdk.Account.url)
+	buf.WriteString(str)
+	url := buf.String()
+	client := &http.Client{}
+	reqest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
+	if err != nil {
+		Err.Code = HTTP_NEWREQUEST_ERROR
+		Err.Err = err
+		return "", Err
+	}
+	response, err := client.Do(reqest)
+	if err != nil {
+		Err.Code = CLIENT_DO_ERROR
+		Err.Err = err
+		return "", Err
+	}
+	if response.StatusCode == 200 {
+		data := make(map[string]interface{})
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err = decoder.Decode(&data)
+		if err != nil {
+			Err.Code = DECODER_DECODE_ERROR
+			Err.Err = err
+			return "", Err
+		}
+		results := data["results"].([]interface{})
+		result := results[0].(map[string]interface{})
+		if result["error_code"].(json.Number) == "0" {
+			hash := make(map[string]interface{})
+			hash["hash"] = result["hash"]
+			Mdata, err := json.Marshal(&hash)
+			if err != nil {
+				Err.Code = JSON_MARSHAL_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			Err.Code = SUCCESS
+			Err.Err = nil
+			return string(Mdata), Err
+		} else {
+			errorCodejs := result["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			Err.Code = int(float64(errorCode) + 10000)
+			Err.Err = errors.New(result["error_desc"].(string))
+			return "", Err
+		}
+	} else {
+		Err.Code = response.StatusCode
+		Err.Err = errors.New(response.Status)
+		return "", Err
+	}
+}
+
+//多签名交易提交
+func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatures []Signatures) (string, Error) {
+	if transactionBlob == "" {
+		return "", sdkErr(INVALID_TRANSACTIONBLOB)
+	}
+	for i := range signatures {
+		if !keypair.CheckPublicKey(signatures[i].Public_key) || signatures[i].Sign_data == "" {
+			return "", sdkErr(INVALID_SIGNATURES)
+		}
+	}
+	request := make(map[string]interface{})
+	items := make([]map[string]interface{}, 1)
+	items[0] = make(map[string]interface{})
+	items[0]["transaction_blob"] = transactionBlob
+	items[0]["signatures"] = signatures
 	request["items"] = items
 	deal_js, err := json.Marshal(request)
 	if err != nil {

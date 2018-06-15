@@ -22,8 +22,10 @@ func (Asset *AssetOperation) Issue(sourceAddress string, issueAddress string, co
 	if !keypair.CheckAddress(issueAddress) {
 		return nil, sdkErr(INVALID_ISSUEADDRESS)
 	}
-	if !keypair.CheckAddress(sourceAddress) {
-		return nil, sdkErr(INVALID_SOURCEADDRESS)
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
 	}
 	Operations := []*protocol.Operation{
 		{

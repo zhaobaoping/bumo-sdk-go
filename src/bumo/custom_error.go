@@ -47,6 +47,11 @@ const (
 	INVALID_PRIVATEKEY
 	INVALID_PUBLICKEY
 	INVALID_SIGNDATA
+	INVALID_SIGNATURES
+	INVALID_KEY
+	INVALID_VALUE
+	INVALID_VERSION
+	INVALID_SIGNERADDRESS
 )
 
 var Err Error
@@ -59,37 +64,42 @@ func sdkErr(code int) Error {
 		TRANSACTION_NOT_EXIST:         "Transaction does not exist",
 		BLOCK_NOT_EXIST:               "Block does not exist",
 		INVALID_PARAMETER:             "The parameter is wrong",
-		KEYPAIR_CREATE_ERROR:          "Keypair_create call failed",
-		PROTO_MARSHAL_ERROR:           "Proto_marshal call failed",
-		PROTO_UNMARSHAL_ERROR:         "Proto_unmarshal call failed",
-		HTTP_NEWREQUEST_ERROR:         "Http_newrequest call failed",
-		CLIENT_DO_ERROR:               "Client_do call failed",
-		JSON_UNMARSHAL_ERROR:          "Json_unmarshal call failed",
-		JSON_MARSHAL_ERROR:            "Json_marshal call failed",
-		IOUTIL_READALL_ERROR:          "Ioutil_readall call failed",
-		TRANSACTION_INVALID:           "Transaction is invalid",
-		KEYPAIR_GETENCPUBLICKEY_ERROR: "Keypair_getencpublickey call failed",
-		KEYPAIR_CHECKADDRESS_ERROR:    "Keypair_checkaddress call failed",
-		HEX_DECODESTRING_ERROR:        "Hex_decodestring call failed",
-		SIGNATURE_SIGN_ERROR:          "Signature_sign call failed",
-		DECODER_DECODE_ERROR:          "Decoder_decode call failed",
-		STRCONV_PARSEINT_ERROR:        "strconv_ParseInt call failed",
-		INVALID_AMOUNT:                "Invalid_Amount",
-		INVALID_CODE:                  "Invalid_Code",
-		INVALID_ISSUEADDRESS:          "Invalid_Issueaddress",
-		INVALID_SOURCEADDRESS:         "Invalid_Sourceaddress",
-		INVALID_DESTADDRESS:           "Invalid_Destaddress",
-		INVALID_INITBALANCE:           "Invalid_Initbalance",
-		INVALID_PAYLOAD:               "Invalid_Payload",
-		INVALID_NONCE:                 "Invalid_Nonce",
-		INVALID_OPERATION:             "Invalid_Operation",
-		INVALID_GASPRICE:              "Invalid_GasPrice",
-		INVALID_FEELIMIT:              "Invalid_FeeLimit",
-		INVALID_SIGNATURENUMBER:       "Invalid_SignatureNumber",
-		INVALID_TRANSACTIONBLOB:       "Invalid_TransactionBlob",
-		INVALID_PRIVATEKEY:            "Invalid_PrivateKey",
-		INVALID_PUBLICKEY:             "Invalid_PublicKey",
-		INVALID_SIGNDATA:              "Invalid_SignData",
+		KEYPAIR_CREATE_ERROR:          "The function 'Keypair_create' failed",
+		PROTO_MARSHAL_ERROR:           "The function 'Proto_marshal' failed",
+		PROTO_UNMARSHAL_ERROR:         "The function 'Proto_unmarshal' failed",
+		HTTP_NEWREQUEST_ERROR:         "The function 'Http_newrequest' failed",
+		CLIENT_DO_ERROR:               "The function 'Client_do' failed",
+		JSON_UNMARSHAL_ERROR:          "The function 'Json_unmarshal' failed",
+		JSON_MARSHAL_ERROR:            "The function 'Json_marshal' failed",
+		IOUTIL_READALL_ERROR:          "The function 'Ioutil_readall' failed",
+		TRANSACTION_INVALID:           "The function 'Transaction is invalid' failed",
+		KEYPAIR_GETENCPUBLICKEY_ERROR: "The function 'Keypair_getencpublickey' failed",
+		KEYPAIR_CHECKADDRESS_ERROR:    "The function 'Keypair_checkaddress' failed",
+		HEX_DECODESTRING_ERROR:        "The function 'Hex_decodestring' failed",
+		SIGNATURE_SIGN_ERROR:          "The function 'Signature_sign' failed",
+		DECODER_DECODE_ERROR:          "The function 'Decoder_decode' failed",
+		STRCONV_PARSEINT_ERROR:        "The function 'strconv_ParseInt' failed",
+		INVALID_AMOUNT:                "The parameter 'Amount' is invalid",
+		INVALID_CODE:                  "The parameter 'Code' is invalid",
+		INVALID_ISSUEADDRESS:          "The parameter 'Issueaddress' is invalid",
+		INVALID_SOURCEADDRESS:         "The parameter 'Sourceaddress' is invalid",
+		INVALID_DESTADDRESS:           "The parameter 'Destaddress' is invalid",
+		INVALID_INITBALANCE:           "The parameter 'Initbalance' is invalid",
+		INVALID_PAYLOAD:               "The parameter 'Payload' is invalid",
+		INVALID_NONCE:                 "The parameter 'Nonce' is invalid",
+		INVALID_OPERATION:             "The parameter 'Operation' is invalid",
+		INVALID_GASPRICE:              "The parameter 'GasPrice' is invalid",
+		INVALID_FEELIMIT:              "The parameter 'FeeLimit' is invalid",
+		INVALID_SIGNATURENUMBER:       "The parameter 'SignatureNumber' is invalid",
+		INVALID_TRANSACTIONBLOB:       "The parameter 'TransactionBlob' is invalid",
+		INVALID_PRIVATEKEY:            "The parameter 'PrivateKey' is invalid",
+		INVALID_PUBLICKEY:             "The parameter 'PublicKey' is invalid",
+		INVALID_SIGNDATA:              "The parameter 'SignData' is invalid",
+		INVALID_SIGNATURES:            "The parameter 'Signatures' is invalid",
+		INVALID_KEY:                   "The parameter 'Key' is invalid",
+		INVALID_VALUE:                 "The parameter 'Value' is invalid",
+		INVALID_VERSION:               "The parameter 'Version' is invalid",
+		INVALID_SIGNERADDRESS:         "The parameter 'SignerAddress' is invalid",
 	}
 	v, _ := errm[code]
 	Err.Code = int(code)
@@ -137,13 +147,13 @@ func getErr(code float64) Error {
 //交易错误判断
 func submitErr(code float64) Error {
 	errm := map[float64]string{
-		93:  "Not enough weight",
-		99:  "Nonce incorrect",
-		100: "BU is not enough",
-		101: "Sourc eaddress equal to dest address",
-		102: "Dest account already exists",
-		103: "Account not exist",
-		111: "Fee not enough",
+		93:  "Not enough weight.",
+		99:  "Nonce incorrect.",
+		100: "BU is not enough.",
+		101: "Sourc eaddress equal to dest address.",
+		102: "Dest account already exists.",
+		103: "Account not exist.",
+		111: "Fee not enough.",
 		160: "Discard transaction, because of lower fee in queue.",
 	}
 
@@ -153,7 +163,7 @@ func submitErr(code float64) Error {
 		return Err
 	} else {
 		Err.Code = int(code)
-		Err.Err = errors.New("transactionfail")
+		Err.Err = errors.New("transactionfail.")
 		return Err
 	}
 }

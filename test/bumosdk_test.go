@@ -2,13 +2,8 @@
 package bumosdk_test
 
 import (
-	_ "encoding/json"
-	_ "errors"
-	_ "fmt"
 	"testing"
-	_ "time"
 
-	_ "github.com/bumoproject/bumo-sdk-go/src/3rd/proto"
 	"github.com/bumoproject/bumo-sdk-go/src/bumo"
 )
 

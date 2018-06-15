@@ -24,8 +24,10 @@ func (Contract *ContractOperation) Create(sourceAddress string, destaddress stri
 	if !keypair.CheckAddress(destaddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
 	}
-	if !keypair.CheckAddress(sourceAddress) {
-		return nil, sdkErr(INVALID_SOURCEADDRESS)
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
 	}
 	if payload == "" {
 		return nil, sdkErr(INVALID_PAYLOAD)
@@ -126,8 +128,10 @@ func (Contract *ContractOperation) GetContract(address string) (string, Error) {
 
 //转移资产并触发合约
 func (Contract *ContractOperation) InvokeContractByAsset(sourceAddress string, destAddress string, issueAddress string, amount int64, code string, input string) ([]byte, Error) {
-	if !keypair.CheckAddress(sourceAddress) {
-		return nil, sdkErr(INVALID_SOURCEADDRESS)
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
 	}
 	if !keypair.CheckAddress(destAddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
@@ -181,8 +185,10 @@ func (Contract *ContractOperation) InvokeContractByAsset(sourceAddress string, d
 
 //发送BU并触发合约
 func (Contract *ContractOperation) InvokeContractByBU(sourceAddress string, destAddress string, amount int64, input string) ([]byte, Error) {
-	if !keypair.CheckAddress(sourceAddress) {
-		return nil, sdkErr(INVALID_SOURCEADDRESS)
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
 	}
 	if !keypair.CheckAddress(destAddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)

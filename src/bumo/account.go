@@ -33,14 +33,16 @@ func (account *AccountOperation) CreateInactive() (publicKey string, privateKey 
 
 //创建普通账户
 func (account *AccountOperation) CreateActive(sourceAddress string, destaddress string, initBalance int64) ([]byte, Error) {
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
+	}
 	if initBalance < 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
 	if !keypair.CheckAddress(destaddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
-	}
-	if !keypair.CheckAddress(sourceAddress) {
-		return nil, sdkErr(INVALID_SOURCEADDRESS)
 	}
 	Operations := []*protocol.Operation{
 		{
@@ -68,6 +70,98 @@ func (account *AccountOperation) CreateActive(sourceAddress string, destaddress 
 	Err.Err = nil
 	return data, Err
 
+}
+
+//设置metadata
+func (account *AccountOperation) SetMetadata(sourceAddress string, key string, value string, version int64) ([]byte, Error) {
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
+	}
+	if len([]rune(key)) <= 0 || len([]rune(key)) > 1024 {
+		return nil, sdkErr(INVALID_KEY)
+	}
+	if len([]rune(value)) < 0 || len([]rune(value)) > (1024*256) {
+		return nil, sdkErr(INVALID_VALUE)
+	}
+	if version < 0 {
+		return nil, sdkErr(INVALID_VERSION)
+	}
+
+	Operations := []*protocol.Operation{
+		{
+			SourceAddress: sourceAddress,
+			Type:          protocol.Operation_SET_METADATA,
+			SetMetadata: &protocol.OperationSetMetadata{
+				Key:     key,
+				Value:   value,
+				Version: version,
+			},
+		},
+	}
+	data, err := proto.Marshal(Operations[0])
+	if err != nil {
+		Err.Code = PROTO_MARSHAL_ERROR
+		Err.Err = err
+		return nil, Err
+	}
+	Err.Code = SUCCESS
+	Err.Err = nil
+	return data, Err
+
+}
+
+//设置权限
+func (account *AccountOperation) SetPrivilege(sourceAddress string, signerAddress string, masterWeight string, weight int64, txThreshold string, thresholdsType int32, thresholds int64) ([]byte, Error) {
+	if sourceAddress != "" {
+		if !keypair.CheckAddress(sourceAddress) {
+			return nil, sdkErr(INVALID_SOURCEADDRESS)
+		}
+	}
+	if !keypair.CheckAddress(signerAddress) {
+		return nil, sdkErr(INVALID_SIGNERADDRESS)
+	}
+	if weight < 0 {
+		return nil, sdkErr(INVALID_INITBALANCE)
+	}
+	if thresholdsType <= 0 || thresholdsType > 100 {
+		return nil, sdkErr(INVALID_INITBALANCE)
+	}
+	if thresholds < 0 {
+		return nil, sdkErr(INVALID_INITBALANCE)
+	}
+	Operations := []*protocol.Operation{
+		{
+			SourceAddress: sourceAddress,
+			Type:          protocol.Operation_CREATE_ACCOUNT,
+			SetPrivilege: &protocol.OperationSetPrivilege{
+				MasterWeight: masterWeight,
+				Signers: []*protocol.Signer{
+					{
+						Address: signerAddress,
+						Weight:  weight,
+					},
+				},
+				TxThreshold: txThreshold,
+				TypeThresholds: []*protocol.OperationTypeThreshold{
+					{
+						Type:      protocol.Operation_Type(thresholdsType),
+						Threshold: thresholds,
+					},
+				},
+			},
+		},
+	}
+	data, err := proto.Marshal(Operations[0])
+	if err != nil {
+		Err.Code = PROTO_MARSHAL_ERROR
+		Err.Err = err
+		return nil, Err
+	}
+	Err.Code = SUCCESS
+	Err.Err = nil
+	return data, Err
 }
 
 //检查地址合法性

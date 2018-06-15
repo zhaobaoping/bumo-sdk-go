@@ -56,7 +56,7 @@ func (x OVERLAY_MESSAGE_TYPE) String() string {
 	return proto.EnumName(OVERLAY_MESSAGE_TYPE_name, int32(x))
 }
 func (OVERLAY_MESSAGE_TYPE) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{0}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{0}
 }
 
 // message interfaces for java
@@ -104,7 +104,7 @@ func (x ChainMessageType) String() string {
 	return proto.EnumName(ChainMessageType_name, int32(x))
 }
 func (ChainMessageType) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{1}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{1}
 }
 
 type Ledgers_SyncCode int32
@@ -139,7 +139,7 @@ func (x Ledgers_SyncCode) String() string {
 	return proto.EnumName(Ledgers_SyncCode_name, int32(x))
 }
 func (Ledgers_SyncCode) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{5, 0}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{5, 0}
 }
 
 type ChainTxStatus_TxStatus int32
@@ -171,7 +171,7 @@ func (x ChainTxStatus_TxStatus) String() string {
 	return proto.EnumName(ChainTxStatus_TxStatus_name, int32(x))
 }
 func (ChainTxStatus_TxStatus) EnumDescriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{14, 0}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{14, 0}
 }
 
 type Hello struct {
@@ -191,7 +191,7 @@ func (m *Hello) Reset()         { *m = Hello{} }
 func (m *Hello) String() string { return proto.CompactTextString(m) }
 func (*Hello) ProtoMessage()    {}
 func (*Hello) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{0}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{0}
 }
 func (m *Hello) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Hello.Unmarshal(m, b)
@@ -272,7 +272,7 @@ func (m *HelloResponse) Reset()         { *m = HelloResponse{} }
 func (m *HelloResponse) String() string { return proto.CompactTextString(m) }
 func (*HelloResponse) ProtoMessage()    {}
 func (*HelloResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{1}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{1}
 }
 func (m *HelloResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_HelloResponse.Unmarshal(m, b)
@@ -323,7 +323,7 @@ func (m *Peer) Reset()         { *m = Peer{} }
 func (m *Peer) String() string { return proto.CompactTextString(m) }
 func (*Peer) ProtoMessage()    {}
 func (*Peer) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{2}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{2}
 }
 func (m *Peer) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Peer.Unmarshal(m, b)
@@ -396,7 +396,7 @@ func (m *Peers) Reset()         { *m = Peers{} }
 func (m *Peers) String() string { return proto.CompactTextString(m) }
 func (*Peers) ProtoMessage()    {}
 func (*Peers) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{3}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{3}
 }
 func (m *Peers) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Peers.Unmarshal(m, b)
@@ -437,7 +437,7 @@ func (m *GetLedgers) Reset()         { *m = GetLedgers{} }
 func (m *GetLedgers) String() string { return proto.CompactTextString(m) }
 func (*GetLedgers) ProtoMessage()    {}
 func (*GetLedgers) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{4}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{4}
 }
 func (m *GetLedgers) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_GetLedgers.Unmarshal(m, b)
@@ -493,7 +493,7 @@ func (m *Ledgers) Reset()         { *m = Ledgers{} }
 func (m *Ledgers) String() string { return proto.CompactTextString(m) }
 func (*Ledgers) ProtoMessage()    {}
 func (*Ledgers) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{5}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{5}
 }
 func (m *Ledgers) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_Ledgers.Unmarshal(m, b)
@@ -554,7 +554,7 @@ func (m *DontHave) Reset()         { *m = DontHave{} }
 func (m *DontHave) String() string { return proto.CompactTextString(m) }
 func (*DontHave) ProtoMessage()    {}
 func (*DontHave) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{6}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{6}
 }
 func (m *DontHave) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_DontHave.Unmarshal(m, b)
@@ -602,7 +602,7 @@ func (m *LedgerUpgradeNotify) Reset()         { *m = LedgerUpgradeNotify{} }
 func (m *LedgerUpgradeNotify) String() string { return proto.CompactTextString(m) }
 func (*LedgerUpgradeNotify) ProtoMessage()    {}
 func (*LedgerUpgradeNotify) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{7}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{7}
 }
 func (m *LedgerUpgradeNotify) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_LedgerUpgradeNotify.Unmarshal(m, b)
@@ -655,7 +655,7 @@ func (m *EntryList) Reset()         { *m = EntryList{} }
 func (m *EntryList) String() string { return proto.CompactTextString(m) }
 func (*EntryList) ProtoMessage()    {}
 func (*EntryList) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{8}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{8}
 }
 func (m *EntryList) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_EntryList.Unmarshal(m, b)
@@ -695,7 +695,7 @@ func (m *ChainHello) Reset()         { *m = ChainHello{} }
 func (m *ChainHello) String() string { return proto.CompactTextString(m) }
 func (*ChainHello) ProtoMessage()    {}
 func (*ChainHello) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{9}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{9}
 }
 func (m *ChainHello) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainHello.Unmarshal(m, b)
@@ -746,7 +746,7 @@ func (m *ChainStatus) Reset()         { *m = ChainStatus{} }
 func (m *ChainStatus) String() string { return proto.CompactTextString(m) }
 func (*ChainStatus) ProtoMessage()    {}
 func (*ChainStatus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{10}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{10}
 }
 func (m *ChainStatus) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainStatus.Unmarshal(m, b)
@@ -814,7 +814,7 @@ func (m *ChainPeerMessage) Reset()         { *m = ChainPeerMessage{} }
 func (m *ChainPeerMessage) String() string { return proto.CompactTextString(m) }
 func (*ChainPeerMessage) ProtoMessage()    {}
 func (*ChainPeerMessage) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{11}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{11}
 }
 func (m *ChainPeerMessage) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainPeerMessage.Unmarshal(m, b)
@@ -866,7 +866,7 @@ func (m *ChainSubscribeTx) Reset()         { *m = ChainSubscribeTx{} }
 func (m *ChainSubscribeTx) String() string { return proto.CompactTextString(m) }
 func (*ChainSubscribeTx) ProtoMessage()    {}
 func (*ChainSubscribeTx) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{12}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{12}
 }
 func (m *ChainSubscribeTx) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainSubscribeTx.Unmarshal(m, b)
@@ -905,7 +905,7 @@ func (m *ChainResponse) Reset()         { *m = ChainResponse{} }
 func (m *ChainResponse) String() string { return proto.CompactTextString(m) }
 func (*ChainResponse) ProtoMessage()    {}
 func (*ChainResponse) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{13}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{13}
 }
 func (m *ChainResponse) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainResponse.Unmarshal(m, b)
@@ -958,7 +958,7 @@ func (m *ChainTxStatus) Reset()         { *m = ChainTxStatus{} }
 func (m *ChainTxStatus) String() string { return proto.CompactTextString(m) }
 func (*ChainTxStatus) ProtoMessage()    {}
 func (*ChainTxStatus) Descriptor() ([]byte, []int) {
-	return fileDescriptor_overlay_ef3904c2e0bbf06b, []int{14}
+	return fileDescriptor_overlay_026c4eb10906066d, []int{14}
 }
 func (m *ChainTxStatus) XXX_Unmarshal(b []byte) error {
 	return xxx_messageInfo_ChainTxStatus.Unmarshal(m, b)
@@ -1063,9 +1063,9 @@ func init() {
 	proto.RegisterEnum("protocol.ChainTxStatus_TxStatus", ChainTxStatus_TxStatus_name, ChainTxStatus_TxStatus_value)
 }
 
-func init() { proto.RegisterFile("overlay.proto", fileDescriptor_overlay_ef3904c2e0bbf06b) }
+func init() { proto.RegisterFile("overlay.proto", fileDescriptor_overlay_026c4eb10906066d) }
 
-var fileDescriptor_overlay_ef3904c2e0bbf06b = []byte{
+var fileDescriptor_overlay_026c4eb10906066d = []byte{
 	// 1336 bytes of a gzipped FileDescriptorProto
 	0x1f, 0x8b, 0x08, 0x00, 0x00, 0x00, 0x00, 0x00, 0x02, 0xff, 0x9c, 0x55, 0x4b, 0x6f, 0xdb, 0xc6,
 	0x16, 0x8e, 0x24, 0xeb, 0x75, 0xf4, 0x30, 0x33, 0x4e, 0xae, 0x75, 0x93, 0x1b, 0xc4, 0xd1, 0x4d,
