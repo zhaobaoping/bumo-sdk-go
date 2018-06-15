@@ -1004,7 +1004,7 @@ Err  |    bumo.Error      |错误描述   |
 10015|Dest account already exists.
 10016|Fee not enough.
 10017|Query result not exist.
-10018|Discard transaction because of lower feein queue.
+10018|Discard transaction because of lower fee  in queue..
 10019|Include invalid arguments.
 10020|Fail.
 10093|Not enough weight.
