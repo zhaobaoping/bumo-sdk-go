@@ -1014,7 +1014,7 @@ Err  |    bumo.Error      |错误描述   |
 10102|Dest account already exists.
 10103|Account no texist.
 10111|Fee not enough.
-10160|Discardtransactionbecauseoflowerfeeinqueue.
+10160|Discard transaction, because of lower fee in queue.
 10201|Account does not exist.
 10202|Transaction does not exist.
 10203|Block does not exist.
