@@ -153,7 +153,7 @@ func Test_Asset_Issue(t *testing.T) {
 	code := "HNC"
 	var amount int64 = 10000
 	address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	issueData, Err := bumosdk.Account.Asset.Issue(address, address, code, amount)
+	issueData, Err := bumosdk.Account.Asset.Issue(address, code, amount)
 	if Err.Err != nil {
 		t.Error(Err)
 	} else {

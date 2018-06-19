@@ -351,7 +351,7 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 //生成交易(默认费用)
 func (bumosdk *BumoSdk) CreateTransactionWithDefaultFee(sourceAddress string, nonce int64, operation []byte) (string, Error) {
 	if !keypair.CheckAddress(sourceAddress) {
-		return "", sdkErr(INVALID_PARAMETER)
+		return "", sdkErr(INVALID_SOURCEADDRESS)
 	}
 	if nonce < 0 {
 		return "", sdkErr(INVALID_NONCE)
