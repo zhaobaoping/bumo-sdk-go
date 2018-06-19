@@ -353,7 +353,7 @@ func (bumosdk *BumoSdk) CreateTransactionWithDefaultFee(sourceAddress string, no
 	if !keypair.CheckAddress(sourceAddress) {
 		return "", sdkErr(INVALID_SOURCEADDRESS)
 	}
-	if nonce < 0 {
+	if nonce <= 0 {
 		return "", sdkErr(INVALID_NONCE)
 	}
 	if operation == nil {
@@ -415,7 +415,7 @@ func (bumosdk *BumoSdk) CreateTransactionWithFee(sourceAddress string, nonce int
 	if Err.Err != nil {
 		return "", Err
 	}
-	if nonce < 0 {
+	if nonce <= 0 {
 		return "", sdkErr(INVALID_NONCE)
 	}
 	if gasPrice < newgasPrice {
@@ -468,7 +468,7 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 	if operation == nil {
 		return 0, 0, sdkErr(INVALID_OPERATION)
 	}
-	if signatureNumber < 0 {
+	if signatureNumber <= 0 {
 		return 0, 0, sdkErr(INVALID_SIGNATURENUMBER)
 	}
 
