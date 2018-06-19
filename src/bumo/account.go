@@ -32,7 +32,7 @@ func (account *AccountOperation) CreateInactive() (publicKey string, privateKey 
 }
 
 //创建普通账户
-func (account *AccountOperation) CreateActive(sourceAddress string, destaddress string, initBalance int64) ([]byte, Error) {
+func (account *AccountOperation) CreateActive(sourceAddress string, destAddress string, initBalance int64) ([]byte, Error) {
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
@@ -41,7 +41,7 @@ func (account *AccountOperation) CreateActive(sourceAddress string, destaddress 
 	if initBalance < 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
-	if !keypair.CheckAddress(destaddress) {
+	if !keypair.CheckAddress(destAddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
 	}
 	Operations := []*protocol.Operation{
@@ -49,7 +49,7 @@ func (account *AccountOperation) CreateActive(sourceAddress string, destaddress 
 			SourceAddress: sourceAddress,
 			Type:          protocol.Operation_CREATE_ACCOUNT,
 			CreateAccount: &protocol.OperationCreateAccount{
-				DestAddress: destaddress,
+				DestAddress: destAddress,
 				Priv: &protocol.AccountPrivilege{
 					MasterWeight: 1,
 					Thresholds: &protocol.AccountThreshold{

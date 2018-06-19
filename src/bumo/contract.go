@@ -17,11 +17,11 @@ type ContractOperation struct {
 }
 
 //创建合约账户
-func (Contract *ContractOperation) Create(sourceAddress string, destaddress string, initBalance int64, payload string, input string) ([]byte, Error) {
+func (Contract *ContractOperation) Create(sourceAddress string, destAddress string, initBalance int64, payload string, input string) ([]byte, Error) {
 	if initBalance < 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
-	if !keypair.CheckAddress(destaddress) {
+	if !keypair.CheckAddress(destAddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
 	}
 	if sourceAddress != "" {
@@ -37,7 +37,7 @@ func (Contract *ContractOperation) Create(sourceAddress string, destaddress stri
 			SourceAddress: sourceAddress,
 			Type:          protocol.Operation_CREATE_ACCOUNT,
 			CreateAccount: &protocol.OperationCreateAccount{
-				DestAddress: destaddress,
+				DestAddress: destAddress,
 				Contract: &protocol.Contract{
 					Payload: payload,
 				},
