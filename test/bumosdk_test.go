@@ -87,12 +87,12 @@ func Test_EvaluationFee(t *testing.T) {
 func Test_Account_CreateActive(t *testing.T) {
 	var initBalance int64 = 100000000
 	newAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-	createActiveData, Err := bumosdk.Account.CreateActive(newAddress, newAddress, initBalance)
+	address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+	createActiveData, Err := bumosdk.Account.CreateActive(address, newAddress, initBalance)
 	if Err.Err != nil {
 		t.Error(Err)
 	} else {
 		var nonce int64 = 134
-		address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
 		transaction, Err := bumosdk.CreateTransactionWithDefaultFee(address, nonce, createActiveData)
 		if Err.Err != nil {
 			t.Error(Err)
