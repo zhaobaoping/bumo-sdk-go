@@ -204,6 +204,7 @@ func (Contract *ContractOperation) InvokeContractByBU(sourceAddress string, dest
 			PayCoin: &protocol.OperationPayCoin{
 				DestAddress: destAddress,
 				Amount:      amount,
+				Input:       input,
 			},
 		},
 	}

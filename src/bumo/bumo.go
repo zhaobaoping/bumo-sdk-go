@@ -553,7 +553,13 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 			if transaction["gas_price"] == nil {
 				return 0, 0, sdkErr(TRANSACTION_INVALID)
 			}
-			gasPrice := transaction["gas_price"].(float64)
+			gasPriceStr := transaction["gas_price"].(json.Number)
+			gasPrice, err := strconv.ParseInt(string(gasPriceStr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, 0, Err
+			}
 			Err.Code = SUCCESS
 			Err.Err = nil
 			return int64(actualFee), int64(gasPrice), Err

@@ -38,7 +38,7 @@ func (account *AccountOperation) CreateActive(sourceAddress string, destAddress 
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
-	if initBalance < 0 {
+	if initBalance <= 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
 	if !keypair.CheckAddress(destAddress) {
@@ -233,7 +233,14 @@ func (account *AccountOperation) GetInfo(address string) (string, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return string(Mdata), sdkErr(ACCOUNT_NOT_EXIST)
 			}
-			return string(Mdata), getErr(data["error_code"].(float64))
+			strErr := data["error_code"].(json.Number)
+			errInt, err := strconv.ParseInt(string(strErr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return "", Err
+			}
+			return string(Mdata), getErr(float64(errInt))
 		}
 	} else {
 		Err.Code = response.StatusCode
@@ -297,7 +304,14 @@ func (account *AccountOperation) GetBalance(address string) (int64, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return 0, sdkErr(ACCOUNT_NOT_EXIST)
 			}
-			return 0, getErr(data["error_code"].(float64))
+			strErr := data["error_code"].(json.Number)
+			errInt, err := strconv.ParseInt(string(strErr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, Err
+			}
+			return 0, getErr(float64(errInt))
 		}
 	} else {
 		Err.Code = response.StatusCode
