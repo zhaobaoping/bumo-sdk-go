@@ -54,13 +54,13 @@ func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
 	buf.WriteString(get)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return 0, Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -119,13 +119,13 @@ func (bumosdk *BumoSdk) CheckBlockStatus() (bool, Error) {
 	buf.WriteString(get)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return false, Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -163,13 +163,13 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 	buf.WriteString(transactionHash)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -229,13 +229,13 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 	buf.WriteString(bnstr)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -295,13 +295,13 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 	buf.WriteString(bnstr)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -505,13 +505,13 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 	buf.WriteString(str)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
+	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return 0, 0, Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -677,13 +677,13 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	buf.WriteString(str)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
+	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -760,13 +760,13 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 	buf.WriteString(str)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
+	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err
@@ -823,13 +823,13 @@ func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
 	buf.WriteString(get)
 	url := buf.String()
 	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", url, nil)
 	if err != nil {
 		Err.Code = HTTP_NEWREQUEST_ERROR
 		Err.Err = err
 		return 0, Err
 	}
-	response, err := client.Do(reqest)
+	response, err := client.Do(newRequest)
 	if err != nil {
 		Err.Code = CLIENT_DO_ERROR
 		Err.Err = err

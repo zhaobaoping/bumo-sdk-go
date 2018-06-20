@@ -113,7 +113,7 @@ func (account *AccountOperation) SetMetadata(sourceAddress string, key string, v
 }
 
 //设置权限
-func (account *AccountOperation) SetPrivilege(sourceAddress string, signerAddress string, masterWeight string, weight int64, txThreshold string, thresholdsType int32, thresholds int64) ([]byte, Error) {
+func (account *AccountOperation) SetPrivilege(sourceAddress string, signerAddress string, masterWeight int32, weight int64, txThreshold int64, thresholdsType int32, thresholds int64) ([]byte, Error) {
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
@@ -122,28 +122,36 @@ func (account *AccountOperation) SetPrivilege(sourceAddress string, signerAddres
 	if !keypair.CheckAddress(signerAddress) {
 		return nil, sdkErr(INVALID_SIGNERADDRESS)
 	}
+	if masterWeight < 0 {
+		return nil, sdkErr(INVALID_MASTERWEIGHT)
+	}
 	if weight < 0 {
-		return nil, sdkErr(INVALID_INITBALANCE)
+		return nil, sdkErr(INVALID_WEIGHT)
+	}
+	if txThreshold < 0 {
+		return nil, sdkErr(INVALID_TXTHRESHOLD)
 	}
 	if thresholdsType <= 0 || thresholdsType > 100 {
-		return nil, sdkErr(INVALID_INITBALANCE)
+		return nil, sdkErr(INVALID_THRESHOLDSTYPE)
 	}
 	if thresholds < 0 {
-		return nil, sdkErr(INVALID_INITBALANCE)
+		return nil, sdkErr(INVALID_THRESHOLDS)
 	}
+	masterWeightStr := strconv.Itoa(int(masterWeight))
+	txThresholdStr := strconv.FormatInt(txThreshold, 10)
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: sourceAddress,
 			Type:          protocol.Operation_CREATE_ACCOUNT,
 			SetPrivilege: &protocol.OperationSetPrivilege{
-				MasterWeight: masterWeight,
+				MasterWeight: masterWeightStr,
 				Signers: []*protocol.Signer{
 					{
 						Address: signerAddress,
 						Weight:  weight,
 					},
 				},
-				TxThreshold: txThreshold,
+				TxThreshold: txThresholdStr,
 				TypeThresholds: []*protocol.OperationTypeThreshold{
 					{
 						Type:      protocol.Operation_Type(thresholdsType),

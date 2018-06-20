@@ -13,7 +13,7 @@ type AssetOperation struct {
 
 //发行资产
 func (Asset *AssetOperation) Issue(sourceAddress string, code string, amount int64) ([]byte, Error) {
-	if amount < 0 {
+	if amount <= 0 {
 		return nil, sdkErr(INVALID_AMOUNT)
 	}
 	if len([]rune(code)) > 64 || len([]rune(code)) == 0 {

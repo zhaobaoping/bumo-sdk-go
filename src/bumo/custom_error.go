@@ -52,6 +52,11 @@ const (
 	INVALID_VALUE
 	INVALID_VERSION
 	INVALID_SIGNERADDRESS
+	INVALID_MASTERWEIGHT
+	INVALID_WEIGHT
+	INVALID_TXTHRESHOLD
+	INVALID_THRESHOLDSTYPE
+	INVALID_THRESHOLDS
 )
 
 var Err Error
@@ -100,6 +105,11 @@ func sdkErr(code int) Error {
 		INVALID_VALUE:                 "The parameter 'value' is invalid",
 		INVALID_VERSION:               "The parameter 'version' is invalid",
 		INVALID_SIGNERADDRESS:         "The parameter 'signerAddress' is invalid",
+		INVALID_MASTERWEIGHT:          "The parameter 'masterWeight' is invalid",
+		INVALID_WEIGHT:                "The parameter 'weight' is invalid",
+		INVALID_TXTHRESHOLD:           "The parameter 'txThreshold' is invalid",
+		INVALID_THRESHOLDSTYPE:        "The parameter 'thresholdsType' is invalid",
+		INVALID_THRESHOLDS:            "The parameter 'thresholds' is invalid",
 	}
 	v, _ := errm[code]
 	Err.Code = int(code)
