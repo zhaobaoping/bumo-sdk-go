@@ -51,6 +51,7 @@ func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
 	if Err.Err != nil {
 		return 0, Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -102,6 +103,7 @@ func (bumosdk *BumoSdk) CheckBlockStatus() (bool, Error) {
 	if Err.Err != nil {
 		return false, Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -133,6 +135,7 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -185,6 +188,7 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -237,6 +241,7 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -434,6 +439,7 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 	if Err.Err != nil {
 		return 0, 0, Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -589,6 +595,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -651,6 +658,7 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -701,6 +709,7 @@ func getFees(url string) (int64, int64, Error) {
 	if Err.Err != nil {
 		return 0, 0, Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)

@@ -27,6 +27,9 @@ func (contract *ContractOperation) Create(sourceAddress string, destAddress stri
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
+	if sourceAddress == destAddress {
+		return nil, sdkErr(DESTADDRESS_EQUAL_SOURCEADDRESS)
+	}
 	if payload == "" {
 		return nil, sdkErr(INVALID_PAYLOAD)
 	}
@@ -72,6 +75,7 @@ func (contract *ContractOperation) GetContract(address string) (string, Error) {
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -120,7 +124,7 @@ func (contract *ContractOperation) InvokeContractByAsset(sourceAddress string, d
 		return nil, sdkErr(INVALID_DESTADDRESS)
 	}
 	if sourceAddress == destAddress {
-		return nil, sdkErr(INVALID_DESTADDRESS)
+		return nil, sdkErr(DESTADDRESS_EQUAL_SOURCEADDRESS)
 	}
 	if amount < 0 {
 		return nil, sdkErr(INVALID_AMOUNT)

@@ -15,6 +15,14 @@ type AccountOperation struct {
 	url   string
 	Asset AssetOperation
 }
+type Signers struct {
+	SignerAddress string
+	Weight        int64
+}
+type TypeThresholds struct {
+	Type      int64
+	Threshold int64
+}
 
 //生成地址
 func (account *AccountOperation) CreateInactive() (publicKey string, privateKey string, address string, Err Error) {
@@ -36,6 +44,9 @@ func (account *AccountOperation) CreateActive(sourceAddress string, destAddress 
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
+	}
+	if sourceAddress == destAddress {
+		return nil, sdkErr(DESTADDRESS_EQUAL_SOURCEADDRESS)
 	}
 	if initBalance < baseReserve || initBalance <= 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
@@ -112,51 +123,57 @@ func (account *AccountOperation) SetMetadata(sourceAddress string, key string, v
 }
 
 //设置权限
-func (account *AccountOperation) SetPrivilege(sourceAddress string, signerAddress string, masterWeight int32, weight int64, txThreshold int64, thresholdsType int32, thresholds int64) ([]byte, Error) {
+func (account *AccountOperation) SetPrivilege(sourceAddress string, masterWeight string, signers []Signers, txThreshold string, typeThresholds []TypeThresholds) ([]byte, Error) {
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
-	if !keypair.CheckAddress(signerAddress) {
-		return nil, sdkErr(INVALID_SIGNERADDRESS)
-	}
-	if masterWeight < 0 {
+	masterWeightInt, err := strconv.Atoi(masterWeight)
+	if err != nil || masterWeightInt > 2147483648 || masterWeightInt < 0 {
 		return nil, sdkErr(INVALID_MASTERWEIGHT)
 	}
-	if weight < 0 {
-		return nil, sdkErr(INVALID_WEIGHT)
+	for i := range signers {
+		if !keypair.CheckAddress(signers[i].SignerAddress) {
+			return nil, sdkErr(INVALID_SIGNERADDRESS)
+		}
+		if signers[i].Weight > 2147483648 || signers[i].Weight < 0 {
+			return nil, sdkErr(INVALID_WEIGHT)
+		}
 	}
-	if txThreshold < 0 {
+	txThresholdInt, err := strconv.ParseInt(txThreshold, 10, 64)
+	if err != nil || txThresholdInt > 9223372036854775807 || txThresholdInt < 0 {
 		return nil, sdkErr(INVALID_TXTHRESHOLD)
 	}
-	if thresholdsType <= 0 || thresholdsType > 100 {
-		return nil, sdkErr(INVALID_THRESHOLDSTYPE)
+	for i := range typeThresholds {
+		if typeThresholds[i].Type > 100 || typeThresholds[i].Type <= 0 {
+			return nil, sdkErr(INVALID_THRESHOLDSTYPE)
+		}
+		if typeThresholds[i].Threshold > 9223372036854775807 || typeThresholds[i].Type < 0 {
+			return nil, sdkErr(INVALID_THRESHOLDS)
+		}
 	}
-	if thresholds < 0 {
-		return nil, sdkErr(INVALID_THRESHOLDS)
+	Signers := make([]*protocol.Signer, len(signers))
+	for i := range signers {
+		Signers[i] = new(protocol.Signer)
+		Signers[i].Address = signers[i].SignerAddress
+		Signers[i].Weight = signers[i].Weight
 	}
-	masterWeightStr := strconv.Itoa(int(masterWeight))
-	txThresholdStr := strconv.FormatInt(txThreshold, 10)
+	TypeThresholds := make([]*protocol.OperationTypeThreshold, len(typeThresholds))
+	for i := range typeThresholds {
+		TypeThresholds[i] = new(protocol.OperationTypeThreshold)
+		TypeThresholds[i].Threshold = typeThresholds[i].Threshold
+		TypeThresholds[i].Type = (protocol.Operation_Type)(typeThresholds[i].Type)
+	}
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: sourceAddress,
-			Type:          protocol.Operation_CREATE_ACCOUNT,
+			Type:          protocol.Operation_SET_PRIVILEGE,
 			SetPrivilege: &protocol.OperationSetPrivilege{
-				MasterWeight: masterWeightStr,
-				Signers: []*protocol.Signer{
-					{
-						Address: signerAddress,
-						Weight:  weight,
-					},
-				},
-				TxThreshold: txThresholdStr,
-				TypeThresholds: []*protocol.OperationTypeThreshold{
-					{
-						Type:      protocol.Operation_Type(thresholdsType),
-						Threshold: thresholds,
-					},
-				},
+				MasterWeight:   masterWeight,
+				Signers:        Signers,
+				TxThreshold:    txThreshold,
+				TypeThresholds: TypeThresholds,
 			},
 		},
 	}
@@ -186,6 +203,7 @@ func (account *AccountOperation) GetInfo(address string) (string, Error) {
 	if Err.Err != nil {
 		return "", Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -244,6 +262,7 @@ func (account *AccountOperation) GetBalance(address string) (int64, Error) {
 	if Err.Err != nil {
 		return 0, Err
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
