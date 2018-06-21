@@ -42,15 +42,8 @@
 #### 包引用
 所依赖的golang包在src文件夹中寻找，依赖的golang包如下：
 
-    go get github.com/bumoproject/bumo-sdk-go//获取包
-    
 ```
-//底层依赖
-1. "github.com/bumoproject/bumo-sdk-go/src/3rd/proto"
-2. "github.com/bumoproject/bumo-sdk-go/src/keypair"
-3. "github.com/bumoproject/bumo-sdk-go/src/protocol"
-4. "github.com/bumoproject/bumo-sdk-go/src/signature"
-5. "github.com/bumoproject/bumo-sdk-go/src/3rd/secureRandom"
+    go get github.com/bumoproject/bumo-sdk-go//获取包
 ```
 
 ### 使用方法
@@ -644,7 +637,6 @@ Err  |    bumo.Error      |错误描述   |
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
 sourceAddress  |    String      | 原地址   | 
-issueAddress  |    String      | 资产地址   | 
 code    |   String     | 资产标签 | 
 amount  |    int64      | 发行数量   | 
 ##### 返回参数
@@ -661,13 +653,11 @@ issueData  |    []byte      | 交易操作   |
 	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
 	// 交易提交人账户私钥
 	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-	//资产创建账户
-	issueAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
 	
 	// 创建operation
 	assetCode := "HNC"
 	issueAmount := 1000000000 // 发行1000000000 HNC
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, issueAddress, assetCode, issueAmount) // 创建资产发行操作
+    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress,  assetCode, issueAmount) // 创建资产发行操作
 	
 	// 构造Tx
 	//交易序列号

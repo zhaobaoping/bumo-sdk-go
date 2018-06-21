@@ -93,7 +93,9 @@ func Test_Account_CreateActive(t *testing.T) {
 		t.Error(Err)
 	} else {
 		var nonce int64 = 134
-		transaction, Err := bumosdk.CreateTransactionWithDefaultFee(address, nonce, createActiveData)
+		var gasPrice int64 = 1000
+		var feeLimit int64 = 100000000
+		transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, createActiveData)
 		if Err.Err != nil {
 			t.Error(Err)
 		}

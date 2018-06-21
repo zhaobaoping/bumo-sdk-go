@@ -2,11 +2,9 @@
 package bumo
 
 import (
-	"bytes"
 	"encoding/hex"
 	"encoding/json"
 	"errors"
-	"net/http"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/3rd/proto"
@@ -48,29 +46,16 @@ func (bumosdk *BumoSdk) Newbumo(ip string) Error {
 
 //获取区块高度
 func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
-	var buf bytes.Buffer
 	get := "/getLedger"
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(get)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return 0, Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	response, Err := getRequest(bumosdk.Account.url, get, "")
+	if Err.Err != nil {
 		return 0, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -93,8 +78,8 @@ func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return 0, sdkErr(BLOCK_NOT_EXIST)
 			}
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -111,31 +96,17 @@ func (bumosdk *BumoSdk) GetBlockNumber() (int64, Error) {
 
 //检查区块同步
 func (bumosdk *BumoSdk) CheckBlockStatus() (bool, Error) {
-	var buf bytes.Buffer
 	var ret bool
 	get := "getModulesStatus"
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString("/")
-	buf.WriteString(get)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return false, Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	response, Err := getRequest(bumosdk.Account.url, get, "")
+	if Err.Err != nil {
 		return false, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -156,30 +127,16 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 	if len(transactionHash) != 64 {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
-	str := "/getTransactionHistory?hash="
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	buf.WriteString(transactionHash)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	get := "/getTransactionHistory?hash="
+	response, Err := getRequest(bumosdk.Account.url, get, transactionHash)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -200,8 +157,8 @@ func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(TRANSACTION_NOT_EXIST)
 			}
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -222,30 +179,16 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
 	bnstr := strconv.FormatInt(blockNumber, 10)
-	str := "/getTransactionHistory?ledger_seq="
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	buf.WriteString(bnstr)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	get := "/getTransactionHistory?ledger_seq="
+	response, Err := getRequest(bumosdk.Account.url, get, bnstr)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -266,8 +209,8 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(BLOCK_NOT_EXIST)
 			}
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -288,30 +231,16 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
 	bnstr := strconv.FormatInt(blockNumber, 10)
-	str := "/getLedger?seq="
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	buf.WriteString(bnstr)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	get := "/getLedger?seq="
+	response, Err := getRequest(bumosdk.Account.url, get, bnstr)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -332,8 +261,8 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 			if data["error_code"].(json.Number) == "4" {
 				return "", sdkErr(BLOCK_NOT_EXIST)
 			}
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -349,7 +278,7 @@ func (bumosdk *BumoSdk) GetLedger(blockNumber int64) (string, Error) {
 }
 
 //生成交易(默认费用)
-func (bumosdk *BumoSdk) CreateTransactionWithDefaultFee(sourceAddress string, nonce int64, operation []byte) (string, Error) {
+func (bumosdk *BumoSdk) createTransactionWithDefaultFee(sourceAddress string, nonce int64, operation []byte) (string, Error) {
 	if !keypair.CheckAddress(sourceAddress) {
 		return "", sdkErr(INVALID_SOURCEADDRESS)
 	}
@@ -458,7 +387,7 @@ func (bumosdk *BumoSdk) CreateTransactionWithFee(sourceAddress string, nonce int
 }
 
 //评估费用
-func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operation []byte, signatureNumber int64) (actualFee int64, gasPrice int64, Err Error) {
+func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operation []byte, signatureNumber int64) (int64, int64, Error) {
 	if !keypair.CheckAddress(sourceAddress) {
 		return 0, 0, sdkErr(INVALID_SOURCEADDRESS)
 	}
@@ -493,31 +422,17 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 	items[0] = make(map[string]interface{})
 	items[0]["transaction_json"] = transactionJson
 	request["items"] = items
-	deal_js, err := json.Marshal(request)
+	requestJson, err := json.Marshal(request)
 	if err != nil {
 		Err.Code = JSON_MARSHAL_ERROR
 		Err.Err = err
 		return 0, 0, Err
 	}
-	str := "/testTransaction"
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
+	post := "/testTransaction"
+	response, Err := postRequest(bumosdk.Account.url, post, requestJson)
+	if Err.Err != nil {
 		return 0, 0, Err
 	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
-		return 0, 0, Err
-	}
-
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
@@ -564,8 +479,8 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 			Err.Err = nil
 			return int64(actualFee), int64(gasPrice), Err
 		} else {
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -602,13 +517,13 @@ func (bumosdk *BumoSdk) SignTransaction(transactionBlob string, privateKey strin
 		Err.Err = err
 		return "", "", Err
 	}
-	sign_data, err := signature.Sign(privateKey, TransactionBlob)
+	signData, err := signature.Sign(privateKey, TransactionBlob)
 	if err != nil {
 		Err.Code = SIGNATURE_SIGN_ERROR
 		Err.Err = err
 		return "", "", Err
 	}
-	return sign_data, publicKey, Err
+	return signData, publicKey, Err
 }
 
 //多签名
@@ -671,28 +586,15 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	signatures[0]["sign_data"] = signData
 	signatures[0]["public_key"] = publicKey
 	request["items"] = items
-	deal_js, err := json.Marshal(request)
+	requestJson, err := json.Marshal(request)
 	if err != nil {
 		Err.Code = JSON_MARSHAL_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	str := "/submitTransaction"
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	post := "/submitTransaction"
+	response, Err := postRequest(bumosdk.Account.url, post, requestJson)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
@@ -720,8 +622,8 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 			Err.Err = nil
 			return string(Mdata), Err
 		} else {
-			errorCodejs := result["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := result["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -754,28 +656,15 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 	items[0]["transaction_blob"] = transactionBlob
 	items[0]["signatures"] = signatures
 	request["items"] = items
-	deal_js, err := json.Marshal(request)
+	requestJson, err := json.Marshal(request)
 	if err != nil {
 		Err.Code = JSON_MARSHAL_ERROR
 		Err.Err = err
 		return "", Err
 	}
-	str := "/submitTransaction"
-	var buf bytes.Buffer
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(str)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(deal_js))
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	post := "/submitTransaction"
+	response, Err := postRequest(bumosdk.Account.url, post, requestJson)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
@@ -803,8 +692,8 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 			Err.Err = nil
 			return string(Mdata), Err
 		} else {
-			errorCodejs := result["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := result["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
@@ -823,29 +712,16 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 
 //获取最新gasPrice
 func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
-	var buf bytes.Buffer
 	get := "/getLedger?with_fee=true"
-	buf.WriteString(bumosdk.Account.url)
-	buf.WriteString(get)
-	url := buf.String()
-	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return 0, Err
-	}
-	response, err := client.Do(newRequest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	response, Err := getRequest(bumosdk.Account.url, get, "")
+	if Err.Err != nil {
 		return 0, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -870,8 +746,8 @@ func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
 			Err.Err = nil
 			return gasPrice, Err
 		} else {
-			errorCodejs := data["error_code"].(json.Number)
-			errorCode, err := strconv.ParseInt(string(errorCodejs), 10, 64)
+			errorCodeStr := data["error_code"].(json.Number)
+			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err

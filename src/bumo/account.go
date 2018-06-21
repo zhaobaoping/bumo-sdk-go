@@ -2,10 +2,8 @@
 package bumo
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
-	"net/http"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/3rd/proto"
@@ -182,30 +180,16 @@ func (account *AccountOperation) GetInfo(address string) (string, Error) {
 	if !keypair.CheckAddress(address) {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
-	str := "/getAccount?address="
-	var buf bytes.Buffer
-	buf.WriteString(account.url)
-	buf.WriteString(str)
-	buf.WriteString(address)
-	url := buf.String()
-	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return "", Err
-	}
-	response, err := client.Do(reqest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	get := "/getAccount?address="
+	response, Err := getRequest(account.url, get, address)
+	if Err.Err != nil {
 		return "", Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -254,30 +238,16 @@ func (account *AccountOperation) GetBalance(address string) (int64, Error) {
 	if !keypair.CheckAddress(address) {
 		return 0, sdkErr(INVALID_PARAMETER)
 	}
-	str := "/getAccount?address="
-	var buf bytes.Buffer
-	buf.WriteString(account.url)
-	buf.WriteString(str)
-	buf.WriteString(address)
-	url := buf.String()
-	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
-		return 0, Err
-	}
-	response, err := client.Do(reqest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
+	get := "/getAccount?address="
+	response, Err := getRequest(account.url, get, address)
+	if Err.Err != nil {
 		return 0, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err

@@ -2,10 +2,8 @@
 package bumo
 
 import (
-	"bytes"
 	"encoding/json"
 	"errors"
-	"net/http"
 
 	"github.com/bumoproject/bumo-sdk-go/src/3rd/proto"
 	"github.com/bumoproject/bumo-sdk-go/src/keypair"
@@ -17,7 +15,7 @@ type ContractOperation struct {
 }
 
 //创建合约账户
-func (Contract *ContractOperation) Create(sourceAddress string, destAddress string, initBalance int64, payload string, input string) ([]byte, Error) {
+func (contract *ContractOperation) Create(sourceAddress string, destAddress string, initBalance int64, payload string, input string) ([]byte, Error) {
 	if initBalance < 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
@@ -65,35 +63,20 @@ func (Contract *ContractOperation) Create(sourceAddress string, destAddress stri
 }
 
 //获取合约
-func (Contract *ContractOperation) GetContract(address string) (string, Error) {
+func (contract *ContractOperation) GetContract(address string) (string, Error) {
 	if !keypair.CheckAddress(address) {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
-	str1 := "/getAccount?address="
-	var buf bytes.Buffer
-	buf.WriteString(Contract.url)
-	buf.WriteString(str1)
-	buf.WriteString(address)
-	url := buf.String()
-	client := &http.Client{}
-	reqest, err := http.NewRequest("GET", url, nil)
-	if err != nil {
-		Err.Code = HTTP_NEWREQUEST_ERROR
-		Err.Err = err
+	get := "/getAccount?address="
+	response, Err := getRequest(contract.url, get, address)
+	if Err.Err != nil {
 		return "", Err
 	}
-	response, err := client.Do(reqest)
-	if err != nil {
-		Err.Code = CLIENT_DO_ERROR
-		Err.Err = err
-		return "", Err
-	}
-
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -127,13 +110,16 @@ func (Contract *ContractOperation) GetContract(address string) (string, Error) {
 }
 
 //转移资产并触发合约
-func (Contract *ContractOperation) InvokeContractByAsset(sourceAddress string, destAddress string, issueAddress string, amount int64, code string, input string) ([]byte, Error) {
+func (contract *ContractOperation) InvokeContractByAsset(sourceAddress string, destAddress string, issueAddress string, amount int64, code string, input string) ([]byte, Error) {
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
 	if !keypair.CheckAddress(destAddress) {
+		return nil, sdkErr(INVALID_DESTADDRESS)
+	}
+	if sourceAddress == destAddress {
 		return nil, sdkErr(INVALID_DESTADDRESS)
 	}
 	if amount < 0 {
@@ -184,7 +170,7 @@ func (Contract *ContractOperation) InvokeContractByAsset(sourceAddress string, d
 }
 
 //发送BU并触发合约
-func (Contract *ContractOperation) InvokeContractByBU(sourceAddress string, destAddress string, amount int64, input string) ([]byte, Error) {
+func (contract *ContractOperation) InvokeContractByBU(sourceAddress string, destAddress string, amount int64, input string) ([]byte, Error) {
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
@@ -192,6 +178,9 @@ func (Contract *ContractOperation) InvokeContractByBU(sourceAddress string, dest
 	}
 	if !keypair.CheckAddress(destAddress) {
 		return nil, sdkErr(INVALID_DESTADDRESS)
+	}
+	if sourceAddress == destAddress {
+		return nil, sdkErr(DESTADDRESS_EQUAL_SOURCEADDRESS)
 	}
 	if amount < 0 {
 		return nil, sdkErr(INVALID_AMOUNT)
