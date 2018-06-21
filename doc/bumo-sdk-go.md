@@ -745,10 +745,8 @@ Err  |    bumo.Error      |错误描述   |
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
 sourceAddress  |    String      | 原地址   | 
-issueAddress    |   String     | 发行者地址 | 
 destAddress    |   String     | 目标地址 | 
-code  |    String      | 资产标签   | 
-amount  |    int64      | 发行数量   | 
+amount  |    int64      | 发送数量   | 
 
 
 ##### 返回参数
