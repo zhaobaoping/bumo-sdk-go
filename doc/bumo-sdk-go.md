@@ -43,7 +43,8 @@
 所依赖的golang包在src文件夹中寻找，依赖的golang包如下：
 
 ```
-    go get github.com/bumoproject/bumo-sdk-go//获取包
+    //获取包
+    go get github.com/bumoproject/bumo-sdk-go
 ```
 
 ### 使用方法
@@ -98,8 +99,6 @@ import (
    例如：
    
 ```
-    //默认费用
-    transaction, Err := bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
     //需要传入费用参数gasPrice，feeLimit
     transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, issueData)
 ```
@@ -488,30 +487,6 @@ version： 版本
 
 > 通过交易具体操作生成交易序列化数据
 
-##### 默认费用
-> 按照默认交易费用产生
-
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
-nonce  |    int64      | 账号序列号   | 
-operation  |    []byte      | 交易操作   | 
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-transaction    |   String     | 交易序列化数据 | 
-Err  |    bumo.Error      |错误描述   | 
-
-###### 调用方法
-
-```
-    transaction, Err := bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
-```
-
-##### 传入费用
-> 按照传入交易费用产生
-
 ##### 传入参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
@@ -662,7 +637,9 @@ issueData  |    []byte      | 交易操作   |
 	// 构造Tx
 	//交易序列号
 	nonce := 128
-	transaction, Err = bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
+	gasPrice := 1000
+	feeLimit := 10000000
+	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
 	
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
@@ -718,7 +695,9 @@ Err  |    bumo.Error      |错误描述   |
 	// 构造Tx
 	//交易序列号
 	nonce := 128
-	transaction, Err = bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
+	gasPrice := 1000
+	feeLimit := 10000000
+	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
 	
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
@@ -765,7 +744,9 @@ Err  |    bumo.Error      |错误描述   |
 	// 构造Tx
 	//交易序列号
 	nonce := 128
-	transaction, Err = bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
+	gasPrice := 1000
+	feeLimit := 10000000
+	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
 	
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
@@ -841,7 +822,9 @@ Err  |    bumo.Error      |错误描述   |
 	// 构造Tx
 	//交易序列号
 	nonce := 128
-	transaction, Err = bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, createActiveData)
+	gasPrice := 1000
+	feeLimit := 10000000
+	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
 	
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)

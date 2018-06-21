@@ -31,12 +31,13 @@ func (account *AccountOperation) CreateInactive() (publicKey string, privateKey 
 
 //创建普通账户
 func (account *AccountOperation) CreateActive(sourceAddress string, destAddress string, initBalance int64) ([]byte, Error) {
+	_, baseReserve, Err := getFees(account.url)
 	if sourceAddress != "" {
 		if !keypair.CheckAddress(sourceAddress) {
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
-	if initBalance <= 0 {
+	if initBalance < baseReserve || initBalance <= 0 {
 		return nil, sdkErr(INVALID_INITBALANCE)
 	}
 	if !keypair.CheckAddress(destAddress) {

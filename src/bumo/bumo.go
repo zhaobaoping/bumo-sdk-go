@@ -124,6 +124,7 @@ func (bumosdk *BumoSdk) CheckBlockStatus() (bool, Error) {
 
 //根据hash查询交易
 func (bumosdk *BumoSdk) GetTransaction(transactionHash string) (string, Error) {
+
 	if len(transactionHash) != 64 {
 		return "", sdkErr(INVALID_PARAMETER)
 	}
@@ -289,7 +290,7 @@ func (bumosdk *BumoSdk) createTransactionWithDefaultFee(sourceAddress string, no
 		return "", sdkErr(INVALID_OPERATION)
 	}
 	var feeLimit int64
-	gasPrice, Err := bumosdk.getGasPrice()
+	gasPrice, _, Err := getFees(bumosdk.Account.url)
 	if Err.Err != nil {
 		return "", Err
 	}
@@ -340,7 +341,7 @@ func (bumosdk *BumoSdk) CreateTransactionWithFee(sourceAddress string, nonce int
 	if !keypair.CheckAddress(sourceAddress) {
 		return "", sdkErr(INVALID_SOURCEADDRESS)
 	}
-	newgasPrice, Err := bumosdk.getGasPrice()
+	newgasPrice, _, Err := getFees(bumosdk.Account.url)
 	if Err.Err != nil {
 		return "", Err
 	}
@@ -693,12 +694,12 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 	}
 }
 
-//获取最新gasPrice
-func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
+//获取最新fees
+func getFees(url string) (int64, int64, Error) {
 	get := "/getLedger?with_fee=true"
-	response, Err := getRequest(bumosdk.Account.url, get, "")
+	response, Err := getRequest(url, get, "")
 	if Err.Err != nil {
-		return 0, Err
+		return 0, 0, Err
 	}
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
@@ -708,41 +709,53 @@ func (bumosdk *BumoSdk) getGasPrice() (int64, Error) {
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
-			return 0, Err
+			return 0, 0, Err
 		}
 		if data["error_code"].(json.Number) == "0" {
 			result := data["result"].(map[string]interface{})
 			fees := result["fees"].(map[string]interface{})
-			gasPricejs, ok := fees["gas_price"].(json.Number)
+			gasPriceStr, ok := fees["gas_price"].(json.Number)
 			if ok != true {
 				Err.Code = SUCCESS
 				Err.Err = nil
-				return 0, Err
+				return 0, 0, Err
 			}
-			gasPrice, err := strconv.ParseInt(string(gasPricejs), 10, 64)
+			baseReserveStr, ok := fees["base_reserve"].(json.Number)
+			if ok != true {
+				Err.Code = SUCCESS
+				Err.Err = nil
+				return 0, 0, Err
+			}
+			gasPrice, err := strconv.ParseInt(string(gasPriceStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
-				return 0, Err
+				return 0, 0, Err
+			}
+			baseReserve, err := strconv.ParseInt(string(baseReserveStr), 10, 64)
+			if err != nil {
+				Err.Code = STRCONV_PARSEINT_ERROR
+				Err.Err = err
+				return 0, 0, Err
 			}
 			Err.Code = SUCCESS
 			Err.Err = nil
-			return gasPrice, Err
+			return gasPrice, baseReserve, Err
 		} else {
 			errorCodeStr := data["error_code"].(json.Number)
 			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
 			if err != nil {
 				Err.Code = STRCONV_PARSEINT_ERROR
 				Err.Err = err
-				return 0, Err
+				return 0, 0, Err
 			}
 			Err.Code = int(float64(errorCode) + 10000)
 			Err.Err = errors.New(data["error_desc"].(string))
-			return 0, Err
+			return 0, 0, Err
 		}
 	} else {
 		Err.Code = response.StatusCode
 		Err.Err = errors.New(response.Status)
-		return 0, Err
+		return 0, 0, Err
 	}
 }
