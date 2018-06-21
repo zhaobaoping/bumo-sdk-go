@@ -3,6 +3,7 @@ package bumo
 
 import (
 	"bytes"
+	"encoding/json"
 	"net/http"
 )
 
@@ -50,4 +51,21 @@ func postRequest(url string, post string, data []byte) (*http.Response, Error) {
 	Err.Code = SUCCESS
 	Err.Err = nil
 	return response, Err
+}
+func getRequestJson(transactionBlob string, signatures []Signatures) ([]byte, Error) {
+	request := make(map[string]interface{})
+	items := make([]map[string]interface{}, 1)
+	items[0] = make(map[string]interface{})
+	items[0]["transaction_blob"] = transactionBlob
+	items[0]["signatures"] = signatures
+	request["items"] = items
+	requestJson, err := json.Marshal(request)
+	if err != nil {
+		Err.Code = JSON_MARSHAL_ERROR
+		Err.Err = err
+		return nil, Err
+	}
+	Err.Code = SUCCESS
+	Err.Err = nil
+	return requestJson, Err
 }

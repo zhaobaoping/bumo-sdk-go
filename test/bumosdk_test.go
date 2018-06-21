@@ -16,14 +16,12 @@ func Test_Newbumo(t *testing.T) {
 	t.Log("Test_Newbumo succeed")
 }
 func Test_GetBlockNumber(t *testing.T) {
-
 	blocknumber, Err := bumosdk.GetBlockNumber()
 	if Err.Err != nil {
 		t.Error(Err)
 	} else {
 		t.Log("Test_GetBlockNumber succeed", blocknumber)
 	}
-
 }
 func Test_CheckBlockStatus(t *testing.T) {
 
@@ -43,7 +41,6 @@ func Test_GetTransaction(t *testing.T) {
 	} else {
 		t.Log("Test_GetTransaction succeed", datahash)
 	}
-
 }
 func Test_GetBlock(t *testing.T) {
 	var ledgerSeq int64 = 526
@@ -53,7 +50,6 @@ func Test_GetBlock(t *testing.T) {
 	} else {
 		t.Log("Test_GetBlock succeed", datah)
 	}
-
 }
 func Test_GetLedger(t *testing.T) {
 	var ledgerSeq int64 = 526
@@ -63,7 +59,6 @@ func Test_GetLedger(t *testing.T) {
 	} else {
 		t.Log("Test_GetLedger succeed", datah)
 	}
-
 }
 func Test_EvaluationFee(t *testing.T) {
 	var amount int64 = 10000
@@ -81,7 +76,6 @@ func Test_EvaluationFee(t *testing.T) {
 		} else {
 			t.Log("Test_EvaluationFee succeed", actualFee, gasPrice)
 		}
-
 	}
 }
 func Test_Account_CreateActive(t *testing.T) {
@@ -110,7 +104,6 @@ func Test_Account_CreateActive(t *testing.T) {
 		}
 		t.Log("Test_Account_CreateActive succeed", submitTransaction)
 	}
-
 }
 func Test_Account_GetInfo(t *testing.T) {
 	address := "buQs9npaCq9mNFZG18qu88ZcmXYqd6bqpTU4"
@@ -120,7 +113,6 @@ func Test_Account_GetInfo(t *testing.T) {
 	} else {
 		t.Log("Test_Account_GetInfo succeed", account)
 	}
-
 }
 func Test_Account_CheckAddress(t *testing.T) {
 	address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
@@ -129,7 +121,6 @@ func Test_Account_CheckAddress(t *testing.T) {
 	} else {
 		t.Error("Test_Account_CheckAddress failured")
 	}
-
 }
 func Test_Account_GetBalance(t *testing.T) {
 	address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
@@ -139,17 +130,14 @@ func Test_Account_GetBalance(t *testing.T) {
 	} else {
 		t.Log("Test_Account_GetBalance succeed", data)
 	}
-
 }
 func Test_Account_CreateInactive(t *testing.T) {
-
 	newPrivateKey, newPublicKey, newAddress, Err := bumosdk.Account.CreateInactive()
 	if Err.Err != nil {
 		t.Error(Err)
 	} else {
 		t.Log("Test_Account_CreateInactive succeed", newPrivateKey, newPublicKey, newAddress)
 	}
-
 }
 func Test_Asset_Issue(t *testing.T) {
 	code := "HNC"
@@ -166,7 +154,6 @@ func Test_Asset_Issue(t *testing.T) {
 		if Err.Err != nil {
 			t.Error(Err)
 		}
-
 		privateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
 		signTransaction, publicKey1, Err := bumosdk.SignTransaction(transaction, privateKey)
 		if Err.Err != nil {
@@ -178,7 +165,6 @@ func Test_Asset_Issue(t *testing.T) {
 		}
 		t.Log("Test_Asset_Issue succeed", submitTransaction)
 	}
-
 }
 func Test_Asset_Pay(t *testing.T) {
 	code := "HNC"
@@ -197,7 +183,6 @@ func Test_Asset_Pay(t *testing.T) {
 		if Err.Err != nil {
 			t.Error(Err)
 		}
-
 		privateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
 		signTransaction, publicKeysin, Err := bumosdk.SignTransaction(transaction, privateKey)
 		if Err.Err != nil {
@@ -209,7 +194,6 @@ func Test_Asset_Pay(t *testing.T) {
 		}
 		t.Log("Test_Asset_Pay succeed", submitTransaction)
 	}
-
 }
 func Test_Asset_SendBU(t *testing.T) {
 	var amount int64 = 10000
@@ -226,7 +210,6 @@ func Test_Asset_SendBU(t *testing.T) {
 		if Err.Err != nil {
 			t.Error(Err)
 		}
-
 		privateKey := "privbvYfqQyG3kZyHE4RX4TYVa32htw8xG4WdpCTrymPUJQ923XkKVbM"
 		signTransaction, publicKeysin, Err := bumosdk.SignTransaction(transaction, privateKey)
 		if Err.Err != nil {
@@ -238,7 +221,6 @@ func Test_Asset_SendBU(t *testing.T) {
 		}
 		t.Log("Test_Asset_SendBU succeed", submitTransaction)
 	}
-
 }
 func Test_Contract_Create(t *testing.T) {
 	var initBalance int64 = 10000000000
@@ -249,7 +231,6 @@ func Test_Contract_Create(t *testing.T) {
 	if Err.Err != nil {
 		t.Error(Err)
 	} else {
-
 		var nonce int64 = 134
 		var gasPrice int64 = 1000
 		var feeLimit int64 = 100000000
@@ -258,7 +239,6 @@ func Test_Contract_Create(t *testing.T) {
 		if Err.Err != nil {
 			t.Error(Err)
 		}
-
 		privateKey := "privbvYfqQyG3kZyHE4RX4TYVa32htw8xG4WdpCTrymPUJQ923XkKVbM"
 		signTransaction, publicKeysin, Err := bumosdk.SignTransaction(transaction, privateKey)
 		if Err.Err != nil {
@@ -270,7 +250,6 @@ func Test_Contract_Create(t *testing.T) {
 		}
 		t.Log("Test_Contract_Create succeed", submitTransaction)
 	}
-
 }
 func Test_Contract_GetContract(t *testing.T) {
 	newAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
@@ -280,5 +259,4 @@ func Test_Contract_GetContract(t *testing.T) {
 	} else {
 		t.Log("Test_Contract_GetContract succeed", contract)
 	}
-
 }

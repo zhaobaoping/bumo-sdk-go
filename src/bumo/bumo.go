@@ -576,20 +576,11 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 	if !keypair.CheckPublicKey(publicKey) {
 		return "", sdkErr(INVALID_PUBLICKEY)
 	}
-	request := make(map[string]interface{})
-	items := make([]map[string]interface{}, 1)
-	items[0] = make(map[string]interface{})
-	signatures := make([]map[string]string, 1)
-	signatures[0] = make(map[string]string)
-	items[0]["transaction_blob"] = transactionBlob
-	items[0]["signatures"] = signatures
-	signatures[0]["sign_data"] = signData
-	signatures[0]["public_key"] = publicKey
-	request["items"] = items
-	requestJson, err := json.Marshal(request)
-	if err != nil {
-		Err.Code = JSON_MARSHAL_ERROR
-		Err.Err = err
+	signatures := make([]Signatures, 1)
+	signatures[0].Sign_data = signData
+	signatures[0].Public_key = publicKey
+	requestJson, Err := getRequestJson(transactionBlob, signatures)
+	if Err.Err != nil {
 		return "", Err
 	}
 	post := "/submitTransaction"
@@ -601,7 +592,7 @@ func (bumosdk *BumoSdk) SubmitTransaction(transactionBlob string, signData strin
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
@@ -650,16 +641,8 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 			return "", sdkErr(INVALID_SIGNATURES)
 		}
 	}
-	request := make(map[string]interface{})
-	items := make([]map[string]interface{}, 1)
-	items[0] = make(map[string]interface{})
-	items[0]["transaction_blob"] = transactionBlob
-	items[0]["signatures"] = signatures
-	request["items"] = items
-	requestJson, err := json.Marshal(request)
-	if err != nil {
-		Err.Code = JSON_MARSHAL_ERROR
-		Err.Err = err
+	requestJson, Err := getRequestJson(transactionBlob, signatures)
+	if Err.Err != nil {
 		return "", Err
 	}
 	post := "/submitTransaction"
@@ -671,7 +654,7 @@ func (bumosdk *BumoSdk) SubmitTransWithMultiSign(transactionBlob string, signatu
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
-		err = decoder.Decode(&data)
+		err := decoder.Decode(&data)
 		if err != nil {
 			Err.Code = DECODER_DECODE_ERROR
 			Err.Err = err
