@@ -129,27 +129,27 @@ func (account *AccountOperation) SetPrivilege(sourceAddress string, masterWeight
 			return nil, sdkErr(INVALID_SOURCEADDRESS)
 		}
 	}
-	masterWeightInt, err := strconv.Atoi(masterWeight)
-	if err != nil || masterWeightInt > 2147483648 || masterWeightInt < 0 {
+	masterWeightInt, err := strconv.ParseInt(masterWeight, 10, 32)
+	if err != nil || masterWeightInt < 0 {
 		return nil, sdkErr(INVALID_MASTERWEIGHT)
 	}
 	for i := range signers {
 		if !keypair.CheckAddress(signers[i].SignerAddress) {
 			return nil, sdkErr(INVALID_SIGNERADDRESS)
 		}
-		if signers[i].Weight > 2147483648 || signers[i].Weight < 0 {
+		if signers[i].Weight > 4294967295 || signers[i].Weight < 0 {
 			return nil, sdkErr(INVALID_WEIGHT)
 		}
 	}
 	txThresholdInt, err := strconv.ParseInt(txThreshold, 10, 64)
-	if err != nil || txThresholdInt > 9223372036854775807 || txThresholdInt < 0 {
+	if err != nil || txThresholdInt < 0 {
 		return nil, sdkErr(INVALID_TXTHRESHOLD)
 	}
 	for i := range typeThresholds {
 		if typeThresholds[i].Type > 100 || typeThresholds[i].Type <= 0 {
 			return nil, sdkErr(INVALID_THRESHOLDSTYPE)
 		}
-		if typeThresholds[i].Threshold > 9223372036854775807 || typeThresholds[i].Type < 0 {
+		if typeThresholds[i].Type < 0 {
 			return nil, sdkErr(INVALID_THRESHOLDS)
 		}
 	}
