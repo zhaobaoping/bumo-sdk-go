@@ -87,7 +87,7 @@ import (
 通过调用对应方法，创建出指定功能的操作，以发行资产为例调用Asset的Issue方法：
    
 ```
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, issueAddress, code, amount)
+    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, code, amount)
 ```
 
 
