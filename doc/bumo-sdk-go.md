@@ -100,7 +100,7 @@ import (
    
 ```
     //需要传入费用参数gasPrice，feeLimit
-    transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, issueData)
+    transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, operation)
 ```
 3.  签名
 
@@ -817,7 +817,7 @@ Err  |    bumo.Error      |错误描述   |
 	// 创建账户目前最少初始化账户余额是0.1BU
 	initBalance := 100000000
 	
-	createActiveData, Err := bumosdk.Account.CreateActive(sourceAddress, newAddress, initBalance) // 创建创建账户操作
+	operation, Err := bumosdk.Account.CreateActive(sourceAddress, newAddress, initBalance) // 创建创建账户操作
 	
 	// 构造Tx
 	//交易序列号
