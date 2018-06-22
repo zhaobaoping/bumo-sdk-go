@@ -62,8 +62,6 @@ By invoking the corresponding method, the action for the specified function is c
    For example：
    
 ```
-    //Default fee
-    transaction, Err := bumosdk.CreateTransactionWithDefaultFee(sourceAddress, nonce, operation)
     //Need to pass in the cost parameter gasPrice、 feeLimit
     transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, issueData)
 ```

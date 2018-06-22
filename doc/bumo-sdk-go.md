@@ -9,12 +9,12 @@
 - [使用方法](#使用方法)
     - [包导入](#包导入)
     - [初始化结构体](#初始化结构体)
-    - [新建链接](#新建链接)
+    - [新建连接](#新建连接)
     - [生成未激活账户](#生成未激活账户)
     - [发起TX](#发起tx)
     - [查询](#查询)
 - [区块](#区块)
-    - [新建链接](#新建链接)
+    - [新建连接](#新建连接)
 	- [获取区块高度](#获取区块高度)
     - [检查区块同步](#检查区块同步)
 	- [根据hash查询交易](#根据hash查询交易)
@@ -66,8 +66,8 @@ import (
    var Err bumo.Error
    var bumosdk bumo.BumoSdk
 ```
-#### 新建链接
->获取相应的链接
+#### 新建连接
+>获取相应的连接
 
 ```
   	bumosdk.Newbumo(url)
@@ -129,11 +129,11 @@ import (
 
 ### 区块
 
-#### 新建链接
+#### 新建连接
 
 ###### 调用方法
 ```
-	//获取链接
+	//获取连接
 	bumosdk.Newbumo(url)
 ```
 
@@ -490,7 +490,7 @@ version： 版本
 ##### 传入参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
+sourceAddress  |    String      | 源地址   | 
 nonce  |    int64      | 账号序列号   | 
 gasPrice  |    int64      | 打包费用 (单位 : MO　注:1 BU = 10^8 MO)  | 
 feeLimit  |    int64      | 交易手续费 (单位 : MO　注:1 BU = 10^8 MO)  | 
@@ -518,7 +518,7 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
+sourceAddress  |    String      | 源地址   | 
 nonce  |    int64      | 账号序列号   | 
 operation  |    []byte      | 交易操作   | 
 signatureNumber  |    int64      | 签名次数 | 
@@ -611,7 +611,7 @@ Err  |    bumo.Error      |错误描述   |
 ###### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
+sourceAddress  |    String      | 源地址   | 
 code    |   String     | 资产标签 | 
 amount  |    int64      | 发行数量   | 
 ##### 返回参数
@@ -660,7 +660,7 @@ issueData  |    []byte      | 交易操作   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
+sourceAddress  |    String      | 源地址   | 
 issueAddress    |   String     | 发行者地址 | 
 destAddress    |   String     | 目标地址 | 
 code  |    String      | 资产标签   | 
@@ -713,7 +713,7 @@ Err  |    bumo.Error      |错误描述   |
 
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 原地址   | 
+sourceAddress  |    String      | 源地址   | 
 destAddress    |   String     | 目标地址 | 
 amount  |    int64      | 发送数量   | 
 
@@ -791,7 +791,7 @@ Err  |    bumo.Error      |错误描述   |
 ###### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress    |    String    | 原地址         | 
+sourceAddress    |    String    | 源地址         | 
 receiverAddress  |   String     | 目标地址       | 
 initBalance      |    int64     | 创建账户初始化账户余额，最少10000000 MO（注:1 BU = 10^8 MO） |
 ##### 返回参数
