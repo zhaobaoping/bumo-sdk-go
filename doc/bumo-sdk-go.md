@@ -1026,3 +1026,9 @@ Err  |    bumo.Error      |错误描述   |
 10238|The parameter 'value' is invalid.
 10239|The parameter 'version' is invalid.
 10240|The parameter 'signerAddress' is invalid.
+10241|The parameter 'masterWeight' is invalid.
+10242|The parameter 'weight' is invalid.
+10243|The parameter 'txThreshold' is invalid.
+10244|The parameter 'thresholdsType' is invalid.
+10245|The parameter 'thresholds' is invalid.
+10246|'sourceAddress' is equal to 'destAddress'.
