@@ -50,7 +50,7 @@ import (
 By invoking the corresponding method, the action for the specified function is created, and the method for issuing assets is invoked, such as an example：
    
 ```
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, issueAddress, code, amount)
+    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, code, amount)
 ```
 
 
