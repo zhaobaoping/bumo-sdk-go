@@ -4,7 +4,7 @@ package bumosdk_test
 import (
 	"testing"
 
-	"github.com/bumoproject/bumo-sdk-go/src/bumo"
+	"github.com/bumoproject/bumo-sdk-go/src/sdk"
 )
 
 var bumosdk bumo.BumoSdk
