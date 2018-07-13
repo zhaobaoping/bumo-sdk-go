@@ -406,7 +406,6 @@ func (bumosdk *BumoSdk) EvaluationFee(sourceAddress string, nonce int64, operati
 	if signatureNumber <= 0 {
 		return 0, 0, sdkErr(INVALID_SIGNATURENUMBER)
 	}
-
 	operations := &protocol.Operation{}
 	err := proto.Unmarshal(operation, operations)
 	if err != nil {

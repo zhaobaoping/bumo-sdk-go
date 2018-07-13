@@ -369,17 +369,3 @@ func DecodePrivateKey(sprivateKey string) (PrivateKey *[32]byte, err error) {
 
 	return &dpriv, nil
 }
-
-//Decode address
-func decodeAddress(saddress string) (publicKey *[]byte, err error) {
-	if saddress == "" {
-		return nil, errors.New("decode address error :address is nil")
-	}
-	var eadder []byte
-	eadder, err = base58.Decode(saddress)
-	if err != nil {
-		return nil, err
-	}
-	dadder := eadder[9:73]
-	return &dadder, nil
-}
