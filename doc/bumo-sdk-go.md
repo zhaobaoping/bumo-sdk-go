@@ -83,9 +83,9 @@ import (
 > 创建激活账户、发行资产、转移资产、发送BU等功能可通过以下四步完成
 
 1. 创建operation
-   
+
 通过调用对应方法，创建出指定功能的操作，以发行资产为例调用Asset的Issue方法：
-   
+
 ```
     operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, code, amount)
 ```
@@ -95,9 +95,9 @@ import (
 
    构建构建transaction，并设置gasPrice、feeLimit和signer等信息
 > 注意：gasPrice和feeLimit的单位是MO，且 1 BU = 10^8 MO
-   
+
    例如：
-   
+
 ```
     //需要传入费用参数gasPrice，feeLimit
     transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, operation)
@@ -105,16 +105,16 @@ import (
 3.  签名
 
    对transaction数据签名
-   
+
    例如：
-   
+
 ```
     signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
 ```
 4. 提交transaction
 
 提交transaction，等待区块网络确认结果，一般确认时间是10秒，确认超时时间为500秒。
- 
+
 ```
     submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
 ```
@@ -140,7 +140,7 @@ import (
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-url              |    String    | 公钥           | 
+url              |    String    | 公钥           |
 
 #### 获取区块高度
 
@@ -148,7 +148,7 @@ url              |    String    | 公钥           |
 ###### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-blockNumber  |    int64      | 区块高度   | 
+blockNumber  |    int64      | 区块高度   |
 Err    |   bumo.Error     | 错误描述 |
 
 ###### 调用方法
@@ -173,8 +173,8 @@ Err    |   bumo.Error     | 错误描述 |
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-blockStatus  |    bool      |是否同步   | 
-Err  |    bumo.Error      |错误描述   | 
+blockStatus  |    bool      |是否同步   |
+Err  |    bumo.Error      |错误描述   |
 ###### 调用方法
 ```
 	blockStatus, Err := bumosdk.CheckBlockStatus()
@@ -198,14 +198,14 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-hash  |    String      | hash值   | 
+hash  |    String      | hash值   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-transaction  |    string      |交易详情   | 
-Err  |    bumo.Error      |错误描述   | 
+transaction  |    string      |交易详情   |
+Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
 
@@ -298,14 +298,14 @@ tx_size：交易所占字节数
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-ledgerSeq  |    int64      | 区块高度   | 
+ledgerSeq  |    int64      | 区块高度   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-block  |    string      |交易详情   | 
-Err  |    bumo.Error      |错误描述   | 
+block  |    string      |交易详情   |
+Err  |    bumo.Error      |错误描述   |
 
 
 
@@ -422,7 +422,7 @@ amount： BU的数量
 dest_address： 目标地址
 type：操作类型
 source_address：交易发起账户
-tx_size：交易所占字节数  
+tx_size：交易所占字节数
 ```
 
 #### 查询区块头
@@ -432,12 +432,12 @@ tx_size：交易所占字节数
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-ledgerSeq  |    int64      | 区块高度   | 
+ledgerSeq  |    int64      | 区块高度   |
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-ledger  |    string      |交易详情   | 
+ledger  |    string      |交易详情   |
 Err  |    bumo.Error      |错误描述   |
 
 
@@ -447,13 +447,13 @@ Err  |    bumo.Error      |错误描述   |
     var ledgerSeq int64 = 53488
     ledger, Err := bumosdk.GetLedger(ledgerSeq)
 	fmt.Println("ledger:", ledger)
-	fmt.Println("err:", Err)    
+	fmt.Println("err:", Err)
 ```
 
 ###### 运行结果
 
 ```
-ledger: 
+ledger:
 {
     "header":{
         "account_tree_hash":"ba71637cdb4ee20e12ef41ae80b8600629aebdb4c78bdb8fd8dd351df3a4e95a",
@@ -468,7 +468,7 @@ ledger:
         "version":1000
     }
 }
-err: {0 <nil>}  
+err: {0 <nil>}
 //注释：
 account_tree_hash： 账户树哈希
 close_time： 交易关闭时间
@@ -490,18 +490,18 @@ version： 版本
 ##### 传入参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-nonce  |    int64      | 账号序列号   | 
-gasPrice  |    int64      | 打包费用 (单位 : MO　注:1 BU = 10^8 MO)  | 
-feeLimit  |    int64      | 交易手续费 (单位 : MO　注:1 BU = 10^8 MO)  | 
+sourceAddress  |    String      | 源地址   |
+nonce  |    int64      | 账号序列号   |
+gasPrice  |    int64      | 打包费用 (单位 : MO　注:1 BU = 10^8 MO)  |
+feeLimit  |    int64      | 交易手续费 (单位 : MO　注:1 BU = 10^8 MO)  |
 operation  |    []byte      | 交易操作   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-transaction    |   String     | 交易序列化数据 | 
-Err  |    bumo.Error      |错误描述   | 
+transaction    |   String     | 交易序列化数据 |
+Err  |    bumo.Error      |错误描述   |
 
 
 ###### 调用方法
@@ -518,17 +518,17 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-nonce  |    int64      | 账号序列号   | 
-operation  |    []byte      | 交易操作   | 
-signatureNumber  |    int64      | 签名次数 | 
+sourceAddress  |    String      | 源地址   |
+nonce  |    int64      | 账号序列号   |
+operation  |    []byte      | 交易操作   |
+signatureNumber  |    int64      | 签名次数 |
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-actualFee    |   int64     | 交易费用 | 
-gasPrice  |    int64      | 交易单位  | 
-Err  |    bumo.Error      |错误描述   | 
+actualFee    |   int64     | 交易费用 |
+gasPrice  |    int64      | 交易单位  |
+Err  |    bumo.Error      |错误描述   |
 
 > 以发送BU为例
 
@@ -559,15 +559,15 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-transaction  |    String      | 序列化交易   | 
-sourcePrivateKey    |   String     | 签名者私钥 | 
+transaction  |    String      | 序列化交易   |
+sourcePrivateKey    |   String     | 签名者私钥 |
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-signTransaction  |    String      | 签名数据   | 
-publicKey    |   String     | 公钥 | 
-Err  |    bumo.Error      |错误描述   | 
+signTransaction  |    String      | 签名数据   |
+publicKey    |   String     | 公钥 |
+Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
 
@@ -583,15 +583,15 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-transaction  |    String      | 序列化交易   | 
-signTransaction    |   String     | 签名数据 | 
-publicKey  |    String      | 公钥     | 
+transaction  |    String      | 序列化交易   |
+signTransaction    |   String     | 签名数据 |
+publicKey  |    String      | 公钥     |
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-submitTransaction  |    String      | 提交结果（成功返回交易hash）   | 
-Err  |    bumo.Error      |错误描述   | 
+submitTransaction  |    String      | 提交结果（成功返回交易hash）   |
+Err  |    bumo.Error      |错误描述   |
 
 
 
@@ -611,13 +611,13 @@ Err  |    bumo.Error      |错误描述   |
 ###### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-code    |   String     | 资产标签 | 
-amount  |    int64      | 发行数量   | 
+sourceAddress  |    String      | 源地址   |
+code    |   String     | 资产标签 |
+amount  |    int64      | 发行数量   |
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-issueData  |    []byte      | 交易操作   | 
+issueData  |    []byte      | 交易操作   |
 
 ###### 调用方法
 
@@ -628,22 +628,22 @@ issueData  |    []byte      | 交易操作   |
 	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
 	// 交易提交人账户私钥
 	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-	
+
 	// 创建operation
 	assetCode := "HNC"
 	issueAmount := 1000000000 // 发行1000000000 HNC
     operation, Err := bumosdk.Account.Asset.Issue(sourceAddress,  assetCode, issueAmount) // 创建资产发行操作
-	
+
 	// 构造Tx
 	//交易序列号
 	nonce := 128
 	gasPrice := 1000
 	feeLimit := 10000000
 	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
+
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
+
 	// 提交Tx
 	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
 
@@ -660,17 +660,17 @@ issueData  |    []byte      | 交易操作   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-issueAddress    |   String     | 发行者地址 | 
-destAddress    |   String     | 目标地址 | 
-code  |    String      | 资产标签   | 
-amount  |    int64      | 发行数量   | 
+sourceAddress  |    String      | 源地址   |
+issueAddress    |   String     | 发行者地址 |
+destAddress    |   String     | 目标地址 |
+code  |    String      | 资产标签   |
+amount  |    int64      | 发行数量   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-payData  |    []byte      | 序列化交易   | 
+payData  |    []byte      | 序列化交易   |
 Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
@@ -686,22 +686,22 @@ Err  |    bumo.Error      |错误描述   |
     //目标账户
 	destAddress := "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 
-	
+
 	// 创建operation
 	assetCode := "HNC"
 	issueAmount := 100 // 转移100 HNC
     operation, Err := bumosdk.Account.Asset.Pay(sourceAddress, destAddress, issueAddress, issueAmount, assetCode)
-	
+
 	// 构造Tx
 	//交易序列号
 	nonce := 128
 	gasPrice := 1000
 	feeLimit := 10000000
 	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
+
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
+
 	// 提交Tx
 	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
 
@@ -713,15 +713,15 @@ Err  |    bumo.Error      |错误描述   |
 
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-destAddress    |   String     | 目标地址 | 
-amount  |    int64      | 发送数量   | 
+sourceAddress  |    String      | 源地址   |
+destAddress    |   String     | 目标地址 |
+amount  |    int64      | 发送数量   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-payData  |    []byte      | 序列化交易   | 
+payData  |    []byte      | 序列化交易   |
 Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
@@ -736,21 +736,21 @@ Err  |    bumo.Error      |错误描述   |
 	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
     //目标账户
 	destAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-	
+
 	// 创建operation
     amount := 10000//发送10000BU
 	operation, Err := bumosdk.Account.Asset.SendBU(sourceAddress, destAddress, amount)
-	
+
 	// 构造Tx
 	//交易序列号
 	nonce := 128
 	gasPrice := 1000
 	feeLimit := 10000000
 	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
+
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
+
 	// 提交Tx
 	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
 
@@ -764,10 +764,10 @@ Err  |    bumo.Error      |错误描述   |
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-newPublicKey  |    String      | 公钥   | 
-newPrivateKey    |   String     | 私钥 | 
-newAddress  |    String      | 地址     | 
-Err  |    bumo.Error      |错误描述   | 
+newPublicKey  |    String      | 公钥   |
+newPrivateKey    |   String     | 私钥 |
+newAddress  |    String      | 地址     |
+Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
 
@@ -791,14 +791,14 @@ Err  |    bumo.Error      |错误描述   |
 ###### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-sourceAddress    |    String    | 源地址         | 
-receiverAddress  |   String     | 目标地址       | 
+sourceAddress    |    String    | 源地址         |
+receiverAddress  |   String     | 目标地址       |
 initBalance      |    int64     | 创建账户初始化账户余额，最少10000000 MO（注:1 BU = 10^8 MO） |
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-createActive  |    []byte      | 交易序列化   | 
-Err  |    bumo.Error      |错误描述   | 
+createActive  |    []byte      | 交易序列化   |
+Err  |    bumo.Error      |错误描述   |
 
 ###### 调用方法
 
@@ -816,19 +816,19 @@ Err  |    bumo.Error      |错误描述   |
 	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
 	// 创建账户目前最少初始化账户余额是0.1BU
 	initBalance := 100000000
-	
+
 	operation, Err := bumosdk.Account.CreateActive(sourceAddress, newAddress, initBalance) // 创建创建账户操作
-	
+
 	// 构造Tx
 	//交易序列号
 	nonce := 128
 	gasPrice := 1000
 	feeLimit := 10000000
 	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
+
 	//签名
 	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
+
 	// 提交Tx
 	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
 
@@ -840,11 +840,11 @@ Err  |    bumo.Error      |错误描述   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
+address  |    String      | 地址   |
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-checkAddress  |    bool      | 是否有效   | 
+checkAddress  |    bool      | 是否有效   |
 
 ###### 调用方法
 
@@ -858,13 +858,13 @@ checkAddress  |    bool      | 是否有效   |
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
+address  |    String      | 地址   |
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-addressInfo  |    String      | 账户详情   | 
-Err  |    bumo.Error      |错误描述   | 
+addressInfo  |    String      | 账户详情   |
+Err  |    bumo.Error      |错误描述   |
 
 
 ###### 调用方法
@@ -924,13 +924,13 @@ tx_threshold: 交易门限
 ##### 入参
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
+address  |    String      | 地址   |
 
 
 ##### 返回参数
 参数             |      类型    |      描述      |
 ---------------- | ------------ |  ------------  |
-balance  |    int64      | BU数量 (单位 : MO　)  | 
+balance  |    int64      | BU数量 (单位 : MO　)  |
 Err  |    bumo.Error      |错误描述   |
 
 
@@ -1032,3 +1032,5 @@ Err  |    bumo.Error      |错误描述   |
 10244|The parameter 'thresholdsType' is invalid.
 10245|The parameter 'thresholds' is invalid.
 10246|'sourceAddress' is equal to 'destAddress'.
+10247|No transactions found.
+

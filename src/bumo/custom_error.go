@@ -58,6 +58,7 @@ const (
 	INVALID_THRESHOLDSTYPE
 	INVALID_THRESHOLDS
 	DESTADDRESS_EQUAL_SOURCEADDRESS
+	NO_TRANSACTIONS_FOUND
 )
 
 var Err Error
@@ -68,6 +69,7 @@ func sdkErr(code int) Error {
 		SUCCESS:                         "Success",
 		ACCOUNT_NOT_EXIST:               "Account does not exist",
 		TRANSACTION_NOT_EXIST:           "Transaction does not exist",
+		NO_TRANSACTIONS_FOUND:           "No transactions found",
 		BLOCK_NOT_EXIST:                 "Block does not exist",
 		INVALID_PARAMETER:               "The parameter is wrong",
 		KEYPAIR_CREATE_ERROR:            "The function 'keypair.Create' failed",
