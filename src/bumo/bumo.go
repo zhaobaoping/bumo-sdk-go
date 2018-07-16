@@ -212,7 +212,9 @@ func (bumosdk *BumoSdk) GetBlock(blockNumber int64) (string, Error) {
 			return string(Mdata), Err
 		} else {
 			if data["error_code"].(json.Number) == "4" {
-				return "", sdkErr(NO_TRANSACTIONS_FOUND)
+				Err.Code = BLOCK_NOT_EXIST
+				Err.Err = errors.New("No transactions found")
+				return "", Err
 			}
 			errorCodeStr := data["error_code"].(json.Number)
 			errorCode, err := strconv.ParseInt(string(errorCodeStr), 10, 64)
