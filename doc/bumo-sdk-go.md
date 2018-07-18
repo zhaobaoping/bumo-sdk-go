@@ -96,6 +96,7 @@
 请求参数的成员，是各个方法的入参的成员变量名。
 
 例如：Account.GetInfo()的入参成员是address，那么AccountGetInfoRequest的结构如下：
+
 ```
 type AccountGetInfoRequest struct {
 	address string
@@ -106,6 +107,7 @@ type AccountGetInfoRequest struct {
 响应结果的格式，包含错误码，错误描述和result，格式是[类名][方法名]Response。
 
 例如Account.GetInfo()的结构体名是AccountGetInfoResponse：
+
 ```
 type AccountGetInfoResponse struct {
 	ErrorCode int
@@ -121,6 +123,7 @@ type AccountGetInfoResponse struct {
 
 (3) Result: 返回结果的结构体，其中结构体的名称，格式是[类名][方法名]Result。
 例如Account.GetNonce()的结构体名是AccountGetNonceResult：
+
 ```
 type AccountGetNonceResult struct {
 	Nonce int64
@@ -167,13 +170,16 @@ import (
 此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
 
 ```
+	//初始化传入参数
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
 	reqData.SetAddress(address)
+	//调用接口检查
 	resData := testSdk.Account.CheckValid(reqData)
 ```
 ### 查询
 调用bumo的相应的接口，例如：查询账户信息
+
 ```
     //初始化传入参数
     var reqData model.AccountGetInfoRequest
@@ -182,6 +188,10 @@ import (
 	//调用接口查询
 	resData := testSdk.Account.GetInfo(reqData)
 ```
+
+### 提交交易
+> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
+
 #### 获取账户nonce值
 
 开发者可自己维护各个账户nonce，在提交完一个交易后，自动递增1，这样可以在短时间内发送多笔交易，否则，必须等上一个交易执行完成后，账户的nonce值才会加1。接口调用如下：
@@ -195,10 +205,6 @@ import (
 	// 调用GetNonce接口
 	resData := testSdk.Account.GetNonce(reqData)
 ```
-### 提交交易
-> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
-
-
 #### 构建操作
 
 > 这里的操作是指在交易中做的一些动作。 例如：构建发送BU操作BUSendOperation，调用如下：
