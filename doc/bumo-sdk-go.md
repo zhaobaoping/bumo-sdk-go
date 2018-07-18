@@ -13,7 +13,7 @@
     - [包导入](#包导入)
     - [生成SDK实例](#生成sdk实例)
     - [生成公私钥地址](#生成公私钥地址)
-    - [有效性校验](#有效性校验接口)
+    - [有效性校验](#有效性校验)
     - [查询](#查询)
 	- [提交交易](#提交交易)
 		- [获取账户nonce值](#获取账户nonce值)
@@ -52,7 +52,7 @@
     - [GetNumber](#getnumber)
     - [CheckStatus](#checkstatus)
     - [GetTransactions](#gettransactions)
-    - [GetInfo](#getinfo_block)
+    - [GetInfo](#getinfo-block)
     - [GetLatest](#getlatest)
     - [GetValidators](#getvalidators)
     - [GetLatestValidators](#getlatestvalidators)
@@ -184,6 +184,7 @@ import (
 #### 获取账户nonce值
 
 开发者可自己维护各个账户nonce，在提交完一个交易后，自动递增1，这样可以在短时间内发送多笔交易，否则，必须等上一个交易执行完成后，账户的nonce值才会加1。接口调用如下：
+
 ```
 // 初始化请求参数
 	var reqData model.AccountGetNonceRequest
@@ -191,8 +192,8 @@ import (
 	reqData.SetAddress(address)
 	resData := testSdk.Account.GetNonce(reqData)
 
-// 调用getNonce接口
-	AccountGetNonceResponse accountGetNonceResponse =  sdk.getAccountService().getNonce(accountGetNonceRequest);
+// 调用GetNonce接口
+	resData := testSdk.Account.GetNonce(reqData)
 
 ```
 ### 提交交易
@@ -400,7 +401,7 @@ SYSTEM_ERROR |   20000     |  System error
 
 > 调用方法
 
-	GetNonce(reqData model.AccountGetNonceRequest) model.AccountGetNonceResponse
+	GetNonce(model.AccountGetNonceRequest) model.AccountGetNonceResponse
 
 > 请求参数
 
@@ -442,7 +443,7 @@ SYSTEM_ERROR |   20000     |  System error
 
 > 调用方法
 
-	GetBalance(reqData model.AccountGetBalanceRequest) model.AccountGetBalanceResponse
+	GetBalance(model.AccountGetBalanceRequest) model.AccountGetBalanceResponse
 
 > 请求参数
 
@@ -485,7 +486,7 @@ SYSTEM_ERROR |   20000     |  System error
 
 > 调用方法
 
-	GetAssets(reqData model.AccountGetAssetsRequest) model.AccountGetAssetsResponse
+	GetAssets(model.AccountGetAssetsRequest) model.AccountGetAssetsResponse
 
 > 请求参数
 
@@ -543,7 +544,7 @@ SYSTEM_ERROR     |       20000         |      System error
 
 > 调用方法
 
-	GetMetadata(reqData model.AccountGetMetadataRequest) model.AccountGetMetadataResponse
+	GetMetadata(model.AccountGetMetadataRequest) model.AccountGetMetadataResponse
 
 > 请求参数
 
@@ -602,7 +603,7 @@ SYSTEM_ERROR     |     20000    |     System error
 
 > 调用方法
 
-	GetInfo(reqData model.AssetGetInfoRequest) model.AssetGetInfoResponse
+	GetInfo(model.AssetGetInfoRequest) model.AssetGetInfoResponse
 
 > 请求参数
 
@@ -655,7 +656,7 @@ SYSTEM_ERROR    |    20000    |    System error
 
 > 调用方法
 
-	Allowance(reqData model.TokenAllowanceRequest) model.TokenAllowanceResponse
+	Allowance(model.TokenAllowanceRequest) model.TokenAllowanceResponse
 
 > 请求参数
 
@@ -706,7 +707,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetInfo(reqData model.TokenGetInfoRequest) model.TokenGetInfoResponse
+	GetInfo(model.TokenGetInfoRequest) model.TokenGetInfoResponse
 
 > 请求参数
 
@@ -754,7 +755,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-    GetName(reqData model.TokenGetNameRequest) model.TokenGetNameResponse
+    GetName(model.TokenGetNameRequest) model.TokenGetNameResponse
 
 > 请求参数
 
@@ -797,7 +798,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetSymbol(reqData model.TokenGetSymbolRequest) model.TokenGetSymbolResponse
+	GetSymbol(model.TokenGetSymbolRequest) model.TokenGetSymbolResponse
 
 > 请求参数
 
@@ -840,7 +841,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetDecimals(reqData model.TokenGetDecimalsRequest) model.TokenGetDecimalsResponse
+	GetDecimals(model.TokenGetDecimalsRequest) model.TokenGetDecimalsResponse
 
 > 请求参数
 
@@ -882,7 +883,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetTotalSupply(reqData model.TokenGetTotalSupplyRequest) model.TokenGetTotalSupplyResponse
+	GetTotalSupply(model.TokenGetTotalSupplyRequest) model.TokenGetTotalSupplyResponse
 
 > 请求参数
 
@@ -924,7 +925,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetBalance(reqData model.TokenGetBalanceRequest) model.TokenGetBalanceResponse
+	GetBalance(model.TokenGetBalanceRequest) model.TokenGetBalanceResponse
 
 > 请求参数
 
@@ -975,7 +976,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetInfo(reqData model.ContractGetInfoRequest) model.ContractGetInfoResponse
+	GetInfo(model.ContractGetInfoRequest) model.ContractGetInfoResponse
 
 > 请求参数
 
@@ -1095,7 +1096,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetTransactions(reqData model.BlockGetTransactionRequest) model.BlockGetTransactionResponse
+	GetTransactions(model.BlockGetTransactionRequest) model.BlockGetTransactionResponse
 
 > 请求参数
 
@@ -1141,7 +1142,7 @@ SYSTEM_ERROR    |    20000    |    System error
 
 > 调用方法
 
-	GetInfo(reqData model.BlockGetInfoRequest) model.BlockGetInfoResponse
+	GetInfo(model.BlockGetInfoRequest) model.BlockGetInfoResponse
 
 > 请求参数
 
@@ -1228,7 +1229,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetValidators(reqData model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
+	GetValidators(model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
 
 > 请求参数
 
@@ -1316,7 +1317,7 @@ SYSTEM_ERROR    |    20000    |    System error    |
 
 > 调用方法
 
-	GetReward(reqData model.BlockGetRewardRequest) model.BlockGetRewardResponse
+	GetReward(model.BlockGetRewardRequest) model.BlockGetRewardResponse
 
 > 请求参数
 
@@ -1400,7 +1401,7 @@ SYSTEM_ERROR    |    20000    |    System error
 
 > 调用方法
 
-	GetFees(reqData model.BlockGetFeesRequest) model.BlockGetFeesResponse
+	GetFees(model.BlockGetFeesRequest) model.BlockGetFeesResponse
 
 > 请求参数
 
@@ -1666,7 +1667,7 @@ metadata    |    string    |    选填，备注
 
 > 调用方法
 
-	EvaluateFee(reqData model.TransactionEvaluationFeeRequest) model.TransactionEvaluationFeeResponse
+	EvaluateFee(model.TransactionEvaluationFeeRequest) model.TransactionEvaluationFeeResponse
 
 > 请求参数
 
@@ -1722,14 +1723,14 @@ SYSTEM_ERROR    |    20000    |    System error
 ```
 
 
-#### 生成交易
+#### BuildBlob
 > 接口说明
 
 该接口用于获取账户的nonce
 
 > 调用方法
 
-	AccountGetNonceResponse getNonce(AccountGetNonceRequest);
+	BuildBlob(model.TransactionBuildBlobRequest) model.TransactionBuildBlobResponse
 
 > 请求参数
 
@@ -1786,14 +1787,14 @@ SYSTEM_ERROR    |    20000    |    System error
 	}
 ```
 
-#### 签名
+#### Sign
 > 接口说明
 
 签名
 
 > 调用方法
 
-	Sign(reqData model.TransactionSignRequest) model.TransactionSignResponse
+	Sign(model.TransactionSignRequest) model.TransactionSignResponse
 
 > 请求参数
 
@@ -1845,7 +1846,7 @@ SYSTEM_ERROR    |    20000    |    System error
 
 > 调用方法
 
-	Submit(reqData model.TransactionSubmitRequest) model.TransactionSubmitResponse
+	Submit(model.TransactionSubmitRequest) model.TransactionSubmitResponse
 
 > 请求参数
 
@@ -1886,7 +1887,7 @@ SYSTEM_ERROR    |    20000    |    System error
 
 > 调用方法
 
-	GetInfo(reqData model.TransactionGetInfoRequest) model.TransactionGetInfoResponse
+	GetInfo(model.TransactionGetInfoRequest) model.TransactionGetInfoResponse
 
 > 请求参数
 
