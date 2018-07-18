@@ -209,9 +209,12 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	var reqDataBlob model.TransactionBuildBlobRequest
 	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataBlob.SetSourceAddress(sourceAddressBlob)
-	reqDataBlob.SetFeeLimit(1000000000)
-	reqDataBlob.SetGasPrice(1000)
-	reqDataBlob.SetNonce(88)
+	var feeLimit int64 = 1000000000
+	reqDataBlob.SetFeeLimit(feeLimit)
+	var gasPrice int64 = 1000
+	reqDataBlob.SetGasPrice(gasPrice)
+	var nonce int64 = 88
+	reqDataBlob.SetNonce(nonce)
 	reqDataBlob.SetOperation(reqDataOperation)
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
