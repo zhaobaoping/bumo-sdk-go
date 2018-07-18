@@ -273,9 +273,9 @@ func Test_Account_checkValid(t *testing.T) {
 	}
 }
 
-//Account_Create
+//Account_Keypair
 func Test_Account_Create(t *testing.T) {
-	resData := testSdk.Account.Create()
+	resData := testSdk.Account.Keypair()
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {

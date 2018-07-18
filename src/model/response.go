@@ -29,12 +29,12 @@ type AccountCheckValidResult struct {
 }
 
 //Create
-type AccountCreateResponse struct {
-	ErrorCode int                 `json:"error_code"`
-	ErrorDesc string              `json:"error_desc"`
-	Result    AccountCreateResult `json:"result"`
+type AccountKeypairResponse struct {
+	ErrorCode int                  `json:"error_code"`
+	ErrorDesc string               `json:"error_desc"`
+	Result    AccountKeypairResult `json:"result"`
 }
-type AccountCreateResult struct {
+type AccountKeypairResult struct {
 	PrivateKey string `json:"private_key"`
 	PublicKey  string `json:"public_key"`
 	Address    string `json:"address"`
