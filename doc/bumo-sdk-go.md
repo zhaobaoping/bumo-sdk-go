@@ -155,7 +155,7 @@ import (
 >调用SDK的接口InitSDK
 
 ```
-    url := "http://seed1.bumotest.io:26002"
+	url := "http://seed1.bumotest.io:26002"
 	var reqData model.SDKInitSDKRequest
 	reqData.Url = url
 	resData := testSdk.InitSDK(reqData)
@@ -164,7 +164,7 @@ import (
 >通过调用Account的CreateInactive生成账户，例如：
 
 ```
-    resData := testSdk.Account.Create()
+	resData := testSdk.Account.Create()
 ```
 ### 有效性校验
 此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
@@ -181,9 +181,9 @@ import (
 调用bumo的相应的接口，例如：查询账户信息
 
 ```
-    //初始化传入参数
-    var reqData model.AccountGetInfoRequest
-    var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+	//初始化传入参数
+	var reqData model.AccountGetInfoRequest
+	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
 	reqData.SetAddress(address)
 	//调用接口查询
 	resData := testSdk.Account.GetInfo(reqData)
@@ -240,12 +240,12 @@ import (
 > 该接口用于交易发起者使用私钥对交易进行签名。接口调用如下：
 
 ```
-    //初始化传入参数
+	//初始化传入参数
  	PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
 	var reqData model.TransactionSignRequest
 	reqData.SetBlob(resDataBlob.Result.Blob)
 	reqData.SetPrivateKeys(PrivateKey)
-    //调用接口签名
+	//调用接口签名
 	resDataSign := testSdk.Transaction.Sign(reqData)
 ```
 #### 广播交易
@@ -253,7 +253,7 @@ import (
 > 该接口用于向BU区块链发送交易，触发交易的执行。接口调用如下：
 
 ```
-    //初始化传入参数
+	//初始化传入参数
 	var reqData model.TransactionSubmitRequest
 	reqData.SetBlob(resDataBlob.Result.Blob)
 	reqData.SetSignatures(resDataSign.Result.Signatures)
@@ -319,8 +319,8 @@ Address     |   string     |  地址
 > 示例
 
 ```
-    resData := testSdk.Account.Create()
-    if resData.ErrorCode == 0 {
+	resData := testSdk.Account.Create()
+	if resData.ErrorCode == 0 {
     	fmt.Println("Address:"resData.Result.Address)
     	fmt.Println("PrivateKey:"resData.Result.PrivateKey)
     	fmt.Println("PublicKey:"resData.Result.PublicKey)
