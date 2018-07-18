@@ -155,7 +155,7 @@ import (
     url := "http://seed1.bumotest.io:26002"
 	var reqData model.SDKInitSDKRequest
 	reqData.Url = url
-	resData := testSdk.InitSDK(reqData)	bumosdk.Newbumo(url)
+	resData := testSdk.InitSDK(reqData)
 ```
 ### 生成公私钥地址
 >通过调用Account的CreateInactive生成账户，例如：
@@ -165,6 +165,7 @@ import (
 ```
 ### 有效性校验
 此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
+
 ```
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
@@ -186,15 +187,13 @@ import (
 开发者可自己维护各个账户nonce，在提交完一个交易后，自动递增1，这样可以在短时间内发送多笔交易，否则，必须等上一个交易执行完成后，账户的nonce值才会加1。接口调用如下：
 
 ```
-// 初始化请求参数
+	// 初始化请求参数
 	var reqData model.AccountGetNonceRequest
 	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
 	reqData.SetAddress(address)
 	resData := testSdk.Account.GetNonce(reqData)
-
-// 调用GetNonce接口
+	// 调用GetNonce接口
 	resData := testSdk.Account.GetNonce(reqData)
-
 ```
 ### 提交交易
 > 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
@@ -219,7 +218,6 @@ import (
 > 注意：gasPrice和feeLimit的单位是MO，且 1 BU = 10^8 MO
 
 ```
-
     //初始化传入参数
 	var reqDataBlob model.TransactionBuildBlobRequest
 	reqDataBlob.SetSourceAddress(surceAddress)
@@ -1051,7 +1049,6 @@ SYSTEM_ERROR    |    20000    |    System error    |
 	if resData.ErrorCode == 0 {
 		fmt.Println("BlockNumber:", resData.Result.BlockNumber)
 	}
-
 ```
 
 
@@ -1675,7 +1672,7 @@ metadata    |    string    |    选填，备注
 ----------- | ------------ | ---------------- |
 sourceAddress    |    string    |    必填，发起该操作的源账户地址
 nonce    |    int64    |    必填，待发起的交易序列号，大小[1, max(int64)]
-operation    |    OperationBase[]    |    必填，待提交的操作列表，不能为空
+operation    |   [] OperationBase    |    必填，待提交的操作列表，不能为空
 signtureNumber    |    int32    |    选填，待签名者的数量，默认是1，大小[1, max(int32)]
 metadata    |    string    |    选填，备注
 
@@ -1740,8 +1737,8 @@ sourceAddress    |    string    |    必填，发起该操作的源账户地址
 nonce    |    int64    |    必填，待发起的交易序列号，函数里+1，大小[1, max(int64)]
 gasPrice    |    int64    |    必填，交易打包费用，单位MO，1 BU = 10^8 MO，大小[1000, max(int64)]
 feeLimit    |    int64    |    必填，交易手续费，单位MO，1 BU = 10^8 MO，大小[1000000, max(int64)]
-operation    |    OperationBase[]    |    必填，待提交的操作列表，不能为空
-ceilLedgerSeq    |    long    |    选填，区块高度限制，大于等于0，是0时不限制
+operation    |   [] OperationBase    |    必填，待提交的操作列表，不能为空
+ceilLedgerSeq    |    int64    |    选填，区块高度限制，大于等于0，是0时不限制
 metadata    |    string    |    选填，备注
 
 
@@ -2037,7 +2034,6 @@ Data    |    []string    |    日志内容
 		data, _ := json.Marshal(resData.Result)
 		fmt.Println("info:", string(data)
 	}
-
 ```
 
 
