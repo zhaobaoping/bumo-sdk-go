@@ -8,15 +8,20 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/bumoproject/bumo-sdk-go/src/3rd/base58"
-	"github.com/bumoproject/bumo-sdk-go/src/3rd/ed25519/edwards25519"
-	"github.com/bumoproject/bumo-sdk-go/src/3rd/secureRandom"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/base58"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/ed25519/edwards25519"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/secureRandom"
 )
 
 const (
 	PublicKeySize  = 32
 	PrivateKeySize = 64
 	SignatureSize  = 64
+)
+const (
+	DePublicKeySize  = 32
+	DePrivateKeySize = 32
+	DeAddressSize    = 20
 )
 
 //Create
@@ -85,32 +90,32 @@ func GetEncAddress(publicKey string) (address string, err error) {
 }
 
 //Verify the public key
-func CheckPublicKey(PublicKey string) bool {
-	if PublicKey == "" {
+func CheckPublicKey(publicKey string) bool {
+	if publicKey == "" {
 		return false
 	}
 	var epub []byte
 	var ret bool
 	var err error
-	epub, err = hex.DecodeString(PublicKey)
+	epub, err = hex.DecodeString(publicKey)
 	if err != nil {
 		return false
 	}
 
-	if len(epub) != 38 || epub[0] != 0xb0 || epub[1] != 1 {
+	if len(epub) != (DePublicKeySize+6) || epub[0] != 0xb0 || epub[1] != 1 {
 		return false
 	}
 
 	var hash1, hash2 []byte
 
-	dpub := epub[:34]
+	dpub := epub[:DePublicKeySize+2]
 	h1 := sha256.New()
 	h1.Write([]byte(dpub))
 	hash1 = h1.Sum(nil)
 	h2 := sha256.New()
 	h2.Write([]byte(hash1))
 	hash2 = h2.Sum(nil)
-	if !(hash2[0] == epub[34] && hash2[1] == epub[35] && hash2[2] == epub[36] && hash2[3] == epub[37]) {
+	if !(hash2[0] == epub[DePublicKeySize+2] && hash2[1] == epub[DePublicKeySize+3] && hash2[2] == epub[DePublicKeySize+4] && hash2[3] == epub[DePublicKeySize+5]) {
 		return false
 	}
 
@@ -131,17 +136,17 @@ func CheckPrivateKey(SprivateKey string) bool {
 		return false
 	}
 
-	if !(len(epriv) == 41 && epriv[0] == 0xDA && epriv[1] == 0x37 && epriv[2] == 0x9F && epriv[3] == 1) {
+	if !(len(epriv) == (DePrivateKeySize+9) && epriv[0] == 0xDA && epriv[1] == 0x37 && epriv[2] == 0x9F && epriv[3] == 1) {
 		return false
 	}
 
-	if !(epriv[36] == 0x00) {
+	if !(epriv[DePrivateKeySize+4] == 0x00) {
 		return false
 	}
 
 	var hash1, hash2 []byte
 
-	dpriv := epriv[:37]
+	dpriv := epriv[:DePrivateKeySize+5]
 
 	h1 := sha256.New()
 	h1.Write([]byte(dpriv))
@@ -151,7 +156,7 @@ func CheckPrivateKey(SprivateKey string) bool {
 	h2.Write([]byte(hash1))
 	hash2 = h2.Sum(nil)
 
-	if !(hash2[0] == epriv[37] && hash2[1] == epriv[38] && hash2[2] == epriv[39] && hash2[3] == epriv[40]) {
+	if !(hash2[0] == epriv[DePrivateKeySize+5] && hash2[1] == epriv[DePrivateKeySize+6] && hash2[2] == epriv[DePrivateKeySize+7] && hash2[3] == epriv[DePrivateKeySize+8]) {
 		return false
 	}
 
@@ -181,7 +186,7 @@ func CheckAddress(Saddress string) bool {
 	}
 	var hash1, hash2 []byte
 
-	daddr := addre[:23]
+	daddr := addre[:DeAddressSize+3]
 
 	h1 := sha256.New()
 	h1.Write([]byte(daddr))
@@ -191,7 +196,7 @@ func CheckAddress(Saddress string) bool {
 	h2.Write([]byte(hash1))
 	hash2 = h2.Sum(nil)
 
-	if !(hash2[0] == addre[23] && hash2[1] == addre[24] && hash2[2] == addre[25] && hash2[3] == addre[26]) {
+	if !(hash2[0] == addre[DeAddressSize+3] && hash2[1] == addre[DeAddressSize+4] && hash2[2] == addre[DeAddressSize+5] && hash2[3] == addre[DeAddressSize+6]) {
 		return false
 	}
 	ret = true
@@ -206,12 +211,12 @@ func GenerateKey(ranbuf [32]byte) (publicKey *[PublicKeySize]byte, privateKey *[
 		return nil, nil, errors.New("buf is nil")
 	}
 
-	privateKey = new([64]byte)
-	publicKey = new([32]byte)
-	copy(privateKey[:32], ranbuf[:])
+	privateKey = new([PrivateKeySize]byte)
+	publicKey = new([PublicKeySize]byte)
+	copy(privateKey[:PublicKeySize], ranbuf[:])
 
 	h := sha512.New()
-	h.Write(privateKey[:32])
+	h.Write(privateKey[:PublicKeySize])
 	digest := h.Sum(nil)
 
 	digest[0] &= 248
@@ -219,12 +224,12 @@ func GenerateKey(ranbuf [32]byte) (publicKey *[PublicKeySize]byte, privateKey *[
 	digest[31] |= 64
 
 	var A edwards25519.ExtendedGroupElement
-	var hBytes [32]byte
+	var hBytes [PublicKeySize]byte
 	copy(hBytes[:], digest)
 	edwards25519.GeScalarMultBase(&A, &hBytes)
 	A.ToBytes(publicKey)
 
-	copy(privateKey[32:], publicKey[:])
+	copy(privateKey[PublicKeySize:], publicKey[:])
 	return
 }
 
@@ -239,16 +244,16 @@ func bytesCombine(pBytes ...[]byte) []byte {
 }
 
 //Encoding public Key
-func encodePublicKey(publicKey *[32]byte) (GpublicKey string, err error) {
+func encodePublicKey(publicKey *[PublicKeySize]byte) (GpublicKey string, err error) {
 	if publicKey == nil {
 		return "", errors.New("encode publicKey is error")
 	}
-	var ppblic [32]byte = *publicKey
+	var ppblic [PublicKeySize]byte = *publicKey
 	var str_result []byte
 	var hash1, hash2 []byte
 	str_result = append(str_result, 0xb0)
 	str_result = append(str_result, 1)
-	str_result = bytesCombine(str_result, ppblic[:32])
+	str_result = bytesCombine(str_result, ppblic[:PublicKeySize])
 	h1 := sha256.New()
 	h1.Write([]byte(str_result))
 	hash1 = h1.Sum(nil)
@@ -262,7 +267,7 @@ func encodePublicKey(publicKey *[32]byte) (GpublicKey string, err error) {
 }
 
 //Encoding private Key
-func encodePrivateKey(privateKey *[32]byte) (GPrivateKey string, err error) {
+func encodePrivateKey(privateKey *[PublicKeySize]byte) (GPrivateKey string, err error) {
 	if privateKey == nil {
 		return "", errors.New("encode privateKey is error")
 	}
@@ -293,11 +298,11 @@ func encodePrivateKey(privateKey *[32]byte) (GPrivateKey string, err error) {
 }
 
 //Encoding address
-func encodeAddress(publicKey *[32]byte) (GAccoun string, err error) {
+func encodeAddress(publicKey *[PublicKeySize]byte) (GAccoun string, err error) {
 	if publicKey == nil {
 		return "", errors.New("encode publicKey is error")
 	}
-	var ppbilc [32]byte = *publicKey
+	var ppbilc [PublicKeySize]byte = *publicKey
 
 	var str_result []byte
 	var hash1, hash2, pubSha []byte
@@ -311,7 +316,7 @@ func encodeAddress(publicKey *[32]byte) (GAccoun string, err error) {
 	ShaPub.Write([]byte(ppbilc1))
 	pubSha = ShaPub.Sum(nil)
 
-	str_result = bytesCombine(str_result, pubSha[12:32])
+	str_result = bytesCombine(str_result, pubSha[12:DeAddressSize+12])
 
 	h1 := sha256.New()
 	h1.Write([]byte(str_result))
@@ -330,42 +335,42 @@ func encodeAddress(publicKey *[32]byte) (GAccoun string, err error) {
 }
 
 //Decode public Key
-func DecodePublicKey(spublicKey string) (PublicKey *[32]byte, err error) {
-	if spublicKey == "" {
+func DecodePublicKey(publicKey string) (decodePublicKey *[PublicKeySize]byte, err error) {
+	if publicKey == "" {
 		return nil, errors.New("decode publicKey error :publicKey is nil")
 	}
-	ispub := CheckPublicKey(spublicKey)
+	ispub := CheckPublicKey(publicKey)
 	if !(ispub) {
 		return nil, errors.New("check publicKey error")
 	}
 	var epub []byte
-	epub, err = hex.DecodeString(spublicKey)
+	epub, err = hex.DecodeString(publicKey)
 	if err != nil {
 		return nil, err
 	}
-	var dpub [32]byte
-	copy(dpub[:], epub[2:34])
+	var dpub [PublicKeySize]byte
+	copy(dpub[:], epub[2:PublicKeySize+2])
 	return &dpub, nil
 
 }
 
 //Decode private Key
-func DecodePrivateKey(sprivateKey string) (PrivateKey *[32]byte, err error) {
-	if sprivateKey == "" {
+func DecodePrivateKey(privateKey string) (decodePrivateKey *[DePrivateKeySize]byte, err error) {
+	if privateKey == "" {
 		return nil, errors.New("decode privateKey error :privateKey is nil")
 	}
-	ispri := CheckPrivateKey(sprivateKey)
+	ispri := CheckPrivateKey(privateKey)
 	if !(ispri) {
 		return nil, errors.New("check privateKey error")
 	}
 
-	epriv, err := base58.Decode(sprivateKey)
+	epriv, err := base58.Decode(privateKey)
 	if err != nil {
 		return nil, err
 	}
 
-	var dpriv [32]byte
-	copy(dpriv[:], epriv[4:36])
+	var dpriv [DePrivateKeySize]byte
+	copy(dpriv[:], epriv[4:DePrivateKeySize+4])
 
 	return &dpriv, nil
 }

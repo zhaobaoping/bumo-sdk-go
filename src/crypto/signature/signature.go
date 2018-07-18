@@ -7,8 +7,8 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/bumoproject/bumo-sdk-go/src/3rd/ed25519/edwards25519"
-	"github.com/bumoproject/bumo-sdk-go/src/keypair"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/ed25519/edwards25519"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
 )
 
 const (

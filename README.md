@@ -11,88 +11,29 @@ Go developers can easily operate Bumo blockchain via the Bumo Go SDK. And you ca
 
 go 1.10.1 or above.
 
-## How to use?
+## Installation
 
-#### Import packages
+#### Mode 1：Adding Dependencies to Maven Projects (Recommended)
+To use the Bumo Go SDK in a Maven project, just download packages.
+#### Download packages
 
+```
+	go get github.com/bumoproject/bumo-sdk-go
+
+```
+This article uses version 2.0.0 as an example
+
+
+#### Mode 2: Import the  Package in the Project
 ```
 import (
 
-	"github.com/bumoproject/bumo-sdk-go/src/bumo"
+	"github.com/bumoproject/bumo-sdk-go/src/model"
+	"github.com/bumoproject/bumo-sdk-go/src/sdk"
 )
 ```
-
-#### Initializes the structure
->Initialize Error and BumoSdk structures
-
-```
-   var Err bumo.Error
-   var bumosdk bumo.BumoSdk
-```
-
-#### New a connection
-
-```
-  	bumosdk.Newbumo(url)
-```
-#### Generate an inactive account
->Generate an Account by calling CreateInactive, for example：
-
-```
-    newPublicKey, newPrivateKey, newAddress, Err := bumosdk.Account.CreateInactive()
-```
-
-#### Initiate the TX
-> Functions such as creating an active account, issuing assets, transferring assets, and sending BU can be completed by the following four steps.
-
-1. Create operation
-   
-By invoking the corresponding method, the action for the specified function is created, and the method for issuing assets is invoked, such as an example：
-   
-```
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, code, amount)
-```
-
-
-2.  Create transaction
-
-  Build transaction and set up information such as gasPrice, feeLimit
-> Note: gasPrice and feeLimit unit is MO, and 1 BU = 10 ^ 8 MO
-   
-   For example：
-   
-```
-    //Need to pass in the cost parameter gasPrice、 feeLimit
-    transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, issueData)
-```
-3.  Signature
-
-   Transaction data is signed
-   
-   For example：
-   
-```
-    signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-```
-4. Submit a transaction
-
-Submit transaction and wait for block network confirmation results. Generally, the confirmation time is 10 seconds and the confirmation timeout is 500 seconds。
- 
-```
-    submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-```
-
-
-
-#### Query
-Call the corresponding interface to bumo, for example: Get account information
-```
-    addressInfo, Err := bumosdk.Account.GetInfo(address)
-```
-
 
 ## Example project
 Bumo Go SDK provides rich examples for developers' reference
 
 [Sample document entry](doc/bumo-sdk-go.md "")
-
