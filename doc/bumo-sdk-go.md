@@ -155,38 +155,38 @@ import (
 >调用SDK的接口InitSDK
 
 ```
-	url := "http://seed1.bumotest.io:26002"
-	var reqData model.SDKInitSDKRequest
-	reqData.Url = url
-	resData := testSdk.InitSDK(reqData)
+url := "http://seed1.bumotest.io:26002"
+var reqData model.SDKInitSDKRequest
+reqData.Url = url
+resData := testSdk.InitSDK(reqData)
 ```
 ### 生成公私钥地址
 >通过调用Account的CreateInactive生成账户，例如：
 
 ```
-	resData := testSdk.Account.Create()
+resData := testSdk.Account.Create()
 ```
 ### 有效性校验
 此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
 
 ```
-	//初始化传入参数
-	var reqData model.AccountCheckValidRequest
-	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	reqData.SetAddress(address)
-	//调用接口检查
-	resData := testSdk.Account.CheckValid(reqData)
+//初始化传入参数
+var reqData model.AccountCheckValidRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+//调用接口检查
+resData := testSdk.Account.CheckValid(reqData)
 ```
 ### 查询
 调用bumo的相应的接口，例如：查询账户信息
 
 ```
-	//初始化传入参数
-	var reqData model.AccountGetInfoRequest
-	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	reqData.SetAddress(address)
-	//调用接口查询
-	resData := testSdk.Account.GetInfo(reqData)
+//初始化传入参数
+var reqData model.AccountGetInfoRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+//调用接口查询
+resData := testSdk.Account.GetInfo(reqData)
 ```
 
 ### 提交交易
@@ -197,25 +197,25 @@ import (
 开发者可自己维护各个账户nonce，在提交完一个交易后，自动递增1，这样可以在短时间内发送多笔交易，否则，必须等上一个交易执行完成后，账户的nonce值才会加1。接口调用如下：
 
 ```
-	// 初始化请求参数
-	var reqData model.AccountGetNonceRequest
-	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	reqData.SetAddress(address)
-	resData := testSdk.Account.GetNonce(reqData)
-	// 调用GetNonce接口
-	resData := testSdk.Account.GetNonce(reqData)
+// 初始化请求参数
+var reqData model.AccountGetNonceRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetNonce(reqData)
+// 调用GetNonce接口
+resData := testSdk.Account.GetNonce(reqData)
 ```
 #### 构建操作
 
 > 这里的操作是指在交易中做的一些动作。 例如：构建发送BU操作BUSendOperation，调用如下：
 
 ```
-	var buSendOperation model.BUSendRequest
-	buSendOperation.Init()
-	var amount int64 = 100
-	var address string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	buSendOperation.SetAmount(amount)
-	buSendOperation.SetDestAddress(address)
+var buSendOperation model.BUSendRequest
+buSendOperation.Init()
+var amount int64 = 100
+var address string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+buSendOperation.SetAmount(amount)
+buSendOperation.SetDestAddress(address)
 ```
 
 #### 构建交易Blob
@@ -224,15 +224,15 @@ import (
 > 注意：gasPrice和feeLimit的单位是MO，且 1 BU = 10^8 MO
 
 ```
-	//初始化传入参数
-	var reqDataBlob model.TransactionBuildBlobRequest
-	reqDataBlob.SetSourceAddress(surceAddress)
-	reqDataBlob.SetFeeLimit(feeLimit)
-	reqDataBlob.SetGasPrice(gasPrice)
-	reqDataBlob.SetNonce(senderNonce)
-	reqDataBlob.SetOperation(buSendOperation)
-	//调用接口生成Blob
-	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
+//初始化传入参数
+var reqDataBlob model.TransactionBuildBlobRequest
+reqDataBlob.SetSourceAddress(surceAddress)
+reqDataBlob.SetFeeLimit(feeLimit)
+reqDataBlob.SetGasPrice(gasPrice)
+reqDataBlob.SetNonce(senderNonce)
+reqDataBlob.SetOperation(buSendOperation)
+//调用接口生成Blob
+resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 ```
 
 #### 签名交易
@@ -240,25 +240,25 @@ import (
 > 该接口用于交易发起者使用私钥对交易进行签名。接口调用如下：
 
 ```
-	//初始化传入参数
- 	PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
-	var reqData model.TransactionSignRequest
-	reqData.SetBlob(resDataBlob.Result.Blob)
-	reqData.SetPrivateKeys(PrivateKey)
-	//调用接口签名
-	resDataSign := testSdk.Transaction.Sign(reqData)
+//初始化传入参数
+PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
+var reqData model.TransactionSignRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetPrivateKeys(PrivateKey)
+//调用接口签名
+resDataSign := testSdk.Transaction.Sign(reqData)
 ```
 #### 广播交易
 
 > 该接口用于向BU区块链发送交易，触发交易的执行。接口调用如下：
 
 ```
-	//初始化传入参数
-	var reqData model.TransactionSubmitRequest
-	reqData.SetBlob(resDataBlob.Result.Blob)
-	reqData.SetSignatures(resDataSign.Result.Signatures)
-	//调用接口提交交易
-	resDataSubmit := testSdk.Transaction.Submit(reqData)
+//初始化传入参数
+var reqData model.TransactionSubmitRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetSignatures(resDataSign.Result.Signatures)
+//调用接口提交交易
+resDataSubmit := testSdk.Transaction.Submit(reqData)
 ```
 
 ## 账户服务
@@ -268,7 +268,7 @@ import (
 该接口用于检测账户地址的有效性
 > 调用方法
 
-	CheckValid(model.AccountCheckValidRequest) model.AccountCheckValidResponse
+CheckValid(model.AccountCheckValidRequest) model.AccountCheckValidResponse
 
 > 请求参数
 
@@ -291,13 +291,13 @@ SYSTEM_ERROR |   20000	 |  System error
 > 示例
 
 ```
-	var reqData model.AccountCheckValidRequest
-	address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	reqData.SetAddress(address)
-	resData := testSdk.Account.CheckValid(reqData)
-	if resData.ErrorCode == 0 {
-		fmt.Println(resData.Result.IsValid)
-	}
+var reqData model.AccountCheckValidRequest
+address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.CheckValid(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println(resData.Result.IsValid)
+}
 ```
 
 #### Create
@@ -306,7 +306,7 @@ SYSTEM_ERROR |   20000	 |  System error
 生成公私玥对
 > 调用方法
 
-	Create() model.AccountCreateResponse
+Create() model.AccountCreateResponse
 
 > 响应数据
 
@@ -319,18 +319,12 @@ Address	 |   string	 |  地址
 > 示例
 
 ```
-	resData := testSdk.Account.Create()
-	if resData.ErrorCode == 0 {
-<<<<<<< HEAD
-    	fmt.Println("Address:"resData.Result.Address)
-    	fmt.Println("PrivateKey:"resData.Result.PrivateKey)
-    	fmt.Println("PublicKey:"resData.Result.PublicKey)
-=======
-		fmt.Println("Address:"resData.Result.Address)
-		fmt.Println("PrivateKey:"resData.Result.PrivateKey)
-		fmt.Println("PublicKey:"resData.Result.PublicKey)
->>>>>>> Updata doc
-	}
+resData := testSdk.Account.Create()
+if resData.ErrorCode == 0 {
+	fmt.Println("Address:"resData.Result.Address)
+	fmt.Println("PrivateKey:"resData.Result.PrivateKey)
+	fmt.Println("PublicKey:"resData.Result.PublicKey)
+}
 ```
 
 #### GetInfo-Account
@@ -341,7 +335,7 @@ Address	 |   string	 |  地址
 
 > 调用方法
 
-	GetInfo(model.AccountGetInfoRequest) model.AccountGetInfoResponse
+GetInfo(model.AccountGetInfoRequest) model.AccountGetInfoResponse
 
 > 请求参数
 
@@ -394,14 +388,14 @@ SYSTEM_ERROR |   20000	 |  System error
 > 示例
 
 ```
-	var reqData model.AccountGetInfoRequest
-	var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	reqData.SetAddress(address)
-	resData := testSdk.Account.GetInfo(reqData)
-	if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result)
-		fmt.Println("Info:", string(data))
-	}
+var reqData model.AccountGetInfoRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+data, _ := json.Marshal(resData.Result)
+	fmt.Println("Info:", string(data))
+}
 
 ```
 #### GetNonce
@@ -411,7 +405,7 @@ SYSTEM_ERROR |   20000	 |  System error
 
 > 调用方法
 
-	GetNonce(model.AccountGetNonceRequest) model.AccountGetNonceResponse
+GetNonce(model.AccountGetNonceRequest) model.AccountGetNonceResponse
 
 > 请求参数
 
