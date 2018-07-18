@@ -24,8 +24,8 @@ func (account *AccountOperation) CheckValid(reqData model.AccountCheckValidReque
 }
 
 //生成公私玥对  Create public and private yue pairs
-func (account *AccountOperation) Keypair() model.AccountKeypairResponse {
-	var resData model.AccountKeypairResponse
+func (account *AccountOperation) Create() model.AccountCreateResponse {
+	var resData model.AccountCreateResponse
 	var err error
 	resData.Result.PublicKey, resData.Result.PrivateKey, resData.Result.Address, err = keypair.Create()
 	if err != nil {

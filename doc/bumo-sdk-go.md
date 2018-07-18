@@ -23,7 +23,7 @@
 		- [广播交易](#广播交易)
 - [账户服务](#账户服务)
     - [CheckValid](#checkvalid)
-    - [Keypair](#Keypair)
+    - [Create](#create)
     - [GetInfo](#getinfo-account)
     - [GetNonce](#getnonce)
     - [GetBalance](#getbalance-account)
@@ -161,10 +161,10 @@ reqData.Url = url
 resData := testSdk.InitSDK(reqData)
 ```
 ### 生成公私钥地址
->通过调用Account的Keypair生成账户，例如：
+>通过调用Account的Create生成账户，例如：
 
 ```
-resData := testSdk.Account.Keypair()
+resData := testSdk.Account.Create()
 ```
 ### 有效性校验
 此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
@@ -300,13 +300,13 @@ if resData.ErrorCode == 0 {
 }
 ```
 
-#### Keypair
+#### Create
 > 接口说明
 
 生成公私玥对
 > 调用方法
 
-Keypair() model.AccountKeypairResponse
+Create() model.AccountCreateResponse
 
 > 响应数据
 
@@ -319,7 +319,7 @@ Address	 |string	 |地址
 > 示例
 
 ```
-resData := testSdk.Account.Keypair()
+resData := testSdk.Account.Create()
 if resData.ErrorCode == 0 {
 	fmt.Println("Address:"resData.Result.Address)
 	fmt.Println("PrivateKey:"resData.Result.PrivateKey)
