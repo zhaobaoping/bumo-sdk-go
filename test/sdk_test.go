@@ -234,8 +234,9 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 			reqData.SetBlob(resDataBlob.Result.Blob)
 			reqData.SetSignatures(resDataSign.Result.Signatures)
 			resDataSubmit := testSdk.Transaction.Submit(reqData)
+
 			if resDataSubmit.ErrorCode != 0 {
-				fmt.Println(resDataSubmit.ErrorDesc)
+				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
 				fmt.Println("Hash:", resDataSubmit.Result.Hash)
 				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
@@ -347,6 +348,7 @@ func Test_Account_GetMetadata(t *testing.T) {
 	var reqData model.AccountGetMetadataRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqData.SetAddress(address)
+	reqData.SetKey("abc")
 	resData := testSdk.Account.GetMetadata(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)

@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"net/http"
+	"net/url"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -13,14 +14,14 @@ import (
 )
 
 //http get
-func GetRequest(url string, get string, data string) (*http.Response, exception.SDKResponse) {
+func GetRequest(strUrl string, get string, str string) (*http.Response, exception.SDKResponse) {
 	var buf bytes.Buffer
-	buf.WriteString(url)
+	buf.WriteString(strUrl)
 	buf.WriteString(get)
-	buf.WriteString(data)
-	url = buf.String()
+	buf.WriteString(url.PathEscape(str))
+	strUrl = buf.String()
 	client := &http.Client{}
-	newRequest, err := http.NewRequest("GET", url, nil)
+	newRequest, err := http.NewRequest("GET", strUrl, nil)
 	if err != nil {
 		return nil, exception.GetSDKRes(exception.CONNECTNETWORK_ERROR)
 	}
@@ -32,13 +33,13 @@ func GetRequest(url string, get string, data string) (*http.Response, exception.
 }
 
 //http post
-func PostRequest(url string, post string, data []byte) (*http.Response, exception.SDKResponse) {
+func PostRequest(strUrl string, post string, data []byte) (*http.Response, exception.SDKResponse) {
 	var buf bytes.Buffer
-	buf.WriteString(url)
+	buf.WriteString(strUrl)
 	buf.WriteString(post)
-	url = buf.String()
+	strUrl = buf.String()
 	client := &http.Client{}
-	newRequest, err := http.NewRequest("POST", url, bytes.NewReader(data))
+	newRequest, err := http.NewRequest("POST", strUrl, bytes.NewReader(data))
 	if err != nil {
 		return nil, exception.GetSDKRes(exception.CONNECTNETWORK_ERROR)
 	}
@@ -129,7 +130,6 @@ func GetCallDataStr(funcstr string, ContractAddress string, TokenOwner string) (
 	var Input model.Input
 	Input.Method = funcstr
 	Input.Params.Address = TokenOwner
-
 	InputStr, err := json.Marshal(Input)
 	if err != nil {
 		return "", exception.GetSDKRes(exception.SYSTEM_ERROR)

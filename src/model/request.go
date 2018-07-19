@@ -168,6 +168,67 @@ func (reqData *TransactionEvaluationFeeRequest) GetOperations() list.List {
 	return reqData.operations
 }
 
+//Call
+type ContractCallRequest struct {
+	sourceAddress   string
+	contractAddress string
+	code            string
+	input           string
+	contractBalance string
+	optType         int64
+	feeLimit        int64
+	gasPrice        int64
+}
+
+func (reqData *ContractCallRequest) SetSourceAddress(SourceAddress string) {
+	reqData.sourceAddress = SourceAddress
+}
+func (reqData *ContractCallRequest) GetSourceAddress() string {
+	return reqData.sourceAddress
+}
+func (reqData *ContractCallRequest) SetContractAddress(ContractAddress string) {
+	reqData.contractAddress = ContractAddress
+}
+func (reqData *ContractCallRequest) GetContractAddress() string {
+	return reqData.contractAddress
+}
+func (reqData *ContractCallRequest) SetCode(Code string) {
+	reqData.code = Code
+}
+func (reqData *ContractCallRequest) GetCode() string {
+	return reqData.code
+}
+func (reqData *ContractCallRequest) SetIput(Input string) {
+	reqData.input = Input
+}
+func (reqData *ContractCallRequest) GetInput() string {
+	return reqData.input
+}
+func (reqData *ContractCallRequest) SetContractBalance(ContractBalance string) {
+	reqData.contractBalance = ContractBalance
+}
+func (reqData *ContractCallRequest) GetContractBalance() string {
+	return reqData.contractBalance
+}
+func (reqData *ContractCallRequest) SetGasPrice(GasPrice int64) {
+	reqData.gasPrice = GasPrice
+}
+func (reqData *ContractCallRequest) GetGasPrice() int64 {
+	return reqData.gasPrice
+}
+func (reqData *ContractCallRequest) SetFeeLimit(FeeLimit int64) {
+	reqData.feeLimit = FeeLimit
+}
+func (reqData *ContractCallRequest) GetFeeLimit() int64 {
+	return reqData.feeLimit
+}
+func (reqData *ContractCallRequest) SetOptType(OptType int64) {
+	reqData.optType = OptType
+}
+func (reqData *ContractCallRequest) GetOptType() int64 {
+	return reqData.optType
+}
+
 //Sign
 type TransactionSignRequest struct {
 	blob        string

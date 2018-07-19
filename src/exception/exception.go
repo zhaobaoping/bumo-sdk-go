@@ -17,6 +17,7 @@ const (
 	INVALID_ADDRESS_ERROR                 int = 11006
 	CONNECTNETWORK_ERROR                  int = 11007
 	METADATA_NOT_HEX_STRING_ERROR         int = 11008
+	NO_METADATA_ERROR                     int = 11010
 	INVALID_DATAKEY_ERROR                 int = 11011
 	INVALID_DATAVALUE_ERROR               int = 11012
 	INVALID_DATAVERSION_ERROR             int = 11013
@@ -56,7 +57,9 @@ const (
 	PRIVATEKEY_ONE_ERROR                  int = 11058
 	INVALID_BLOCKNUMBER_ERROR             int = 11060
 	URL_EMPTY_ERROR                       int = 11062
-	CONNECTN_BLOCKCHAIN_ERROR             int = 11063
+	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR  int = 11063
+	INVALID_OPTTYPE_ERROR                 int = 11064
+	CONNECTN_BLOCKCHAIN_ERROR             int = 19999
 	SYSTEM_ERROR                          int = 20000
 )
 const (
@@ -120,6 +123,9 @@ func GetSDKRes(code int) SDKResponse {
 		INVALID_CEILLEDGERSEQ_ERROR:           "CeilLedgerSeq must be equal or bigger than 0",
 		METADATA_NOT_HEX_STRING_ERROR:         "Metadata must be a hex string",
 		SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR: "SourceAddress cannot be equal to destAddress",
+		CONTRACTADDRESS_CODE_BOTH_NULL_ERROR:  "ContractAddress and code cannot be empty at the same time",
+		INVALID_OPTTYPE_ERROR:                 "OptType must between 0 and 2",
+		NO_METADATA_ERROR:                     "The account does not have this metadata",
 
 		GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed",
 		SIGN_ERROR:             "The function 'Sign' failed",

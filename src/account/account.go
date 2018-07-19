@@ -67,7 +67,7 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData
@@ -112,7 +112,7 @@ func (account *AccountOperation) GetNonce(reqData model.AccountGetNonceRequest) 
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData
@@ -158,7 +158,7 @@ func (account *AccountOperation) GetBalance(reqData model.AccountGetBalanceReque
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData
@@ -202,7 +202,7 @@ func (account *AccountOperation) GetAssets(reqData model.AccountGetAssetsRequest
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account  failed"
 				return resData
 			}
 			return resData
@@ -222,6 +222,11 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 		SDKRes := exception.GetSDKRes(exception.INVALID_ADDRESS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	if len(reqData.GetKey()) < 1 || len(reqData.GetKey()) > 1024 {
+		resData.ErrorCode = exception.INVALID_DATAKEY_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	get := "/getAccount?address="
@@ -248,11 +253,16 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 			return resData
 		}
 		if resData.ErrorCode == 0 {
+			if resData.Result.Metadatas == nil {
+				resData.ErrorCode = exception.NO_METADATA_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
 			resData.ErrorCode = exception.SUCCESS
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData

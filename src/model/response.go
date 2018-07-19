@@ -195,11 +195,20 @@ type Contract struct {
 	Payload string `json:"payload"`
 	Type    string `json:"type"`
 }
+
+type ContractCallResponse struct {
+	ErrorCode int                `json:"error_code"`
+	ErrorDesc string             `json:"error_desc"`
+	Result    ContractCallResult `json:"result"`
+}
+type ContractCallResult struct {
+}
 type ContractInvokeByAssetResponse struct {
 	ErrorCode int                 `json:"error_code"`
 	ErrorDesc string              `json:"error_desc"`
 	Result    InvokeByAssetResult `json:"result"`
 }
+
 type InvokeByAssetResult struct {
 	Operation protocol.Operation `json:"operation"`
 }
