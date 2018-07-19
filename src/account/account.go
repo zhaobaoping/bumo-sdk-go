@@ -23,7 +23,7 @@ func (account *AccountOperation) CheckValid(reqData model.AccountCheckValidReque
 	return resData
 }
 
-//生成公私玥对  Create public and private yue pairs
+//生成公私钥对  Create public and private key pairs
 func (account *AccountOperation) Create() model.AccountCreateResponse {
 	var resData model.AccountCreateResponse
 	var err error
