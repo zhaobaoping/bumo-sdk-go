@@ -192,7 +192,7 @@ resData := testSdk.Account.GetInfo(reqData)
 ```
 
 ### 提交交易
-> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
+> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和提交交易
 
 #### 获取账户nonce值
 
