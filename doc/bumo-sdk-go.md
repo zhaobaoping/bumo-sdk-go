@@ -308,7 +308,7 @@ if resData.ErrorCode == 0 {
 #### Create
 > 接口说明
 
-生成公私玥对
+生成公私钥对
 > 调用方法
 
 Create() model.AccountCreateResponse
@@ -326,9 +326,9 @@ Address	 |string	 |地址
 ```
 resData := testSdk.Account.Create()
 if resData.ErrorCode == 0 {
-	fmt.Println("Address:"resData.Result.Address)
-	fmt.Println("PrivateKey:"resData.Result.PrivateKey)
-	fmt.Println("PublicKey:"resData.Result.PublicKey)
+	fmt.Println("Address:",resData.Result.Address)
+	fmt.Println("PrivateKey:",resData.Result.PrivateKey)
+	fmt.Println("PublicKey:",resData.Result.PublicKey)
 }
 ```
 
