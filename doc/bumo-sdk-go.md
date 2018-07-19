@@ -20,7 +20,7 @@
 		- [构建操作](#构建操作)
 		- [构建交易Blob](#构建交易blob)
 		- [签名交易](#签名交易)
-		- [广播交易](#广播交易)
+		- [提交交易](#提交交易)
 - [账户服务](#账户服务)
     - [CheckValid](#checkvalid)
     - [Create](#create)
@@ -75,7 +75,7 @@
 
 操作BU区块链： 向BU区块链写入或修改数据
 
-广播交易： 向BU区块链发送修改的内容
+提交交易： 向BU区块链发送修改的内容
 
 查询BU区块链： 查询BU区块链中的数据
 
@@ -250,7 +250,7 @@ reqData.SetPrivateKeys(PrivateKey)
 //调用接口签名
 resDataSign := testSdk.Transaction.Sign(reqData)
 ```
-#### 广播交易
+#### 提交交易
 
 > 该接口用于向BU区块链发送交易，触发交易的执行。接口调用如下：
 
