@@ -262,6 +262,9 @@ resDataSubmit := testSdk.Transaction.Submit(reqData)
 ```
 
 ## 账户服务
+
+账户服务主要是账户相关的接口，包括5个接口：CheckValid, GetInfo, GetNonce, GetBalance, GetAssets, GetMetadata。
+
 #### CheckValid
 > 接口说明
 
@@ -597,7 +600,7 @@ if resData.ErrorCode == 0 {
 
 ## 资产服务
 
-账户服务主要是资产相关的接口，目前有1个接口：GetInfo
+资产服务主要是资产相关的接口，目前有1个接口：GetInfo
 
 #### GetInfo-Asset
 
@@ -651,7 +654,7 @@ if resData.ErrorCode == 0 {
 
 ### Token服务
 
- 账户服务主要是Token相关的接口，目前有8个接口：checkValid, allowance, getInfo, getName, getSymbol, getDecimals, getTotalSupply, getBalance
+ Token服务主要是Token相关的接口，目前有8个接口： Allowance, GetInfo, GetName, GetSymbol, GetDecimals, GetTotalSupply, GetBalance
 
 #### Allowance
 > 接口说明
@@ -971,7 +974,7 @@ if resData.ErrorCode == 0 {
 
 ## 合约服务
 
-账户服务主要是合约相关的接口
+合约服务主要是合约相关的接口,目前有1个接口:GetInfo
 
 #### GetInfo-contract
 > 接口说明
@@ -1024,7 +1027,7 @@ if resData.ErrorCode == 0 {
 
 ## 区块服务
 
-区块服务主要是区块相关的接口
+区块服务主要是区块相关的接口，目前有11个接口：GetNumber, CheckStatus, GetTransactions , GetInfo, GetLatestInfo, GetValidators, GetLatestValidators, GetReward, GetLatestReward, GetFees, GetLatestFees。
 
 #### GetNumber
 > 接口说明
@@ -1483,7 +1486,7 @@ if resData.ErrorCode == 0 {
 
 ## 交易服务
 
-交易服务主要是交易相关的接口，目前有5个接口：buildBlob, evaluationFee, sign, submit, getInfo。
+交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluationFee, Sign, Submit, GetInfo。
 
 其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, TokenIssueOperation, TokenTransferOperation, TokenTransferFromOperation, TokenApproveOperation, TokenAssignOperation, TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation
 
