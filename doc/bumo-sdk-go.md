@@ -20,7 +20,7 @@
 		- [构建操作](#构建操作)
 		- [构建交易Blob](#构建交易blob)
 		- [签名交易](#签名交易)
-		- [提交交易](#提交交易)
+		- [广播交易](#广播交易)
 - [账户服务](#账户服务)
     - [CheckValid](#checkvalid)
     - [Create](#create)
@@ -192,7 +192,7 @@ resData := testSdk.Account.GetInfo(reqData)
 ```
 
 ### 提交交易
-> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和提交交易
+> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
 
 #### 获取账户nonce值
 
@@ -233,8 +233,8 @@ reqDataBlob.SetFeeLimit(feeLimit)
 reqDataBlob.SetGasPrice(gasPrice)
 reqDataBlob.SetNonce(senderNonce)
 reqDataBlob.SetOperation(buSendOperation)
-//调用接口生成Blob
-resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
+//调用BuildBlob接口
+resDataBlob := testSdk.Transaction.(reqDataBlob)
 ```
 
 #### 签名交易
@@ -247,10 +247,10 @@ PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h
 var reqData model.TransactionSignRequest
 reqData.SetBlob(resDataBlob.Result.Blob)
 reqData.SetPrivateKeys(PrivateKey)
-//调用接口签名
-resDataSign := testSdk.Transaction.Sign(reqData)
+//调用Sign接口
+resDataSign := testSdk.Transaction.(reqData)
 ```
-#### 提交交易
+#### 广播交易
 
 > 该接口用于向BU区块链发送交易，触发交易的执行。接口调用如下：
 
@@ -259,7 +259,7 @@ resDataSign := testSdk.Transaction.Sign(reqData)
 var reqData model.TransactionSubmitRequest
 reqData.SetBlob(resDataBlob.Result.Blob)
 reqData.SetSignatures(resDataSign.Result.Signatures)
-//调用接口提交交易
+//调用Submit接口
 resDataSubmit := testSdk.Transaction.Submit(reqData)
 ```
 
