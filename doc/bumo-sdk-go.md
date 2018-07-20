@@ -387,7 +387,7 @@ Threshold	|	int64	|	门限
 异常	|	 错误码|描述
 -----------|----------- |--------
 INVALID_ADDRESS_ERROR|11006 |Invalid address
-CONNECTNETWORKERROR|11007|Connect network failed
+CONNECTNETWORK_ERROR|11007|Connect network failed
 SYSTEM_ERROR |20000	 |System error
 
 > 示例
@@ -429,7 +429,7 @@ Nonce	|int64	 |该账户的交易序列号
 异常	|	 错误码|描述
 -----------|----------- |--------
 INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
-CONNECTNETWORKERROR	|	 11007	|	 Connect network failed
+CONNECTNETWORK_ERROR	|	 11007	|	 Connect network failed
 SYSTEM_ERROR |20000	 |System error
 
 > 示例
@@ -471,7 +471,7 @@ Balance	 |int64	 |该账户的余额
 异常	|	 错误码|描述
 -----------	|	 -----------	 |	 --------
 INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
-CONNECTNETWORKERROR	|	 11007	|	 Connect network failed
+CONNECTNETWORK_ERROR	|	 11007	|	 Connect network failed
 SYSTEM_ERROR |20000	 |System error
 
 
@@ -528,7 +528,7 @@ Issuer	|	string	|	资产发行账户地址
 异常	|	 错误码|描述
 -----------|----------- |--------
 INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
-CONNECTNETWORKERROR	|	 11007	|	 Connect network failed
+CONNECTNETWORK_ERROR	|	 11007	|	 Connect network failed
 SYSTEM_ERROR	 |	20000	 |	System error
 
 
@@ -581,7 +581,7 @@ Version	 |int64	|metadata的版本
 异常	|	 错误码|描述|
 -----------|----------- |-------- |
 INVALID_ADDRESS_ERROR	 |	 11006	 |	 Invalid address
-CONNECTNETWORKERROR	 |	 11007	 |	 Connect network failed
+CONNECTNETWORK_ERROR	 |	 11007	 |	 Connect network failed
 INVALID_DATAKEY_ERROR	 |	 11011	 |	 The length of key must between 1 and 1024
 SYSTEM_ERROR	 |	 20000	|	 System error
 
@@ -619,7 +619,7 @@ GetInfo(model.AssetGetInfoRequest) model.AssetGetInfoResponse
 参数	|	 类型	|	描述
 -----------|------------|----------------
 address	|string	|必填，待查询的账户地址
-code	|string	|必填，资产编码，长度[1 64]
+code	|string	|必填，资产编码，长度[1, 64]
 issuer	|string	|必填，资产发行账户地址
 
 > 响应数据
@@ -633,8 +633,8 @@ Assets	|[] [Asset](#asset)|账户资产
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_ADDRESS_ERROR	|	11006	|	Invalid address
-CONNECTNETWORKERROR	|	11007	|	Connect network failed
-INVALID_ASSET_CODEERROR	|	11023	|	The length of asset code must between 1 and 1024
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
+INVALID_ASSET_CODE_ERROR	|	11023	|	The length of asset code must between 1 and 1024
 INVALID_ISSUER_ADDRESS_ERROR	|	11027	|	Invalid issuer address
 SYSTEM_ERROR	|	20000	|	System error
 
@@ -688,7 +688,7 @@ Allowance	|	string	|	允许提取的金额	|
 -----------|-----------|--------|
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
-INVALID_TOKENOWNER_ERRPR	|	11035	|	Invalid token owner	|
+INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
 INVALID_SPENDER_ERROR	|	11043	|	Invalid spender	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
@@ -1009,7 +1009,7 @@ Payload	|	string	|	合约代码	|
 -----------|-----------|--------|
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1050,7 +1050,7 @@ BlockNumber	|	int64	|	最新的区块高度，对应底层字段seq	|
 
 异常	|	 错误码|描述|
 -----------|-----------|--------|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1084,7 +1084,7 @@ IsSynchronous|bool|区块是否同步|
 
 异常	|	 错误码|描述|
 -----------|-----------|--------|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1126,7 +1126,7 @@ Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
-CONNECTNETWORKERROR	|	11007	|	Connect network failed
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
 SYSTEM_ERROR	|	20000	|	System error
 
 > 示例
@@ -1173,7 +1173,7 @@ Version	|	string	|	区块版本	|
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1216,7 +1216,7 @@ Version	|	string	|	区块版本	|
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1265,7 +1265,7 @@ PledgeCoinAmount	|	int64	|	验证节点押金
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1304,7 +1304,7 @@ validators|[ValidatorInfo](#validatorinfo)[]|验证节点列表
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1353,7 +1353,7 @@ Reward	|	int64	|	验证节点奖励
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
-CONNECTNETWORKERROR	|	11007	|	Connect network failed
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
 SYSTEM_ERROR	|	20000	|	System error
 > 示例
 
@@ -1389,7 +1389,7 @@ ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情
 
 异常	|	 错误码|描述|
 -----------|-----------|--------|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
 SYSTEM_ERROR	|	20000	|	System error
 
 > 示例
@@ -1435,7 +1435,7 @@ gasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
@@ -1471,7 +1471,7 @@ Fees	|	[Fees](#fees)	|	费用
 
 异常	|	 错误码|描述|
 -----------|-----------|--------|
-CONNECTNETWORKERROR	|	11007	|	Connect network failed
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
 SYSTEM_ERROR	|	20000	|	System error
 
 
@@ -1699,7 +1699,7 @@ GasPrice	|	int64	|	打包费用
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
-INVALID_NONCEERROR	|	11045	|	Nonce must between 1 and max(int64)
+INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
 INVALID_OPERATION_ERROR	|	11051	|	Operation cannot be resolved
 OPERATIONS_ONE_ERROR	|	11053	|	One of operations error
 INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignagureNumber must between 1 and max(int32)
@@ -1764,9 +1764,9 @@ TransactionBlob	|	string	|	Transaction序列化后的16进制字符串
 异常	|	 错误码|描述|
 -----------|-----------|--------|
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
-INVALID_NONCEERROR	|	11048	|	Nonce must between 1 and max(int64)
+INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
 INVALIDGASPRICE_ERROR	|	11049	|	Amount must between gasPrice in block and max(int64)
-INVALID_FEELIMITERROR	|	11050	|	FeeLimit must between 1000000 and max(int64)
+INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must between 1000000 and max(int64)
 INVALID_OPERATION_ERROR	|	11051	|	Operation cannot be resolved
 INVALID_CEILLEDGERSEQ_ERROR	|	11052	|	CeilLedgerSeq must be equal or bigger than 0
 SYSTEM_ERROR	|	20000	|	System error
@@ -2083,7 +2083,7 @@ if resData.ErrorCode == 0 {
 11034|TotalSupply must between 1 and max(int64).
 11035|Invalid token owner.
 11037|Invalid contract address.
-11038|Invalid toAddress.
+11038|contractAddress is not a contract account.
 11039|Amount must between 1 and max(int64).
 11041|Invalid fromAddress.
 11043|Invalid spender.

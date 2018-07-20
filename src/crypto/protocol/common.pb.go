@@ -3,7 +3,7 @@
 
 package protocol
 
-import proto "github.com/bumoproject/bumo-sdk-go/src/crypto/proto"
+import proto "github.com/golang/protobuf/proto"
 import fmt "fmt"
 import math "math"
 

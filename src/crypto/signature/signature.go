@@ -7,7 +7,7 @@ import (
 	"encoding/hex"
 	"errors"
 
-	"github.com/bumoproject/bumo-sdk-go/src/crypto/ed25519/edwards25519"
+	"github.com/agl/ed25519/edwards25519"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
 )
 

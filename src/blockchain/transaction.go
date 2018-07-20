@@ -7,11 +7,11 @@ import (
 
 	"github.com/bumoproject/bumo-sdk-go/src/common"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
-	"github.com/bumoproject/bumo-sdk-go/src/crypto/proto"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/protocol"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/signature"
 	"github.com/bumoproject/bumo-sdk-go/src/exception"
 	"github.com/bumoproject/bumo-sdk-go/src/model"
+	"github.com/golang/protobuf/proto"
 )
 
 type TransactionOperation struct {

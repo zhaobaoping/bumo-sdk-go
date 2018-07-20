@@ -8,9 +8,9 @@ import (
 	"encoding/hex"
 	"errors"
 
+	"github.com/agl/ed25519/edwards25519"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/base58"
-	"github.com/bumoproject/bumo-sdk-go/src/crypto/ed25519/edwards25519"
-	"github.com/bumoproject/bumo-sdk-go/src/crypto/secureRandom"
+	"github.com/myENA/secureRandom"
 )
 
 const (
