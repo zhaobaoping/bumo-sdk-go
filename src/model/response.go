@@ -20,11 +20,11 @@ type Signature struct {
 // account
 //CheckValid
 type AccountCheckValidResponse struct {
-	ErrorCode int                     `json:"error_code"`
-	ErrorDesc string                  `json:"error_desc"`
-	Result    AccountCheckValidResult `json:"result"`
+	ErrorCode int              `json:"error_code"`
+	ErrorDesc string           `json:"error_desc"`
+	Result    CheckValidResult `json:"result"`
 }
-type AccountCheckValidResult struct {
+type CheckValidResult struct {
 	IsValid bool
 }
 
@@ -182,6 +182,12 @@ type ContractCreateResponse struct {
 }
 type ContractCreateResult struct {
 	Operation protocol.Operation `json:"operation"`
+}
+
+type ContractCheckValidResponse struct {
+	ErrorCode int              `json:"error_code"`
+	ErrorDesc string           `json:"error_desc"`
+	Result    CheckValidResult `json:"result"`
 }
 type ContractGetInfoResponse struct {
 	ErrorCode int          `json:"error_code"`
@@ -577,6 +583,7 @@ type Input struct {
 	Method string `json:"method"`
 }
 type Params struct {
+	Ctp         string `json:"ctp"`
 	Name        string `json:"name"`
 	Symbol      string `json:"symbol"`
 	Decimals    int64  `json:"decimals"`
@@ -589,6 +596,7 @@ type Params struct {
 	Spender     string `json:"spender"`
 	Address     string `json:"address"`
 	Owner       string `json:"owner"`
+	Balance     string `json:"balance"`
 }
 type TokenCallResponse struct {
 	ErrorCode int             `json:"error_code"`
@@ -603,6 +611,7 @@ type QueryRet struct {
 	Error  Error       `json:"error"`
 }
 type TokenResult struct {
+	Type  string `json:"type"`
 	Value string `json:"value"`
 }
 type Error struct {
@@ -622,6 +631,11 @@ type ContractInfo struct {
 	TotalSupply   string `json:"totalSupply"`
 	contractOwner string `json:"contractOwner"`
 	Balance       string `json:"balance"`
+}
+type TokenCheckValidResponse struct {
+	ErrorCode int              `json:"error_code"`
+	ErrorDesc string           `json:"error_desc"`
+	Result    CheckValidResult `json:"result"`
 }
 type TokenAllowanceResponse struct {
 	ErrorCode int                  `json:"error_code"`

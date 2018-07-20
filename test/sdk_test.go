@@ -346,14 +346,15 @@ func Test_Account_GetAssets(t *testing.T) {
 //Account_GetMetadata
 func Test_Account_GetMetadata(t *testing.T) {
 	var reqData model.AccountGetMetadataRequest
-	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	var address string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 	reqData.SetAddress(address)
-	reqData.SetKey("abc")
+	reqData.SetKey("global_attribute")
 	resData := testSdk.Account.GetMetadata(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		data, _ := json.Marshal(resData.Result.Metadatas)
+		data, _ := json.Marshal(resData.Result.Metadatas[0].Value)
+
 		fmt.Println("Metadatas:", string(data))
 		t.Log("Test_Account_GetMetadata succeed", resData.Result)
 	}

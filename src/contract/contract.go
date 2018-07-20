@@ -4,8 +4,8 @@ package contract
 import (
 	"encoding/json"
 
+	"github.com/bumoproject/bumo-sdk-go/src/account"
 	"github.com/bumoproject/bumo-sdk-go/src/common"
-	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
 	"github.com/bumoproject/bumo-sdk-go/src/exception"
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
@@ -14,13 +14,39 @@ type ContractOperation struct {
 	Url string
 }
 
+//检测合约账户的有效性
+func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRequest) model.ContractCheckValidResponse {
+	var Account account.AccountOperation
+	Account.Url = contract.Url
+	var reqDataAcc model.AccountGetInfoRequest
+	var resData model.ContractCheckValidResponse
+	resData.Result.IsValid = false
+	reqDataAcc.SetAddress(reqData.GetAddress())
+	resDataAcc := Account.GetInfo(reqDataAcc)
+	if resDataAcc.ErrorCode != 0 {
+		resData.ErrorCode = resDataAcc.ErrorCode
+		resData.ErrorDesc = resDataAcc.ErrorDesc
+		return resData
+	}
+	if resDataAcc.Result.Priv.MasterWeight == 0 && resDataAcc.Result.Priv.Thresholds.TxThreshold == 1 {
+		resData.Result.IsValid = true
+		return resData
+	} else {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+}
+
 //获取合约信息
 func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest) model.ContractGetInfoResponse {
 	var resData model.ContractGetInfoResponse
-	if !keypair.CheckAddress(reqData.GetAddress()) {
-		SDKRes := exception.GetSDKRes(exception.INVALID_CONTRACTADDRESS_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+	var reqDataCheck model.ContractCheckValidRequest
+	reqDataCheck.SetAddress(reqData.GetAddress())
+	resDataCheck := contract.CheckValid(reqDataCheck)
+	if resDataCheck.ErrorCode != 0 {
+		resData.ErrorCode = resDataCheck.ErrorCode
+		resData.ErrorDesc = resDataCheck.ErrorDesc
 		return resData
 	}
 	get := "/getAccount?address="
