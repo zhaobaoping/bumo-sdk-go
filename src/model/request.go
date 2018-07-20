@@ -355,7 +355,7 @@ func (reqData *TokenAllowanceRequest) SetContractAddress(ContractAddress string)
 func (reqData *TokenAllowanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenAllowanceRequest) SetTokenOwnerr(TokenOwner string) {
+func (reqData *TokenAllowanceRequest) SetTokenOwner(TokenOwner string) {
 	reqData.tokenOwner = TokenOwner
 }
 func (reqData *TokenAllowanceRequest) GetTokenOwner() string {
@@ -440,7 +440,7 @@ func (reqData *TokenGetBalanceRequest) SetContractAddress(ContractAddress string
 func (reqData *TokenGetBalanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenGetBalanceRequest) SetTokenOwnerr(TokenOwner string) {
+func (reqData *TokenGetBalanceRequest) SetTokenOwner(TokenOwner string) {
 	reqData.tokenOwner = TokenOwner
 }
 func (reqData *TokenGetBalanceRequest) GetTokenOwner() string {

@@ -701,7 +701,7 @@ reqData.SetContractAddress(contractAddress)
 var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 reqData.SetSpender(spender)
 var tokenOwnerr string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-reqData.SetTokenOwnerr(tokenOwnerr)
+reqData.SetTokenOwner(tokenOwnerr)
 resData := testSdk.Token.Allowance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Allowance:", resData.Result.Allowance)
@@ -966,7 +966,7 @@ var reqData model.TokenGetBalanceRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
 var tokenOwnerr string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-reqData.SetTokenOwnerr(tokenOwnerr)
+reqData.SetTokenOwner(tokenOwner)
 resData := testSdk.Token.GetBalance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Balance:", resData.Result.Balance)
