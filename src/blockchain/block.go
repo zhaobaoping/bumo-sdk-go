@@ -40,7 +40,7 @@ func (block *BlockOperation) GetNumber() model.BlockGetNumberResponse {
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get block number failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -126,7 +126,7 @@ func (block *BlockOperation) GetTransactions(reqData model.BlockGetTransactionRe
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get block transactions failed"
+				resData.ErrorDesc = "Get transactions failed"
 				return resData
 			}
 			return resData
@@ -172,7 +172,7 @@ func (block *BlockOperation) GetInfo(reqData model.BlockGetInfoRequest) model.Bl
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get block Info failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -211,7 +211,7 @@ func (block *BlockOperation) GetLatest() model.BlockGetLatestResponse {
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get block latest failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -257,14 +257,13 @@ func (block *BlockOperation) GetValidators(reqData model.BlockGetValidatorsReque
 			return resData
 		}
 		if resData.ErrorCode == 0 {
-
 			SDKRes := exception.GetSDKRes(exception.SUCCESS)
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			resData.ErrorCode = exception.SUCCESS
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get validators failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -309,7 +308,7 @@ func (block *BlockOperation) GetLatestValidators() model.BlockGetLatestValidator
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get Latest validators failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -367,7 +366,7 @@ func (block *BlockOperation) GetReward(reqData model.BlockGetRewardRequest) mode
 			return resData
 		} else {
 			if resDataWeb.ErrorCode == 4 {
-				resData.ErrorDesc = "Get reward failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			resData.ErrorCode = resDataWeb.ErrorCode
@@ -419,7 +418,7 @@ func (block *BlockOperation) GetLatestReward() model.BlockGetLatestRewardRespons
 			return resData
 		} else {
 			if resDataWeb.ErrorCode == 4 {
-				resData.ErrorDesc = "Get reward failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			resData.ErrorCode = resDataWeb.ErrorCode
@@ -473,7 +472,7 @@ func (block *BlockOperation) GetFees(reqData model.BlockGetFeesRequest) model.Bl
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get fees failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData
@@ -515,7 +514,7 @@ func (block *BlockOperation) GetLatestFees() model.BlockGetLatestFeesResponse {
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get latest reward failed"
+				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
 			return resData

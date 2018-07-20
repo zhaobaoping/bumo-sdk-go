@@ -46,7 +46,7 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData

@@ -36,7 +36,7 @@ func (asset *AssetOperation) GetInfo(reqData model.AssetGetInfoRequest) model.As
 	get := "/getAccount?address="
 	var buf bytes.Buffer
 	buf.WriteString(reqData.GetAddress())
-	buf.WriteString("&key=")
+	buf.WriteString("&code=")
 	buf.WriteString(reqData.GetCode())
 	buf.WriteString("&issuer=")
 	buf.WriteString(reqData.GetIssuer())
@@ -58,11 +58,16 @@ func (asset *AssetOperation) GetInfo(reqData model.AssetGetInfoRequest) model.As
 			return resData
 		}
 		if resData.ErrorCode == 0 {
+			if resData.Result.Assets == nil {
+				resData.ErrorCode = exception.NO_ASSET_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
 			resData.ErrorCode = exception.SUCCESS
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account info failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData

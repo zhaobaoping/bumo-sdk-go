@@ -345,7 +345,7 @@ func (transaction *TransactionOperation) GetInfo(reqData model.TransactionGetInf
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get info failed"
+				resData.ErrorDesc = "Get Transaction failed"
 				return resData
 			}
 			return resData

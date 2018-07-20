@@ -519,9 +519,9 @@ Amount	|int64	|资产数量
  #### Key
 
 参数|	 类型	|	 描述
--------- |----------- |-----------
-Code	 |string	|资产编码
-Issuer|string	|资产发行账户地址
+-------- |----------- |	-----------
+Code	 |	string	|	资产编码，长度[1 64]
+Issuer	|	string	|	资产发行账户地址
 
 > 错误码
 
@@ -619,7 +619,7 @@ GetInfo(model.AssetGetInfoRequest) model.AssetGetInfoResponse
 参数	|	 类型	|	描述
 -----------|------------|----------------
 address	|string	|必填，待查询的账户地址
-code	|string	|必填，资产编码，长度[1 1024]
+code	|string	|必填，资产编码，长度[1 64]
 issuer	|string	|必填，资产发行账户地址
 
 > 响应数据
@@ -1538,7 +1538,7 @@ metadata	|	string	|	选填，备注
 成员变量	|	 类型|	描述
 -------------|---------|------------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
-code	|	string	|	必填，资产编码，长度[1 1024]
+code	|	string	|	必填，资产编码，长度[1 64]
 amount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
 metadata	|	string	|	选填，备注
 
@@ -1550,7 +1550,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|----------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 destAddress	|	string	|	必填，目标账户地址
-code	|	string	|	必填，资产编码，长度[1 1024]
+code	|	string	|	必填，资产编码，长度[1 64]
 issuer	|	string	|	必填，资产发行账户地址
 amount	|	int64	|	必填，资产数量，大小[ 0, max(int64)]
 metadata	|	string	|	选填，备注
@@ -1642,7 +1642,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
-code	|	string	|	选填，资产编码，长度[0, 1024]，当为null时，仅触发合约
+code	|	string	|	选填，资产编码，长度[0, 64]，当为null时，仅触发合约
 issuer	|	string	|	选填，资产发行账户地址，当为null时，仅触发合约
 amount	|	int64	|	选填资产数量，大小[0, max(int64)]，当是0时，仅触发合约
 input	|	string	|	选填，待触发的合约的main()入参
@@ -1993,7 +1993,7 @@ Version	|	int64	|	metadata的版本
 
 成员	|	 类型	|	描述	|
 -----------|------------|----------------|
-Code	|	string	|	资产编码
+Code	|	string	|	资产编码，长度[1 64]
 Amount	|	int64	|	资产数量
 
 #### PayAsset

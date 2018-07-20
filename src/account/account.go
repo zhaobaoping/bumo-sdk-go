@@ -23,7 +23,7 @@ func (account *AccountOperation) CheckValid(reqData model.AccountCheckValidReque
 	return resData
 }
 
-//生成公私钥对  Create public and private key pairs
+//生成公私钥对 Create public and private key pairs
 func (account *AccountOperation) Create() model.AccountCreateResponse {
 	var resData model.AccountCreateResponse
 	var err error
@@ -198,11 +198,16 @@ func (account *AccountOperation) GetAssets(reqData model.AccountGetAssetsRequest
 			return resData
 		}
 		if resData.ErrorCode == 0 {
+			if resData.Result.Assets == nil {
+				resData.ErrorCode = exception.NO_ASSET_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
 			resData.ErrorCode = exception.SUCCESS
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {
-				resData.ErrorDesc = "Get account  failed"
+				resData.ErrorDesc = "Get account failed"
 				return resData
 			}
 			return resData
@@ -224,7 +229,7 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if len(reqData.GetKey()) < 1 || len(reqData.GetKey()) > 1024 {
+	if len(reqData.GetKey()) > 1024 {
 		resData.ErrorCode = exception.INVALID_DATAKEY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData

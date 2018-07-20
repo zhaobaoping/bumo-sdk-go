@@ -67,6 +67,7 @@ const (
 	SIGN_ERROR
 	INVALID_PAYLOAD_ERROR
 	THE_QUERY_FAILED
+	NO_ASSET_ERROR
 )
 
 var SDKRes SDKResponse
@@ -90,7 +91,7 @@ func GetSDKRes(code int) SDKResponse {
 		INVALID_TX_THRESHOLD_ERROR:            "TxThreshold must between 0 and max(int64)",
 		INVALID_OPERATION_TYPE_ERROR:          "Operation type must between 1 and 9",
 		INVALID_TYPE_THRESHOLD_ERROR:          "TypeThreshold must between 0 and max(int64)",
-		INVALID_ASSET_CODE_ERROR:              "The length of key must between 1 and 1024",
+		INVALID_ASSET_CODE_ERROR:              "The length of key must between 1 and 64",
 		INVALID_ASSET_AMOUNT_ERROR:            "Mount must between 0 and max(int64)",
 		INVALID_BU_AMOUNT_ERROR:               "Amount must between 0 and max(int64)",
 		INVALID_ISSUER_ADDRESS_ERROR:          "Invalid issuer address",
@@ -131,6 +132,7 @@ func GetSDKRes(code int) SDKResponse {
 		SIGN_ERROR:             "The function 'Sign' failed",
 		INVALID_PAYLOAD_ERROR:  "The parameter 'payload' is invalid",
 		THE_QUERY_FAILED:       "The query failed",
+		NO_ASSET_ERROR:         "The account does not have this asset",
 	}
 	v, _ := errm[code]
 	SDKRes.ErrorCode = code
@@ -157,7 +159,7 @@ func GetErrDesc(code int) string {
 		INVALID_TX_THRESHOLD_ERROR:            "TxThreshold must between 0 and max(int64)",
 		INVALID_OPERATION_TYPE_ERROR:          "Operation type must between 1 and 9",
 		INVALID_TYPE_THRESHOLD_ERROR:          "TypeThreshold must between 0 and max(int64)",
-		INVALID_ASSET_CODE_ERROR:              "The length of key must between 1 and 1024",
+		INVALID_ASSET_CODE_ERROR:              "The length of key must between 1 and 64",
 		INVALID_ASSET_AMOUNT_ERROR:            "Mount must between 0 and max(int64)",
 		INVALID_BU_AMOUNT_ERROR:               "Amount must between 0 and max(int64)",
 		INVALID_ISSUER_ADDRESS_ERROR:          "Invalid issuer address",
@@ -177,7 +179,7 @@ func GetErrDesc(code int) string {
 		INVALID_NONCE_ERROR:                   "Nonce must between 1 and max(int64)",
 		INVALID_GASPRICE_ERROR:                "Amount must between 0 and max(int64)",
 		INVALID_FEELIMIT_ERROR:                "FeeLimit must between 0 and max(int64)",
-		INVALID_OPERATION_ERROR:               "Operations cannot be empty",
+		INVALID_OPERATION_ERROR:               "Operation cannot be resolved",
 		OPERATIONS_ONE_ERROR:                  "One of operations error",
 		INVALID_SIGNATURENUMBER_ERROR:         "SignagureNumber must between 1 and max(int32)",
 		INVALID_BLOB_ERROR:                    "Invalid blob",
@@ -187,14 +189,18 @@ func GetErrDesc(code int) string {
 		CONNECTN_BLOCKCHAIN_ERROR:             "Connect blockchain failed",
 		SYSTEM_ERROR:                          "System error",
 		INVALID_HASH_ERROR:                    "Invalid transaction hash",
-		SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR: "SourceAddress cannot be equal to destAddress",
-		METADATA_NOT_HEX_STRING_ERROR:         "Metadata must be a hex string",
 		INVALID_CEILLEDGERSEQ_ERROR:           "CeilLedgerSeq must be equal or bigger than 0",
+		METADATA_NOT_HEX_STRING_ERROR:         "Metadata must be a hex string",
+		SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR: "SourceAddress cannot be equal to destAddress",
+		CONTRACTADDRESS_CODE_BOTH_NULL_ERROR:  "ContractAddress and code cannot be empty at the same time",
+		INVALID_OPTTYPE_ERROR:                 "OptType must between 0 and 2",
+		NO_METADATA_ERROR:                     "The account does not have this metadata",
 
 		GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed",
 		SIGN_ERROR:             "The function 'Sign' failed",
 		INVALID_PAYLOAD_ERROR:  "The parameter 'payload' is invalid",
 		THE_QUERY_FAILED:       "The query failed",
+		NO_ASSET_ERROR:         "The account does not have this asset",
 	}
 	v, _ := errm[code]
 	return v
