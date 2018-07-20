@@ -193,7 +193,7 @@ type GetPayResult struct {
 }
 type Contract struct {
 	Payload string `json:"payload"`
-	Type    string `json:"type"`
+	Type    int64  `json:"type"`
 }
 
 type ContractCallResponse struct {
@@ -582,6 +582,7 @@ type Params struct {
 	Symbol      string `json:"symbol"`
 	Decimals    int64  `json:"decimals"`
 	TotalSupply string `json:"totalSupply"`
+	Supply      string `json:"supply"`
 	TokenOwner  string `json:"contractOwner"`
 	To          string `json:"to"`
 	Value       string `json:"value"`

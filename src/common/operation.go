@@ -524,7 +524,7 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GeTotalSupply() < 0 {
+	if reqData.GeSupply() < 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_TOTALSUPPLY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -534,7 +534,7 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 	Input.Params.Decimals = reqData.GetDecimals()
 	Input.Params.Name = reqData.GetName()
 	Input.Params.Symbol = reqData.GetSymbol()
-	Input.Params.TotalSupply = strconv.FormatInt(reqData.GeTotalSupply(), 10)
+	Input.Params.Supply = strconv.FormatInt(reqData.GeSupply(), 10)
 	InitInput, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR

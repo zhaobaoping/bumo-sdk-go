@@ -802,7 +802,7 @@ type TokenIssueOperation struct {
 	name          string
 	symbol        string
 	decimals      int64
-	totalSupply   int64
+	supply        int64
 	initBalance   int64
 	metadata      string
 	operationType int
@@ -838,11 +838,11 @@ func (reqData *TokenIssueOperation) SetDecimals(Decimals int64) {
 func (reqData *TokenIssueOperation) GetDecimals() int64 {
 	return reqData.decimals
 }
-func (reqData *TokenIssueOperation) SetTotalSupply(TotalSupply int64) {
-	reqData.totalSupply = TotalSupply
+func (reqData *TokenIssueOperation) SetSupply(Supply int64) {
+	reqData.supply = Supply
 }
-func (reqData *TokenIssueOperation) GeTotalSupply() int64 {
-	return reqData.totalSupply
+func (reqData *TokenIssueOperation) GeSupply() int64 {
+	return reqData.supply
 }
 func (reqData *TokenIssueOperation) SetInitBalance(InitBalance int64) {
 	reqData.initBalance = InitBalance
