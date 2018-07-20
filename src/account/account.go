@@ -29,7 +29,7 @@ func (account *AccountOperation) Create() model.AccountCreateResponse {
 	var err error
 	resData.Result.PublicKey, resData.Result.PrivateKey, resData.Result.Address, err = keypair.Create()
 	if err != nil {
-		resData.ErrorCode = exception.KEYPAIR_CREATE_ERROR
+		resData.ErrorCode = exception.ACCOUNT_CREATE_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}

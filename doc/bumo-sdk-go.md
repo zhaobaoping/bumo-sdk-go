@@ -2056,13 +2056,16 @@ if resData.ErrorCode == 0 {
 
 参数|描述
 -----|-----
-0|Success.
-11001|Create keypair failed.
+11001|Create account failed.
 11002|Invalid sourceAddress.
 11003|Invalid destAddress.
 11004|InitBalance must between 1 and max(int64).
+11005|SourceAddress cannot be equal to destAddress.
 11006|Invalid address.
 11007|Connect network failed.
+11008|Metadata must be a hex string.
+11009|The account does not have the asset
+11010|The account does not have the metadata.
 11011|The length of key must between 1 and 1024.
 11012|The length of value must between 0 and 256000.
 11013|The version must be bigger than and equal to 0.
@@ -2070,11 +2073,11 @@ if resData.ErrorCode == 0 {
 11016|Invalid signer address.
 11017|Signer weight must between 0 and max(uint32).
 11018|TxThreshold must between 0 and max(int64).
-11019|Operation type must between 1 and 9.
+11019|Operation type must between 1 and 100.
 11020|TypeThreshold must between 0 and max(int64).
-11023|The length of key must between 1 and 1024.
-11024|Mount must between 0 and max(int64).
-11026|Amount must between 0 and max(int64).
+11023|The length of code must between 1 and 64.
+11024|AssetAmount must between 0 and max(int64).
+11026|BuAmount must between 0 and max(int64).
 11027|Invalid issuer address.
 11030|The length of ctp must between 1 and 64.
 11031|The length of token name must between 1 and 1024.
@@ -2092,19 +2095,19 @@ if resData.ErrorCode == 0 {
 11048|Nonce must between 1 and max(int64).
 11049|Amount must between 0 and max(int64).
 11050|FeeLimit must between 0 and max(int64).
-11051|Operation cannot be resolved.
+11051|Operation cannot be resolved
+11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations error.
 11054|SignagureNumber must between 1 and max(int32).
+11055|Invalid transaction hash.
 11056|Invalid blob.
 11057|PrivateKeys cannot be empty.
 11058|One of privateKeys error.
-11062|url cannot be empty.
-11063|Connect blockchain failed.
-11052|Invalid transaction hash.
-11055|CeilLedgerSeq must be equal or bigger than 0.
-11008|Metadata must be a hex string.
-11005|SourceAddress cannot be equal to destAddress.
+11060|BlockNumber must bigger than 0.
+11062|Url cannot be empty.
+11063|ContractAddress and code cannot be empty at the same time.
 20000|System error.
+
 
 > Go错误码信息
 

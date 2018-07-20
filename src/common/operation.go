@@ -504,11 +504,6 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if len(reqData.GetCtp()) <= 0 && len(reqData.GetCtp()) > 64 {
-		resData.ErrorCode = exception.INVALID_CTP_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
 	if reqData.GetDecimals() < 0 && reqData.GetDecimals() > 8 {
 		resData.ErrorCode = exception.INVALID_TOKEN_DECIMALS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -530,7 +525,6 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		return resData
 	}
 	var Input model.Input
-	Input.Params.Ctp = reqData.GetCtp()
 	Input.Params.Decimals = reqData.GetDecimals()
 	Input.Params.Name = reqData.GetName()
 	Input.Params.Symbol = reqData.GetSymbol()

@@ -577,7 +577,6 @@ type Input struct {
 	Method string `json:"method"`
 }
 type Params struct {
-	Ctp         string `json:"ctp"`
 	Name        string `json:"name"`
 	Symbol      string `json:"symbol"`
 	Decimals    int64  `json:"decimals"`

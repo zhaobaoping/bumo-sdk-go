@@ -798,7 +798,6 @@ func (reqData BUSendOperation) Get() int {
 //Issue
 type TokenIssueOperation struct {
 	sourceAddress string
-	ctp           string
 	name          string
 	symbol        string
 	decimals      int64
@@ -813,12 +812,6 @@ func (reqData *TokenIssueOperation) SetSourceAddress(SourceAddress string) {
 }
 func (reqData *TokenIssueOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
-}
-func (reqData *TokenIssueOperation) SetCtp(Ctp string) {
-	reqData.ctp = Ctp
-}
-func (reqData *TokenIssueOperation) GetCtp() string {
-	return reqData.ctp
 }
 func (reqData *TokenIssueOperation) SetName(Name string) {
 	reqData.name = Name
