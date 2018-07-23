@@ -118,7 +118,7 @@ var errm = map[int]string{
 	INVALID_HASH_ERROR:                        "Invalid transaction hash.",
 	INVALID_BLOB_ERROR:                        "Invalid blob.",
 	PRIVATEKEY_NULL_ERROR:                     "PrivateKeys cannot be empty.",
-	PRIVATEKEY_ONE_ERROR:                      "One of privateKeys error.",
+	PRIVATEKEY_ONE_ERROR:                      "One of privateKeys is invalid.",
 	URL_EMPTY_ERROR:                           "Url cannot be empty.",
 	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR:      "ContractAddress and code cannot be empty at the same time.",
 	SYSTEM_ERROR:                              "System error.",
