@@ -1498,7 +1498,7 @@ if resData.ErrorCode == 0 {
 -------------|--------|----------------------------------
 sourceAddress|string|选填，操作源账户
 destAddress|string|必填，目标账户地址
-initBalance|int64|必填，初始化资产，大小[0.1, max(int64)]
+initBalance|int64|必填，初始化资产，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > AccountSetMetadataOperation
@@ -1569,7 +1569,7 @@ initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max
 name	|	string	|	必填，token名称，长度[1, 1024]
 symbol	|	string	|	必填，token符号，长度[1, 1024]
 decimals	|	int64	|	必填，token数量的精度，大小[0, 8]
-totalSupply	|	string	|	必填，token发行的总供应量，大小[1, max(int64)]
+supply	|	string	|	必填，token发行的总供应量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenTransferOperation

@@ -1081,7 +1081,6 @@ type TokenChangeOwnerOperation struct {
 	sourceAddress   string
 	contractAddress string
 	tokenOwner      string
-	amount          int64
 	metadata        string
 	operationType   int
 }
@@ -1103,12 +1102,6 @@ func (reqData *TokenChangeOwnerOperation) SetTokenOwner(TokenOwner string) {
 }
 func (reqData *TokenChangeOwnerOperation) GetTokenOwner() string {
 	return reqData.tokenOwner
-}
-func (reqData *TokenChangeOwnerOperation) SetAmount(Amount int64) {
-	reqData.amount = Amount
-}
-func (reqData *TokenChangeOwnerOperation) GetAmount() int64 {
-	return reqData.amount
 }
 func (reqData *TokenChangeOwnerOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata

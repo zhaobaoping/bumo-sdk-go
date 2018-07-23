@@ -196,12 +196,6 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 //激活账户 activate the account 1
 func Activate(reqData model.AccountActivateOperation, url string) model.AccountActivateResponse {
 	var resData model.AccountActivateResponse
-	_, baseReserve, SDKRes := GetLatestFees(url)
-	if SDKRes.ErrorCode != 0 {
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
 			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
@@ -214,7 +208,7 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetInitBalance() < baseReserve || reqData.GetInitBalance() <= 0 {
+	if reqData.GetInitBalance() <= 0 {
 		resData.ErrorCode = exception.INVALID_INITBALANCE_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
