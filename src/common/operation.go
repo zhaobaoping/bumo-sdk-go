@@ -209,6 +209,11 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 			return resData
 		}
 	}
+	if !keypair.CheckAddress(reqData.GetDestAddress()) {
+		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -216,11 +221,6 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 	}
 	if reqData.GetInitBalance() < baseReserve {
 		resData.ErrorCode = exception.INVALID_INITBALANCE_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if !keypair.CheckAddress(reqData.GetDestAddress()) {
-		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
