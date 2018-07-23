@@ -21,172 +21,172 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 		operations[i] = new(protocol.Operation)
 		operationsData, ok := e.Value.(model.OperationBase)
 		if !ok {
-			return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+			return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 		}
 		switch operationsData.Get() {
 		case 1:
 			operationsReqData, ok := operationsData.(model.AccountActivateOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := Activate(operationsReqData, url)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 2:
 			operationsReqData, ok := operationsData.(model.AccountSetMetadataOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := SetMetadata(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 3:
 			operationsReqData, ok := operationsData.(model.AccountSetPrivilegeOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := SetPrivilege(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 4:
 			operationsReqData, ok := operationsData.(model.AssetIssueOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := AssetIssue(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 5:
 			operationsReqData, ok := operationsData.(model.AssetSendOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := AssetSend(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 6:
 			operationsReqData, ok := operationsData.(model.BUSendOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 
 			operationsResData := BUSend(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 7:
 			operationsReqData, ok := operationsData.(model.TokenIssueOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := TokenIssue(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 8:
 			operationsReqData, ok := operationsData.(model.TokenTransferOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := Transfer(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 9:
 			operationsReqData, ok := operationsData.(model.TokenTransferFromOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := TransferFrom(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 10:
 			operationsReqData, ok := operationsData.(model.TokenApproveOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := Approve(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 11:
 			operationsReqData, ok := operationsData.(model.TokenAssignOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := Assign(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 12:
 			operationsReqData, ok := operationsData.(model.TokenChangeOwnerOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := ChangeOwner(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 13:
 			operationsReqData, ok := operationsData.(model.ContractCreateOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := ContractCreate(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 14:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByAssetOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := InvokeByAsset(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 15:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByBUOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := InvokeByBU(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 16:
 			operationsReqData, ok := operationsData.(model.LogCreateOperation)
 			if !ok {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operationsResData := LogCreate(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+				return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		default:
-			return operations, exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+			return operations, exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 		}
 		i++
 	}

@@ -59,7 +59,7 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 	}
 	operationsData := reqData.GetOperations()
 	if operationsData.Len() == 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+		SDKRes := exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
@@ -110,7 +110,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	}
 	operationsData := reqData.GetOperations()
 	if operationsData.Len() == 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_OPERATION_ERROR)
+		SDKRes := exception.GetSDKRes(exception.INVALID_OPERATIONS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData

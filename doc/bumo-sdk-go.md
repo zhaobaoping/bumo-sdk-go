@@ -1239,7 +1239,7 @@ GasPrice	|	int64	|	打包费用
 -----------|-----------|--------|
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
-INVALID_OPERATION_ERROR	|	11051	|	Operation cannot be resolved
+INVALID_OPERATION_ERROR	|	11051	|	Operations cannot be resolved
 OPERATIONS_ONE_ERROR	|	11053	|	One of operations error
 INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignagureNumber must between 1 and max(int32)
 SYSTEM_ERROR	|	20000	|	System error
@@ -1306,7 +1306,7 @@ INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
 INVALIDGASPRICE_ERROR	|	11049	|	Amount must between gasPrice in block and max(int64)
 INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must between 1000000 and max(int64)
-INVALID_OPERATION_ERROR	|	11051	|	Operation cannot be resolved
+INVALID_OPERATION_ERROR	|	11051	|	Operations cannot be resolved
 INVALID_CEILLEDGERSEQ_ERROR	|	11052	|	CeilLedgerSeq must be equal or bigger than 0
 SYSTEM_ERROR	|	20000	|	System error
 
@@ -2092,7 +2092,7 @@ if resData.ErrorCode == 0 {
 11048|Nonce must between 1 and max(int64).
 11049|Amount must between 0 and max(int64).
 11050|FeeLimit must between 0 and max(int64).
-11051|Operation cannot be resolved
+11051|Operations cannot be resolved
 11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations error.
 11054|SignagureNumber must between 1 and max(int32).

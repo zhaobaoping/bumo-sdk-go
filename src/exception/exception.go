@@ -48,7 +48,7 @@ const (
 	INVALID_NONCE_ERROR                       int = 11048
 	INVALID_GASPRICE_ERROR                    int = 11049
 	INVALID_FEELIMIT_ERROR                    int = 11050
-	INVALID_OPERATION_ERROR                   int = 11051
+	INVALID_OPERATIONS_ERROR                  int = 11051
 	INVALID_CEILLEDGERSEQ_ERROR               int = 11052
 	OPERATIONS_ONE_ERROR                      int = 11053
 	INVALID_SIGNATURENUMBER_ERROR             int = 11054
@@ -111,7 +111,7 @@ var errm = map[int]string{
 	INVALID_NONCE_ERROR:                       "Nonce must between 1 and max(int64).",
 	INVALID_GASPRICE_ERROR:                    "Amount must between 0 and max(int64).",
 	INVALID_FEELIMIT_ERROR:                    "FeeLimit must between 0 and max(int64).",
-	INVALID_OPERATION_ERROR:                   "Operation cannot be resolved",
+	INVALID_OPERATIONS_ERROR:                  "Operations cannot be resolved",
 	INVALID_CEILLEDGERSEQ_ERROR:               "CeilLedgerSeq must be equal or bigger than 0.",
 	OPERATIONS_ONE_ERROR:                      "One of operations error.",
 	INVALID_SIGNATURENUMBER_ERROR:             "SignagureNumber must between 1 and max(int32).",
