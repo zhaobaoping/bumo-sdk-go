@@ -2094,7 +2094,7 @@ if resData.ErrorCode == 0 {
 11050|FeeLimit must between 0 and max(int64).
 11051|Operations cannot be resolved
 11052|CeilLedgerSeq must be equal or bigger than 0.
-11053|One of operations error.
+11053|One of operations cannot be resolved.
 11054|SignagureNumber must between 1 and max(int32).
 11055|Invalid transaction hash.
 11056|Invalid blob.
