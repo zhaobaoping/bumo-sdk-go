@@ -57,8 +57,8 @@ func Test_Block_GetTransactions(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		data, _ := json.Marshal(resData.Result.Transactions)
-		fmt.Println("Transactions:", string(data))
+		data, _ := json.Marshal(resData.Result)
+		fmt.Println("Result:", string(data))
 		t.Log("Test_Block_GetTransactions succeed", resData.Result)
 	}
 }
@@ -346,7 +346,7 @@ func Test_Account_GetAssets(t *testing.T) {
 //Account_GetMetadata
 func Test_Account_GetMetadata(t *testing.T) {
 	var reqData model.AccountGetMetadataRequest
-	var address string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetAddress(address)
 	reqData.SetKey("global_attribute")
 	resData := testSdk.Account.GetMetadata(reqData)
@@ -380,7 +380,7 @@ func Test_Asset_GetInfo(t *testing.T) {
 //Contract_GetInfo
 func Test_Contract_GetInfo(t *testing.T) {
 	var reqData model.ContractGetInfoRequest
-	var address string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var address string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
 	reqData.SetAddress(address)
 	resData := testSdk.Contract.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
@@ -395,7 +395,7 @@ func Test_Contract_GetInfo(t *testing.T) {
 //Token_Allowance
 func Test_Token_Allowance(t *testing.T) {
 	var reqData model.TokenAllowanceRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqData.SetSpender(spender)
@@ -413,7 +413,7 @@ func Test_Token_Allowance(t *testing.T) {
 //Token_GetInfo
 func Test_Token_GetInfo(t *testing.T) {
 	var reqData model.TokenGetInfoRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
@@ -428,7 +428,7 @@ func Test_Token_GetInfo(t *testing.T) {
 //Token_GetName
 func Test_Token_GetName(t *testing.T) {
 	var reqData model.TokenGetNameRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetName(reqData)
 	if resData.ErrorCode != 0 {
@@ -442,7 +442,7 @@ func Test_Token_GetName(t *testing.T) {
 //Token_GetSymbol
 func Test_Token_GetSymbol(t *testing.T) {
 	var reqData model.TokenGetSymbolRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetSymbol(reqData)
 	if resData.ErrorCode != 0 {
@@ -456,7 +456,7 @@ func Test_Token_GetSymbol(t *testing.T) {
 //Token_GetDecimals
 func Test_Token_GetDecimals(t *testing.T) {
 	var reqData model.TokenGetDecimalsRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetDecimals(reqData)
 	if resData.ErrorCode != 0 {
@@ -470,7 +470,7 @@ func Test_Token_GetDecimals(t *testing.T) {
 //Token_GetTotalSupply
 func Test_Token_GetTotalSupply(t *testing.T) {
 	var reqData model.TokenGetTotalSupplyRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetTotalSupply(reqData)
 	if resData.ErrorCode != 0 {
@@ -484,9 +484,9 @@ func Test_Token_GetTotalSupply(t *testing.T) {
 //Token_GetBalance
 func Test_Token_GetBalance(t *testing.T) {
 	var reqData model.TokenGetBalanceRequest
-	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
