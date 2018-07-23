@@ -96,7 +96,7 @@ func (block *BlockOperation) CheckStatus() model.BlockCheckStatusResponse {
 //根据高度查询交易 GetTransactions
 func (block *BlockOperation) GetTransactions(reqData model.BlockGetTransactionRequest) model.BlockGetTransactionResponse {
 	var resData model.BlockGetTransactionResponse
-	if reqData.GetBlockNumber() < 0 {
+	if reqData.GetBlockNumber() <= 0 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_BLOCKNUMBER_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
