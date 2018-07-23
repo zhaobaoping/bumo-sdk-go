@@ -6,6 +6,7 @@ import (
 
 	"github.com/bumoproject/bumo-sdk-go/src/account"
 	"github.com/bumoproject/bumo-sdk-go/src/common"
+	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
 	"github.com/bumoproject/bumo-sdk-go/src/exception"
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
@@ -22,6 +23,11 @@ func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRe
 	var resData model.ContractCheckValidResponse
 	resData.Result.IsValid = false
 	reqDataAcc.SetAddress(reqData.GetAddress())
+	if !keypair.CheckAddress(reqData.GetAddress()) {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	resDataAcc := Account.GetInfo(reqDataAcc)
 	if resDataAcc.ErrorCode != 0 {
 		resData.ErrorCode = resDataAcc.ErrorCode

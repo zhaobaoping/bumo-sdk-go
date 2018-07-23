@@ -486,8 +486,8 @@ func Test_Token_GetBalance(t *testing.T) {
 	var reqData model.TokenGetBalanceRequest
 	var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 	reqData.SetContractAddress(contractAddress)
-	var tokenOwnerr string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	reqData.SetTokenOwner(tokenOwnerr)
+	var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)

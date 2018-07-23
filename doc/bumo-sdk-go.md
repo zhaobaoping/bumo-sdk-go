@@ -2064,8 +2064,8 @@ if resData.ErrorCode == 0 {
 11006|Invalid address.
 11007|Connect network failed.
 11008|Metadata must be a hex string.
-11009|The account does not have the asset
-11010|The account does not have the metadata.
+11009|The account does not have this asset
+11010|The account does not have this metadata.
 11011|The length of key must between 1 and 1024.
 11012|The length of value must between 0 and 256000.
 11013|The version must be bigger than and equal to 0.
