@@ -1579,7 +1579,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 destAddress	|	string	|	必填，待转移的目标账户地址
-tokenAmount	|	string	|	必填，待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待转移的token数量，大小[1, int(64)]
 metadata	|	string	|	选填，备注
 
 > TokenTransferFromOperation
@@ -1590,7 +1590,7 @@ sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 fromAddress	|	string	|	必填，待转移的源账户地址
 destAddress	|	string	|	必填，待转移的目标账户地址
-tokenAmount	|	string	|	必填，待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待转移的token数量，大小[1, int(64)]
 metadata	|	string	|	选填，备注
 
 > TokenApproveOperation
@@ -1600,7 +1600,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 spender	|	string	|	必填，授权的账户地址
-tokenAmount	|	string	|	必填，被授权的待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，被授权的待转移的token数量，大小[1, int(64)]
 metadata	|	string	|	选填，备注
 
 > TokenAssignOperation
@@ -1610,7 +1610,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 destAddress	|	string	|	必填，待分配的目标账户地址
-tokenAmount	|	string	|	必填，待分配的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待分配的token数量，大小[1, int(64)]
 metadata	|	string	|	选填，备注
 
 > TokenChangeOwnerOperation
