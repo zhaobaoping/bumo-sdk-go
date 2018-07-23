@@ -30,6 +30,7 @@ func (sdk *Sdk) InitSDK(reqData model.SDKInitSDKRequest) model.SDKInitSDKRespons
 	}
 	get := "/hello"
 	response, SDKRes := common.GetRequest(reqData.Url, get, "")
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -40,7 +41,6 @@ func (sdk *Sdk) InitSDK(reqData model.SDKInitSDKRequest) model.SDKInitSDKRespons
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	sdk.Account.Url = reqData.Url
 	sdk.Contract.Url = reqData.Url
 	sdk.Asset.Url = reqData.Url
