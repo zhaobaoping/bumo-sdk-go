@@ -720,7 +720,7 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwnerResponse {
 	var resData model.TokenChangeOwnerResponse
 	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
-		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERRPR
+		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}

@@ -37,7 +37,7 @@ const (
 	INVALID_TOKEN_SIMBOL_ERROR                int = 11032
 	INVALID_TOKEN_DECIMALS_ERROR              int = 11033
 	INVALID_TOKEN_TOTALSUPPLY_ERROR           int = 11034
-	INVALID_TOKENOWNER_ERRPR                  int = 11035
+	INVALID_TOKENOWNER_ERROR                  int = 11035
 	INVALID_CONTRACTADDRESS_ERROR             int = 11037
 	CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR int = 11038
 	INVALID_TOKEN_AMOUNT_ERROR                int = 11039
@@ -100,7 +100,7 @@ var errm = map[int]string{
 	INVALID_TOKEN_SIMBOL_ERROR:                "The length of symbol must between 1 and 1024.",
 	INVALID_TOKEN_DECIMALS_ERROR:              "Decimals must less than 8.",
 	INVALID_TOKEN_TOTALSUPPLY_ERROR:           "TotalSupply must between 1 and max(int64).",
-	INVALID_TOKENOWNER_ERRPR:                  "Invalid token owner.",
+	INVALID_TOKENOWNER_ERROR:                  "Invalid token owner.",
 	INVALID_CONTRACTADDRESS_ERROR:             "Invalid contract address.",
 	CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR: "contractAddress is not a contract account.",
 	INVALID_TOKEN_AMOUNT_ERROR:                "Amount must between 1 and max(int64).",

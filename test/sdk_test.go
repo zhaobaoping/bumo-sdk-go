@@ -397,9 +397,9 @@ func Test_Token_Allowance(t *testing.T) {
 	var reqData model.TokenAllowanceRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 	reqData.SetSpender(spender)
-	var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Allowance(reqData)
 	if resData.ErrorCode != 0 {
@@ -410,89 +410,89 @@ func Test_Token_Allowance(t *testing.T) {
 	}
 }
 
-////Token_GetInfo
-//func Test_Token_GetInfo(t *testing.T) {
-//	var reqData model.TokenGetInfoRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	resData := testSdk.Token.GetInfo(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		data, _ := json.Marshal(resData.Result)
-//		fmt.Println("info:", string(data))
-//		t.Log("Test_Token_GetInfo succeed", resData.Result)
-//	}
-//}
+//Token_GetInfo
+func Test_Token_GetInfo(t *testing.T) {
+	var reqData model.TokenGetInfoRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.GetInfo(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result)
+		fmt.Println("info:", string(data))
+		t.Log("Test_Token_GetInfo succeed", resData.Result)
+	}
+}
 
-////Token_GetName
-//func Test_Token_GetName(t *testing.T) {
-//	var reqData model.TokenGetNameRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	resData := testSdk.Token.GetName(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		fmt.Println("Name:", resData.Result.Name)
-//		t.Log("Test_Token_GetName succeed", resData.Result)
-//	}
-//}
+//Token_GetName
+func Test_Token_GetName(t *testing.T) {
+	var reqData model.TokenGetNameRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.GetName(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Name:", resData.Result.Name)
+		t.Log("Test_Token_GetName succeed", resData.Result)
+	}
+}
 
-////Token_GetSymbol
-//func Test_Token_GetSymbol(t *testing.T) {
-//	var reqData model.TokenGetSymbolRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	resData := testSdk.Token.GetSymbol(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		fmt.Println("Symbol:", resData.Result.Symbol)
-//		t.Log("Test_Token_GetSymbol succeed", resData.Result)
-//	}
-//}
+//Token_GetSymbol
+func Test_Token_GetSymbol(t *testing.T) {
+	var reqData model.TokenGetSymbolRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.GetSymbol(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Symbol:", resData.Result.Symbol)
+		t.Log("Test_Token_GetSymbol succeed", resData.Result)
+	}
+}
 
-////Token_GetDecimals
-//func Test_Token_GetDecimals(t *testing.T) {
-//	var reqData model.TokenGetDecimalsRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	resData := testSdk.Token.GetDecimals(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		fmt.Println("Decimals:", resData.Result.Decimals)
-//		t.Log("Test_Token_GetDecimals succeed", resData.Result)
-//	}
-//}
+//Token_GetDecimals
+func Test_Token_GetDecimals(t *testing.T) {
+	var reqData model.TokenGetDecimalsRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.GetDecimals(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Decimals:", resData.Result.Decimals)
+		t.Log("Test_Token_GetDecimals succeed", resData.Result)
+	}
+}
 
-////Token_GetTotalSupply
-//func Test_Token_GetTotalSupply(t *testing.T) {
-//	var reqData model.TokenGetTotalSupplyRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	resData := testSdk.Token.GetTotalSupply(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		fmt.Println("TotalSupply:", resData.Result.TotalSupply)
-//		t.Log("Test_Token_GetTotalSupply succeed", resData.Result)
-//	}
-//}
+//Token_GetTotalSupply
+func Test_Token_GetTotalSupply(t *testing.T) {
+	var reqData model.TokenGetTotalSupplyRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.GetTotalSupply(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("TotalSupply:", resData.Result.TotalSupply)
+		t.Log("Test_Token_GetTotalSupply succeed", resData.Result)
+	}
+}
 
-////Token_GetBalance
-//func Test_Token_GetBalance(t *testing.T) {
-//	var reqData model.TokenGetBalanceRequest
-//	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
-//	reqData.SetContractAddress(contractAddress)
-//	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
-//	reqData.SetTokenOwner(tokenOwner)
-//	resData := testSdk.Token.GetBalance(reqData)
-//	if resData.ErrorCode != 0 {
-//		t.Errorf(resData.ErrorDesc)
-//	} else {
-//		fmt.Println("Balance:", resData.Result.Balance)
-//		t.Log("Test_Token_GetBalance succeed", resData.Result)
-//	}
-//}
+//Token_GetBalance
+func Test_Token_GetBalance(t *testing.T) {
+	var reqData model.TokenGetBalanceRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
+	reqData.SetTokenOwner(tokenOwner)
+	resData := testSdk.Token.GetBalance(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Test_Token_GetBalance succeed", resData.Result)
+	}
+}

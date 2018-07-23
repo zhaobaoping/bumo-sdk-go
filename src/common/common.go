@@ -124,7 +124,7 @@ func GetCallDataStr(funcstr string, ContractAddress string, TokenOwner string) (
 	}
 	if TokenOwner != "" {
 		if !keypair.CheckAddress(TokenOwner) {
-			return "", exception.GetSDKRes(exception.INVALID_TOKENOWNER_ERRPR)
+			return "", exception.GetSDKRes(exception.INVALID_TOKENOWNER_ERROR)
 		}
 	}
 	var Input model.Input

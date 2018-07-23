@@ -119,16 +119,13 @@ func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) mode
 	Contract.Url = token.Url
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
 	resDataCheck := token.CheckValid(reqDataCheck)
-	var raqDataCheck model.ContractCheckValidRequest
-	raqDataCheck.SetAddress(reqData.GetTokenOwner())
-	rasDataCheck := Contract.CheckValid(raqDataCheck)
-	if rasDataCheck.ErrorCode != 0 {
-		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERRPR
+	if resDataCheck.ErrorCode != 0 {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if resDataCheck.ErrorCode != 0 {
-		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
+		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -605,7 +602,7 @@ func (token *TokenOperation) GetBalance(reqData model.TokenGetBalanceRequest) mo
 		return resData
 	}
 	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
-		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERRPR
+		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
