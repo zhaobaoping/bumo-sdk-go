@@ -1423,8 +1423,8 @@ Fees	|	[Fees](#fees)	|	费用|
 
 成员变量|	 类型	|	描述	|
 -----------|------------|----------------|
-baseReserve	|	int64	|	账户最低资产限制|
-gasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
+BaseReserve	|	int64	|	账户最低资产限制|
+GasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
 
 > 错误码
 
