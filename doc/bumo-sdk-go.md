@@ -1247,7 +1247,7 @@ blockNumber	|	int64	|	待查询的区块高度	|
 
 参数	|	 类型	|	描述	|
 -----------|------------|----------------|
-validators|[ValidatorInfo](#validatorinfo)[]|验证节点列表
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
 
 #### ValidatorInfo
 
@@ -1293,7 +1293,7 @@ GetLatestValidators() model.BlockGetLatestValidatorsResponse
 
 参数	|	 类型	|	描述	|
 -----------|------------|----------------|
-validators|[ValidatorInfo](#validatorinfo)[]|验证节点列表
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
 
 > 错误码
 
@@ -1660,7 +1660,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 topic	|	string	|	必填，日志主题，长度[1, 128]
-data	|	string[]	|	必填，日志内容，每个字符串长度[1, 1024]
+data	|	[]string	|	必填，日志内容，每个字符串长度[1, 1024]
 metadata	|	string	|	选填，备注
 
 
