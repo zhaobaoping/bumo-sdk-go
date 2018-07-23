@@ -1244,7 +1244,6 @@ blockNumber	|	int64	|	待查询的区块高度	|
 
 > 响应数据
 
-> 响应数据
 
 参数	|	 类型	|	描述	|
 -----------|------------|----------------|
@@ -1339,7 +1338,7 @@ ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情
 
 #### ValidatorReward
 
-成员变量|	 类型	|	描述	|
+成员变量|	 类型	|	描述	|
 -----------|------------|----------------|
 Validator	|	String	|	验证节点地址
 Reward	|	int64	|	验证节点奖励

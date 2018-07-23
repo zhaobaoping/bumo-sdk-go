@@ -211,7 +211,7 @@ func (reqData *ContractCallRequest) SetCode(Code string) {
 func (reqData *ContractCallRequest) GetCode() string {
 	return reqData.code
 }
-func (reqData *ContractCallRequest) SetIput(Input string) {
+func (reqData *ContractCallRequest) SetInput(Input string) {
 	reqData.input = Input
 }
 func (reqData *ContractCallRequest) GetInput() string {
@@ -859,7 +859,7 @@ func (reqData *TokenIssueOperation) GetDecimals() int64 {
 func (reqData *TokenIssueOperation) SetSupply(Supply int64) {
 	reqData.supply = Supply
 }
-func (reqData *TokenIssueOperation) GeSupply() int64 {
+func (reqData *TokenIssueOperation) GetSupply() int64 {
 	return reqData.supply
 }
 func (reqData *TokenIssueOperation) SetInitBalance(InitBalance int64) {
@@ -1212,7 +1212,7 @@ func (reqData *ContractInvokeByAssetOperation) SetIssuer(Issuer string) {
 func (reqData *ContractInvokeByAssetOperation) GetIssuer() string {
 	return reqData.issuer
 }
-func (reqData *ContractInvokeByAssetOperation) SetIput(Input string) {
+func (reqData *ContractInvokeByAssetOperation) SetInput(Input string) {
 	reqData.input = Input
 }
 func (reqData *ContractInvokeByAssetOperation) GetInput() string {
@@ -1259,7 +1259,7 @@ func (reqData *ContractInvokeByBUOperation) SetAmount(Amount int64) {
 func (reqData *ContractInvokeByBUOperation) GetAmount() int64 {
 	return reqData.amount
 }
-func (reqData *ContractInvokeByBUOperation) SetIput(Input string) {
+func (reqData *ContractInvokeByBUOperation) SetInput(Input string) {
 	reqData.input = Input
 }
 func (reqData *ContractInvokeByBUOperation) GetInput() string {

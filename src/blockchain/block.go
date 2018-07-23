@@ -279,9 +279,9 @@ func (block *BlockOperation) GetValidators(reqData model.BlockGetValidatorsReque
 //获取最新区块中所有验证节点数 GetLatestValidators
 func (block *BlockOperation) GetLatestValidators() model.BlockGetLatestValidatorsResponse {
 	var resData model.BlockGetLatestValidatorsResponse
-	get := "/getLedger"
+	get := "/getLedger?"
 	var buf bytes.Buffer
-	buf.WriteString("?with_validator=true")
+	buf.WriteString("with_validator=true")
 	str := buf.String()
 	response, SDKRes := common.GetRequest(block.Url, get, str)
 	if SDKRes.ErrorCode != 0 {
@@ -301,7 +301,6 @@ func (block *BlockOperation) GetLatestValidators() model.BlockGetLatestValidator
 			return resData
 		}
 		if resData.ErrorCode == 0 {
-
 			SDKRes := exception.GetSDKRes(exception.SUCCESS)
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			resData.ErrorCode = exception.SUCCESS
@@ -366,6 +365,7 @@ func (block *BlockOperation) GetReward(reqData model.BlockGetRewardRequest) mode
 			return resData
 		} else {
 			if resDataWeb.ErrorCode == 4 {
+				resData.ErrorCode = resDataWeb.ErrorCode
 				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
@@ -385,9 +385,9 @@ func (block *BlockOperation) GetReward(reqData model.BlockGetRewardRequest) mode
 func (block *BlockOperation) GetLatestReward() model.BlockGetLatestRewardResponse {
 	var resData model.BlockGetLatestRewardResponse
 	var resDataWeb model.WebBlockGetLatestRewardResponse
-	get := "/getLedger"
+	get := "/getLedger?"
 	var buf bytes.Buffer
-	buf.WriteString("?with_block_reward=true")
+	buf.WriteString("with_block_reward=true")
 	str := buf.String()
 	response, SDKRes := common.GetRequest(block.Url, get, str)
 	if SDKRes.ErrorCode != 0 {
@@ -418,6 +418,7 @@ func (block *BlockOperation) GetLatestReward() model.BlockGetLatestRewardRespons
 			return resData
 		} else {
 			if resDataWeb.ErrorCode == 4 {
+				resData.ErrorCode = resDataWeb.ErrorCode
 				resData.ErrorDesc = "Get block failed"
 				return resData
 			}
@@ -488,9 +489,9 @@ func (block *BlockOperation) GetFees(reqData model.BlockGetFeesRequest) model.Bl
 //获取最新区块中的账户最低资产限制和打包费用 GetLatestFees
 func (block *BlockOperation) GetLatestFees() model.BlockGetLatestFeesResponse {
 	var resData model.BlockGetLatestFeesResponse
-	get := "/getLedger"
+	get := "/getLedger?"
 	var buf bytes.Buffer
-	buf.WriteString("?with_fee=true")
+	buf.WriteString("with_fee=true")
 	str := buf.String()
 	response, SDKRes := common.GetRequest(block.Url, get, str)
 	if SDKRes.ErrorCode != 0 {

@@ -520,7 +520,7 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GeSupply() < 0 {
+	if reqData.GetSupply() < 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_TOTALSUPPLY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -529,7 +529,7 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 	Input.Params.Decimals = reqData.GetDecimals()
 	Input.Params.Name = reqData.GetName()
 	Input.Params.Symbol = reqData.GetSymbol()
-	Input.Params.Supply = strconv.FormatInt(reqData.GeSupply(), 10)
+	Input.Params.Supply = strconv.FormatInt(reqData.GetSupply(), 10)
 	InitInput, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR
@@ -598,7 +598,7 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
 	data.SetAmount(0)
-	data.SetIput(string(InputStr))
+	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
 	resData.ErrorCode = exception.SUCCESS
@@ -644,7 +644,7 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
 	data.SetAmount(0)
-	data.SetIput(string(InputStr))
+	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
 	resData.ErrorCode = exception.SUCCESS
@@ -679,7 +679,7 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
 	data.SetAmount(0)
-	data.SetIput(string(InputStr))
+	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
 	resData.ErrorCode = exception.SUCCESS
@@ -714,7 +714,7 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
 	data.SetAmount(0)
-	data.SetIput(string(InputStr))
+	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
 	resData.ErrorCode = exception.SUCCESS
@@ -743,7 +743,7 @@ func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwner
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
 	data.SetAmount(0)
-	data.SetIput(string(InputStr))
+	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
 	resData.ErrorCode = exception.SUCCESS

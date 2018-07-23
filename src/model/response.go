@@ -435,9 +435,9 @@ type BlockGetValidatorsResponse struct {
 	Result    GetValidatorsResult `json:"result"`
 }
 type GetValidatorsResult struct {
-	Validators []validator `json:"validators"`
+	Validators []Validator `json:"validators"`
 }
-type validator struct {
+type Validator struct {
 	Address          string `json:"address"`
 	PledgeCoinAmount int64  `json:"pledge_coin_amount"`
 }
@@ -449,7 +449,7 @@ type BlockGetLatestValidatorsResponse struct {
 	Result    GetValidatorsResult `json:"result"`
 }
 type GetLatestValidatorsResult struct {
-	Validators []validator `json:"validators"`
+	Validators []Validator `json:"validators"`
 }
 type WebBlockGetRewardResponse struct {
 	ErrorCode int                `json:"error_code"`
