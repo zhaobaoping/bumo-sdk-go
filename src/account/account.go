@@ -47,12 +47,12 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -91,12 +91,12 @@ func (account *AccountOperation) GetNonce(reqData model.AccountGetNonceRequest) 
 	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -137,12 +137,12 @@ func (account *AccountOperation) GetBalance(reqData model.AccountGetBalanceReque
 	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -182,12 +182,12 @@ func (account *AccountOperation) GetAssets(reqData model.AccountGetAssetsRequest
 	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -241,12 +241,12 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 	buf.WriteString(reqData.GetKey())
 	str := buf.String()
 	response, SDKRes := common.GetRequest(account.Url, get, str)
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

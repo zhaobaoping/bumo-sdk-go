@@ -152,12 +152,12 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	}
 	post := "/testTransaction"
 	response, SDKRes := common.PostRequest(transaction.Url, post, requestJson)
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -279,12 +279,12 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 	}
 	post := "/submitTransaction"
 	response, SDKRes := common.PostRequest(transaction.Url, post, requestJson)
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

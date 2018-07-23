@@ -71,10 +71,10 @@ func GetRequestJson(reqData model.TransactionSubmitRequests) ([]byte, exception.
 func GetLatestFees(url string) (int64, int64, exception.SDKResponse) {
 	get := "/getLedger?with_fee=true"
 	response, SDKRes := GetRequest(url, get, "")
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		return 0, 0, SDKRes
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		data := make(map[string]interface{})
 		decoder := json.NewDecoder(response.Body)

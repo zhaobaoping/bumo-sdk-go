@@ -161,12 +161,12 @@ func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) mode
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, callDataStr)
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -238,12 +238,12 @@ func (token *TokenOperation) GetInfo(reqData model.TokenGetInfoRequest) model.To
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -317,12 +317,12 @@ func (token *TokenOperation) GetName(reqData model.TokenGetNameRequest) model.To
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -388,12 +388,12 @@ func (token *TokenOperation) GetSymbol(reqData model.TokenGetSymbolRequest) mode
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -459,12 +459,12 @@ func (token *TokenOperation) GetDecimals(reqData model.TokenGetDecimalsRequest) 
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -536,12 +536,12 @@ func (token *TokenOperation) GetTotalSupply(reqData model.TokenGetTotalSupplyReq
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -617,12 +617,12 @@ func (token *TokenOperation) GetBalance(reqData model.TokenGetBalanceRequest) mo
 	}
 	post := "/callContract"
 	response, SDKRes := common.PostRequest(token.Url, post, []byte(callDataStr))
+	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

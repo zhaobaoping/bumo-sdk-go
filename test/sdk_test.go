@@ -399,8 +399,8 @@ func Test_Token_Allowance(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqData.SetSpender(spender)
-	var tokenOwnerr string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	reqData.SetTokenOwner(tokenOwnerr)
+	var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Allowance(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
