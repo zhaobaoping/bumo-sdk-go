@@ -956,7 +956,7 @@ Balance	|	string	|	账户余额	|
 -----------|-----------|--------|
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
-INVALID_TOKENOWNER_ERRPR	|	11035	|	Invalid token owner	|
+INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
 > 示例
