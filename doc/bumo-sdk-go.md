@@ -1201,8 +1201,6 @@ if resData.ErrorCode == 0 {
 
 > 响应数据
 
-> 响应数据
-
 参数		|		 类型			|	描述	|
 --------	|-----------------------------------|------------|
 CloseTime	|	int64	|	区块关闭时间	|
@@ -1215,7 +1213,6 @@ Version	|	string	|	区块版本	|
 
 异常	|	 错误码|描述|
 -----------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
 CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
