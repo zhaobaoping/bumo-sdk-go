@@ -293,9 +293,10 @@ func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMeta
 			Metadata:      []byte(reqData.GetMetadata()),
 			Type:          protocol.Operation_SET_METADATA,
 			SetMetadata: &protocol.OperationSetMetadata{
-				Key:     reqData.GetKey(),
-				Value:   reqData.GetValue(),
-				Version: reqData.GetVersion(),
+				Key:        reqData.GetKey(),
+				Value:      reqData.GetValue(),
+				Version:    reqData.GetVersion(),
+				DeleteFlag: reqData.GetDeleteFlag(),
 			},
 		},
 	}

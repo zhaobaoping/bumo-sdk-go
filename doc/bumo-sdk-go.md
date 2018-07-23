@@ -1487,7 +1487,7 @@ if resData.ErrorCode == 0 {
 
 交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluationFee, Sign, Submit, GetInfo。
 
-其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, TokenIssueOperation, TokenTransferOperation, TokenTransferFromOperation, TokenApproveOperation, TokenAssignOperation, TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation
+其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, TokenIssueOperation, TokenTransferOperation, TokenTransferFromOperation, TokenApproveOperation, TokenAssignOperation, TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation,ContractCreateOperation
 
 ### 操作说明
 
@@ -1512,7 +1512,7 @@ sourceAddress|string|选填，操作源账户
 key	|string|必填，metadata的关键词，长度[1, 1024]
 value	|string|必填，metadata的内容，长度[0, 256000]
 version	|int64	|选填，metadata的版本
-deleteFlag	|int64	|选填，是否删除metadata
+deleteFlag	|bool	|选填，是否删除metadata
 metadata|string|选填，备注
 
 > AccountSetPrivilegeOperation
@@ -1558,7 +1558,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 destAddress	|	string	|	必填，目标账户地址
-buAmount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
+amount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenIssueOperation
@@ -1629,8 +1629,8 @@ metadata	|	string	|	选填，备注
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(64)]
-type	|	Integer	|	选填，合约的语种，默认是0
-payload	|	string	|	必填，对应语种的合约代码
+initInput	|	string	|	选填，对应的合约初始化参数
+payload	|	string	|	必填，对应的合约代码
 metadata	|	string	|	选填，备注
 
 > ContractInvokeByAssetOperation
@@ -1731,7 +1731,7 @@ if resDataEvaluate.ErrorCode == 0 {
 #### BuildBlob
 > 接口说明
 
-该接口用于获取账户的nonce
+该接口用于交易Blob的生成
 
 > 调用方法
 
