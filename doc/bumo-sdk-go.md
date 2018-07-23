@@ -1025,463 +1025,6 @@ if resData.ErrorCode == 0 {
 }
 ```
 
-
-
-## 区块服务
-
-区块服务主要是区块相关的接口，目前有11个接口：GetNumber, CheckStatus, GetTransactions , GetInfo, GetLatestInfo, GetValidators, GetLatestValidators, GetReward, GetLatestReward, GetFees, GetLatestFees。
-
-#### GetNumber
-> 接口说明
-
-获取区块高度
-
-> 调用方法
-
-GetNumber() model.BlockGetNumberResponse
-> 响应数据
-
-参数		|		 类型			|	描述	|
---------	|-----------------------------------|------------|
-BlockNumber	|	int64	|	最新的区块高度，对应底层字段seq	|
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-resData := testSdk.Block.GetNumber()
-if resData.ErrorCode == 0 {
-	fmt.Println("BlockNumber:", resData.Result.BlockNumber)
-}
-```
-
-
-#### CheckStatus
-> 接口说明
-
-检查区块同步
-
-> 调用方法
-
-CheckStatus() model.BlockCheckStatusResponse
-
-
-> 响应数据
-
-参数		|		 类型			|	描述	|
---------	|-----------------------------------|------------|
-IsSynchronous|bool|区块是否同步|
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-resData := testSdk.Block.CheckStatus()
-if resData.ErrorCode == 0 {
-	fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
-}
-```
-
-
-#### GetTransactions
-> 接口说明
-
-根据高度查询交易
-
-> 调用方法
-
-GetTransactions(model.BlockGetTransactionRequest) model.BlockGetTransactionResponse
-
-> 请求参数
-
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-blockNumber	|	int64	|	必填，待查询的区块高度
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-TotalCount	|	int64	|	返回的总交易数
-Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
-SYSTEM_ERROR	|	20000	|	System error
-
-> 示例
-
-```
-var reqData model.BlockGetTransactionRequest
-var blockNumber int64 = 581283
-reqData.SetBlockNumber(blockNumber)
-resData := testSdk.Block.GetTransactions(reqData)
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Transactions)
-	fmt.Println("Transactions:", string(data))
-}
-```
-
-
-#### GetInfo-block
-> 接口说明
-
-获取区块信息
-
-> 调用方法
-
-GetInfo(model.BlockGetInfoRequest) model.BlockGetInfoResponse
-
-> 请求参数
-
-参数	|		 类型			|	描述	|
---------|-----------------------------------|------------|
-blockNumber	|	int64	|	待查询的区块高度	|
-
-> 响应数据
-
-参数		|		 类型			|	描述	|
---------	|-----------------------------------|------------|
-CloseTime	|	int64	|	区块关闭时间	|
-Number	|	int64	|	区块高度	|
-TxCount	|	int64	|	交易总量	|
-Version	|	string	|	区块版本	|
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-var reqData model.BlockGetInfoRequest
-var blockNumber int64 = 581283
-reqData.SetBlockNumber(blockNumber)
-resData := testSdk.Block.GetInfo(reqData)
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Header)
-	fmt.Println("Header:", string(data))
-}
-```
-
-
-#### GetLatest
-> 接口说明
-
-获取最新区块信息
-
-> 调用方法
-
- GetLatest() model.BlockGetLatestResponse
-
-> 响应数据
-
-参数		|		 类型			|	描述	|
---------	|-----------------------------------|------------|
-CloseTime	|	int64	|	区块关闭时间	|
-Number	|	int64	|	区块高度	|
-TxCount	|	int64	|	交易总量	|
-Version	|	string	|	区块版本	|
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-resData := testSdk.Block.GetLatest()
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Header)
-	fmt.Println("Header:", string(data))
-}
-```
-
-
-#### GetValidators
-> 接口说明
-
-获取指定区块中所有验证节点数
-
-> 调用方法
-
-GetValidators(model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
-
-> 请求参数
-
-参数	|		 类型			|	描述	|
---------|-----------------------------------|------------|
-blockNumber	|	int64	|	待查询的区块高度	|
-
-> 响应数据
-
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
-
-#### ValidatorInfo
-
-参数|	 类型	|	描述	|
------------|------------|----------------|
-Address	|	String	|	共识节点地址
-PledgeCoinAmount	|	int64	|	验证节点押金
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-var reqData model.BlockGetValidatorsRequest
-var blockNumber int64 = 581283
-reqData.SetBlockNumber(blockNumber)
-resData := testSdk.Block.GetValidators(reqData)
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Validators)
-	fmt.Println("Validators:", string(data))
-}
-```
-
-
-#### GetLatestValidators
-
-> 接口说明
-
-获取最新区块中所有验证节点数
-
-> 调用方法
-
-GetLatestValidators() model.BlockGetLatestValidatorsResponse
-
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-resData := testSdk.Block.GetLatestValidators()
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Validators)
-	fmt.Println("Validators:", string(data))
-}
-```
-
-
-#### GetReward
-> 接口说明
-
-获取指定区块中的区块奖励和验证节点奖励
-
-> 调用方法
-
-	GetReward(model.BlockGetRewardRequest) model.BlockGetRewardResponse
-
-> 请求参数
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-blockNumber	|	int64	|	必填，待查询的区块高度
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-BlockReward	|	int64	|	区块奖励数
-ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
-
-#### ValidatorReward
-
-成员变量|	 类型	|	描述	|
------------|------------|----------------|
-Validator	|	String	|	验证节点地址
-Reward	|	int64	|	验证节点奖励
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
-SYSTEM_ERROR	|	20000	|	System error
-> 示例
-
-```
-var reqData model.BlockGetRewardRequest
-var blockNumber int64 = 581283
-reqData.SetBlockNumber(blockNumber)
-resData := testSdk.Block.GetReward(reqData)
-if resData.ErrorCode == 0 {
-	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
-}
-```
-
-
-#### GetLatestReward
-> 接口说明
-
-获取最新区块中的区块奖励和验证节点奖励
-
-> 调用方法
-
-GetLatestReward() model.BlockGetLatestRewardResponse
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-BlockReward	|	int64	|	区块奖励数
-ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
-
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
-SYSTEM_ERROR	|	20000	|	System error
-
-> 示例
-
-```
-resData := testSdk.Block.GetLatestReward()
-if resData.ErrorCode == 0 {
-	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
-}
-```
-
-
-#### GetFees
-> 接口说明
-
-获取指定区块中的账户最低资产限制和打包费用
-
-> 调用方法
-
-GetFees(model.BlockGetFeesRequest) model.BlockGetFeesResponse
-
-> 请求参数
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-blockNumber	|	int64	|	必填，待查询的区块高度	|
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-Fees	|	[Fees](#fees)	|	费用|
-
-#### Fees
-
-成员变量|	 类型	|	描述	|
------------|------------|----------------|
-BaseReserve	|	int64	|	账户最低资产限制|
-GasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
-SYSTEM_ERROR	|	20000	|	System error	|
-
-> 示例
-
-```
-var reqData model.BlockGetFeesRequest
-var blockNumber int64 = 581283
-reqData.SetBlockNumber(blockNumber)
-resData := testSdk.Block.GetFees(reqData)
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Fees)
-	fmt.Println("Fees:", string(data))
-}
-```
-
-
-#### GetLatestFees
-> 接口说明
-
-获取最新区块中的账户最低资产限制和打包费用
-
-> 调用方法
-
-GetLatestFees() model.BlockGetLatestFeesResponse
-
-> 响应数据
-
-参数	|	 类型	|	描述	|
------------|------------|----------------|
-Fees	|	[Fees](#fees)	|	费用
-
-> 错误码
-
-异常	|	 错误码|描述|
------------|-----------|--------|
-CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
-SYSTEM_ERROR	|	20000	|	System error
-
-
-> 示例
-
-```
-resData := testSdk.Block.GetLatestFees()
-if resData.ErrorCode == 0 {
-	data, _ := json.Marshal(resData.Result.Fees)
-	fmt.Println("Fees:", string(data))
-}
-```
-
-
 ## 交易服务
 
 交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluationFee, Sign, Submit, GetInfo。
@@ -2045,6 +1588,464 @@ if resData.ErrorCode == 0 {
 	fmt.Println("info:", string(data)
 }
 ```
+
+
+## 区块服务
+
+区块服务主要是区块相关的接口，目前有11个接口：GetNumber, CheckStatus, GetTransactions , GetInfo, GetLatestInfo, GetValidators, GetLatestValidators, GetReward, GetLatestReward, GetFees, GetLatestFees。
+
+#### GetNumber
+> 接口说明
+
+获取区块高度
+
+> 调用方法
+
+GetNumber() model.BlockGetNumberResponse
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|-----------------------------------|------------|
+BlockNumber	|	int64	|	最新的区块高度，对应底层字段seq	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetNumber()
+if resData.ErrorCode == 0 {
+	fmt.Println("BlockNumber:", resData.Result.BlockNumber)
+}
+```
+
+
+#### CheckStatus
+> 接口说明
+
+检查区块同步
+
+> 调用方法
+
+CheckStatus() model.BlockCheckStatusResponse
+
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|-----------------------------------|------------|
+IsSynchronous|bool|区块是否同步|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.CheckStatus()
+if resData.ErrorCode == 0 {
+	fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+}
+```
+
+
+#### GetTransactions
+> 接口说明
+
+根据高度查询交易
+
+> 调用方法
+
+GetTransactions(model.BlockGetTransactionRequest) model.BlockGetTransactionResponse
+
+> 请求参数
+
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+blockNumber	|	int64	|	必填，待查询的区块高度
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+TotalCount	|	int64	|	返回的总交易数
+Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+var reqData model.BlockGetTransactionRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetTransactions(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Transactions)
+	fmt.Println("Transactions:", string(data))
+}
+```
+
+
+#### GetInfo-block
+> 接口说明
+
+获取区块信息
+
+> 调用方法
+
+GetInfo(model.BlockGetInfoRequest) model.BlockGetInfoResponse
+
+> 请求参数
+
+参数	|		 类型			|	描述	|
+--------|-----------------------------------|------------|
+blockNumber	|	int64	|	待查询的区块高度	|
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|-----------------------------------|------------|
+CloseTime	|	int64	|	区块关闭时间	|
+Number	|	int64	|	区块高度	|
+TxCount	|	int64	|	交易总量	|
+Version	|	string	|	区块版本	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetInfoRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Header)
+	fmt.Println("Header:", string(data))
+}
+```
+
+
+#### GetLatest
+> 接口说明
+
+获取最新区块信息
+
+> 调用方法
+
+ GetLatest() model.BlockGetLatestResponse
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|-----------------------------------|------------|
+CloseTime	|	int64	|	区块关闭时间	|
+Number	|	int64	|	区块高度	|
+TxCount	|	int64	|	交易总量	|
+Version	|	string	|	区块版本	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatest()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Header)
+	fmt.Println("Header:", string(data))
+}
+```
+
+
+#### GetValidators
+> 接口说明
+
+获取指定区块中所有验证节点数
+
+> 调用方法
+
+GetValidators(model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
+
+> 请求参数
+
+参数	|		 类型			|	描述	|
+--------|-----------------------------------|------------|
+blockNumber	|	int64	|	待查询的区块高度	|
+
+> 响应数据
+
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
+
+#### ValidatorInfo
+
+参数|	 类型	|	描述	|
+-----------|------------|----------------|
+Address	|	String	|	共识节点地址
+PledgeCoinAmount	|	int64	|	验证节点押金
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetValidatorsRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetValidators(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Validators)
+	fmt.Println("Validators:", string(data))
+}
+```
+
+
+#### GetLatestValidators
+
+> 接口说明
+
+获取最新区块中所有验证节点数
+
+> 调用方法
+
+GetLatestValidators() model.BlockGetLatestValidatorsResponse
+
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestValidators()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Validators)
+	fmt.Println("Validators:", string(data))
+}
+```
+
+
+#### GetReward
+> 接口说明
+
+获取指定区块中的区块奖励和验证节点奖励
+
+> 调用方法
+
+	GetReward(model.BlockGetRewardRequest) model.BlockGetRewardResponse
+
+> 请求参数
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+blockNumber	|	int64	|	必填，待查询的区块高度
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+BlockReward	|	int64	|	区块奖励数
+ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
+
+#### ValidatorReward
+
+成员变量|	 类型	|	描述	|
+-----------|------------|----------------|
+Validator	|	String	|	验证节点地址
+Reward	|	int64	|	验证节点奖励
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
+SYSTEM_ERROR	|	20000	|	System error
+> 示例
+
+```
+var reqData model.BlockGetRewardRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetReward(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+}
+```
+
+
+#### GetLatestReward
+> 接口说明
+
+获取最新区块中的区块奖励和验证节点奖励
+
+> 调用方法
+
+GetLatestReward() model.BlockGetLatestRewardResponse
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+BlockReward	|	int64	|	区块奖励数
+ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestReward()
+if resData.ErrorCode == 0 {
+	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+}
+```
+
+
+#### GetFees
+> 接口说明
+
+获取指定区块中的账户最低资产限制和打包费用
+
+> 调用方法
+
+GetFees(model.BlockGetFeesRequest) model.BlockGetFeesResponse
+
+> 请求参数
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+blockNumber	|	int64	|	必填，待查询的区块高度	|
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+Fees	|	[Fees](#fees)	|	费用|
+
+#### Fees
+
+成员变量|	 类型	|	描述	|
+-----------|------------|----------------|
+BaseReserve	|	int64	|	账户最低资产限制|
+GasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetFeesRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetFees(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Fees)
+	fmt.Println("Fees:", string(data))
+}
+```
+
+
+#### GetLatestFees
+> 接口说明
+
+获取最新区块中的账户最低资产限制和打包费用
+
+> 调用方法
+
+GetLatestFees() model.BlockGetLatestFeesResponse
+
+> 响应数据
+
+参数	|	 类型	|	描述	|
+-----------|------------|----------------|
+Fees	|	[Fees](#fees)	|	费用
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------|
+CONNECTNETWORK_ERROR	|	11007	|	Connect network failed
+SYSTEM_ERROR	|	20000	|	System error
+
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestFees()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Fees)
+	fmt.Println("Fees:", string(data))
+}
+```
+
+
+
 
 
 ### 错误码
