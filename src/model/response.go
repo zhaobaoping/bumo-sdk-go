@@ -304,6 +304,7 @@ type BlockGetTransactionResponse struct {
 	Result    GetTransactionInfoResult `json:"result"`
 }
 type GetTransactionInfoResult struct {
+	TotalCount   int64             `json:"total_count"`
 	Transactions []Transactioninfo `json:"Transactions"`
 }
 type Transactioninfo struct {
@@ -327,7 +328,7 @@ type Transaction struct {
 type Operation struct {
 	SourceAddress string        `json:"source_address"`
 	Type          int64         `json:"type"`
-	Metadata      int64         `json:"metadata"`
+	Metadata      string        `json:"metadata"`
 	CreateAccount CreateAccount `json:"create_account"`
 	IssueAsset    IssueAsset    `json:"issue_asset"`
 	PayAsset      PayAsset      `json:"pay_asset"`
