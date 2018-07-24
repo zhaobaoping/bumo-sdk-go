@@ -164,7 +164,7 @@ func (reqData *TransactionEvaluationFeeRequest) SetMetadata(Metadata string) {
 func (reqData *TransactionEvaluationFeeRequest) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TransactionEvaluationFeeRequest) SetSignatureNumber(SignatureNumber int64) {
+func (reqData *TransactionEvaluationFeeRequest) SetSignatureNumber(SignatureNumber int32) {
 	reqData.signatureNumber = SignatureNumber
 }
 func (reqData *TransactionEvaluationFeeRequest) GetSignatureNumber() int32 {

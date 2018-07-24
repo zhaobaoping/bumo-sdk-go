@@ -2103,6 +2103,7 @@ if resData.ErrorCode == 0 {
 11060|BlockNumber must bigger than 0.
 11062|Url cannot be empty.
 11063|ContractAddress and code cannot be empty at the same time.
+11064|OptType must between 0 and 2.
 20000|System error.
 
 

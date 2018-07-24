@@ -59,6 +59,7 @@ const (
 	INVALID_BLOCKNUMBER_ERROR                 int = 11060
 	URL_EMPTY_ERROR                           int = 11062
 	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR      int = 11063
+	INVALID_OPTTYPE_ERROR                     int = 11064
 	SYSTEM_ERROR                              int = 20000
 )
 const (
@@ -123,6 +124,7 @@ var errm = map[int]string{
 	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR:      "ContractAddress and code cannot be empty at the same time.",
 	SYSTEM_ERROR:                              "System error.",
 	INVALID_BLOCKNUMBER_ERROR:                 "BlockNumber must bigger than 0",
+	INVALID_OPTTYPE_ERROR:                     "OptType must between 0 and 2",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",
