@@ -183,7 +183,7 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataEvaluate.SetSourceAddress(sourceAddress)
 	var nonce int64 = 88
 	reqDataEvaluate.SetNonce(nonce)
-	var signatureNumber int64 = 1
+	var signatureNumber int32 = 1
 	reqDataEvaluate.SetSignatureNumber(signatureNumber)
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
