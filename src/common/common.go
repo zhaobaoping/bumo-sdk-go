@@ -136,9 +136,7 @@ func GetCallDataStr(funcstr string, ContractAddress string, TokenOwner string) (
 	}
 	callData := model.CallContractRequest{
 		ContractAddress: ContractAddress,
-		Code:            model.Payload,
 		Input:           string(InputStr),
-		OptType:         2,
 	}
 	callDataStr, err := json.Marshal(callData)
 	if err != nil {

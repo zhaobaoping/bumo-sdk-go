@@ -4,6 +4,7 @@ package blockchain
 import (
 	"encoding/hex"
 	"encoding/json"
+	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/common"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -115,11 +116,16 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetSignatureNumber() < 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
+	var SignatureNumber int64 = 1
+	if len(reqData.GetSignatureNumber()) != 0 {
+		var err error
+		SignatureNumber, err = strconv.ParseInt(reqData.GetSignatureNumber(), 10, 64)
+		if err != nil || SignatureNumber <= 0 {
+			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
+			resData.ErrorCode = SDKRes.ErrorCode
+			resData.ErrorDesc = SDKRes.ErrorDesc
+			return resData
+		}
 	}
 	operations, SDKRes := common.GetOperations(operationsData, transaction.Url)
 	if SDKRes.ErrorCode != 0 {
@@ -132,10 +138,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	transactionJson["source_address"] = reqData.GetSourceAddress()
 	transactionJson["nonce"] = reqData.GetNonce()
 	transactionJson["operations"] = operations
-	if reqData.GetSignatureNumber() == 0 {
-		reqData.SetSignatureNumber(1)
-	}
-	transactionJson["signature_number"] = reqData.GetSignatureNumber()
+	transactionJson["signature_number"] = SignatureNumber
 	items := make([]map[string]interface{}, 1)
 	items[0] = make(map[string]interface{})
 	items[0]["transaction_json"] = transactionJson

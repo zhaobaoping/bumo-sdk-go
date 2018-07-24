@@ -303,8 +303,8 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 		}
 	}
 	if reqData.GetMasterWeight() != "" {
-		masterWeightInt, err := strconv.ParseInt(reqData.GetMasterWeight(), 10, 32)
-		if err != nil || masterWeightInt < 0 {
+		masterWeightInt, err := strconv.ParseInt(reqData.GetMasterWeight(), 10, 64)
+		if err != nil || masterWeightInt < 0 || masterWeightInt > 4294967295 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_MASTERWEIGHT_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc

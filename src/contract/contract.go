@@ -90,3 +90,76 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 		return resData
 	}
 }
+
+//调试合约代码
+func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model.ContractCallResponse {
+	var resData model.ContractCallResponse
+	if reqData.GetContractAddress() == "" && reqData.GetCode() == "" {
+		resData.ErrorCode = exception.CONTRACTADDRESS_CODE_BOTH_NULL_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetSourceAddress() != "" {
+		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		}
+	}
+	if reqData.GetContractAddress() != "" {
+		if !keypair.CheckAddress(reqData.GetContractAddress()) {
+			resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		}
+	}
+	if reqData.GetOptType() < 0 && reqData.GetOptType() > 2 {
+		resData.ErrorCode = exception.INVALID_OPTTYPE_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	callData := model.CallContractRequest{
+		ContractAddress: reqData.GetContractAddress(),
+		Code:            reqData.GetCode(),
+		Input:           reqData.GetInput(),
+		ContractBalance: reqData.GetContractBalance(),
+		FeeLimit:        reqData.GetFeeLimit(),
+		GasPrice:        reqData.GetGasPrice(),
+		OptType:         reqData.GetOptType(),
+		SourceAddress:   reqData.GetSourceAddress(),
+	}
+	reqDataByte, err := json.Marshal(callData)
+	if err != nil {
+		resData.ErrorCode = exception.SYSTEM_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	response, SDKRes := common.PostRequest(contract.Url, "/callContract", reqDataByte)
+	defer response.Body.Close()
+	if SDKRes.ErrorCode != 0 {
+		resData.ErrorCode = exception.SYSTEM_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if response.StatusCode == 200 {
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err := decoder.Decode(&resData)
+		if err != nil {
+			resData.ErrorCode = exception.SYSTEM_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		}
+		if resData.ErrorCode == 0 {
+			return resData
+		} else {
+			resData.ErrorCode = resData.ErrorCode
+			resData.ErrorDesc = resData.ErrorDesc
+			return resData
+		}
+	} else {
+		resData.ErrorCode = exception.CONNECTNETWORK_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+}

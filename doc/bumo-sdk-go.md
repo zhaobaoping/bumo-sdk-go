@@ -1027,7 +1027,7 @@ if resData.ErrorCode == 0 {
 
 ## 交易服务
 
-交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluationFee, Sign, Submit, GetInfo。
+交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluateFee, Sign, Submit, GetInfo。
 
 其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, TokenIssueOperation, TokenTransferOperation, TokenTransferFromOperation, TokenApproveOperation, TokenAssignOperation, TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation,ContractCreateOperation
 
@@ -1214,7 +1214,7 @@ metadata	|	string	|	选填，备注
 
 > 调用方法
 
-EvaluateFee(model.TransactionEvaluationFeeRequest) model.TransactionEvaluationFeeResponse
+EvaluateFee(model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeResponse
 
 > 请求参数
 
@@ -1239,7 +1239,7 @@ GasPrice	|	int64	|	打包费用
 -----------|-----------|--------|
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
-INVALID_OPERATION_ERROR	|	11051	|	Operations cannot be resolved
+INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
 OPERATIONS_ONE_ERROR	|	11053	|	One of operations error
 INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignagureNumber must between 1 and max(int32)
 SYSTEM_ERROR	|	20000	|	System error
@@ -1254,7 +1254,7 @@ reqDataOperation.SetAmount(amount)
 var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 reqDataOperation.SetDestAddress(destAddress)
 
-var reqDataEvaluate model.TransactionEvaluationFeeRequest
+var reqDataEvaluate model.TransactionEvaluateFeeRequest
 var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 reqDataEvaluate.SetSourceAddress(sourceAddress)
 var nonce int64 = 88
@@ -1306,7 +1306,7 @@ INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must between 1 and max(int64)
 INVALIDGASPRICE_ERROR	|	11049	|	Amount must between gasPrice in block and max(int64)
 INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must between 1000000 and max(int64)
-INVALID_OPERATION_ERROR	|	11051	|	Operations cannot be resolved
+INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
 INVALID_CEILLEDGERSEQ_ERROR	|	11052	|	CeilLedgerSeq must be equal or bigger than 0
 SYSTEM_ERROR	|	20000	|	System error
 
@@ -2091,7 +2091,7 @@ if resData.ErrorCode == 0 {
 11048|Nonce must between 1 and max(int64).
 11049|Amount must between 0 and max(int64).
 11050|FeeLimit must between 0 and max(int64).
-11051|Operations cannot be resolved
+11051|Operations cannot be resolved.
 11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations cannot be resolved.
 11054|SignagureNumber must between 1 and max(int32).

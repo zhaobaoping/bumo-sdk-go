@@ -175,26 +175,26 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataOperation.Init()
 	var amount int64 = 100
 	reqDataOperation.SetAmount(amount)
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	var destAddress string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataOperation.SetDestAddress(destAddress)
 
 	var reqDataEvaluate model.TransactionEvaluateFeeRequest
 	var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataEvaluate.SetSourceAddress(sourceAddress)
-	var nonce int64 = 88
+	var nonce int64 = 5
 	reqDataEvaluate.SetNonce(nonce)
-	var signatureNumber int32 = 1
+	var signatureNumber string = "63"
 	reqDataEvaluate.SetSignatureNumber(signatureNumber)
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
 	if resDataEvaluate.ErrorCode != 0 {
+		fmt.Println(resDataEvaluate)
 		t.Errorf(resDataEvaluate.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resDataEvaluate.Result)
 		fmt.Println("Evaluate:", string(data))
 		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
 	}
-
 }
 
 //Transaction_BuildBlob_Sign_Submit
@@ -417,6 +417,7 @@ func Test_Token_GetInfo(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
+		fmt.Println("info:", resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
@@ -490,6 +491,7 @@ func Test_Token_GetBalance(t *testing.T) {
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
+		fmt.Println("Balance:", resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		fmt.Println("Balance:", resData.Result.Balance)

@@ -208,6 +208,16 @@ type ContractCallResponse struct {
 	Result    ContractCallResult `json:"result"`
 }
 type ContractCallResult struct {
+	Logs      map[string]interface{} `json:"logs"`
+	QueryRets []QueryRet             `json:"query_rets"`
+	Stat      Stat                   `json:"stat"`
+	Txs       []Tx                   `json:"txs"`
+}
+type Stat struct {
+	ApplyTime   int64 `json:"apply_time"`
+	MemoryUsage int64 `json:"memory_usage"`
+	StackUsage  int64 `json:"stack_usage"`
+	Step        int64 `json:"step"`
 }
 type ContractInvokeByAssetResponse struct {
 	ErrorCode int                 `json:"error_code"`
@@ -751,8 +761,8 @@ type CallContractRequest struct {
 	Code            string `json:"code"`
 	Input           string `json:"input"`
 	ContractBalance string `json:"contract_balance"`
-	FeeLimit        string `json:"fee_limit"`
-	GasPrice        string `json:"gas_price"`
+	FeeLimit        int64  `json:"fee_limit"`
+	GasPrice        int64  `json:"gas_price"`
 	OptType         int64  `json:"opt_type"`
 	SourceAddress   string `json:"source_address"`
 }
