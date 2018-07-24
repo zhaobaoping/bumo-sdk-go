@@ -417,7 +417,7 @@ func Test_Token_GetInfo(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println("info:", resData)
+		fmt.Println(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
@@ -491,7 +491,7 @@ func Test_Token_GetBalance(t *testing.T) {
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println("Balance:", resData)
+		fmt.Println(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		fmt.Println("Balance:", resData.Result.Balance)
