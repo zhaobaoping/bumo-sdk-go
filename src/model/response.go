@@ -236,16 +236,16 @@ type TransactionBuildBlobResponse struct {
 type BuildBlobResult struct {
 	Blob string `json:"transaction_blob"`
 }
-type TransactionEvaluationFeeResponse struct {
-	ErrorCode int                 `json:"error_code"`
-	ErrorDesc string              `json:"error_desc"`
-	Result    EvaluationFeeResult `json:"result"`
+type TransactionEvaluateFeeResponse struct {
+	ErrorCode int               `json:"error_code"`
+	ErrorDesc string            `json:"error_desc"`
+	Result    EvaluateFeeResult `json:"result"`
 }
-type EvaluationFeeResult struct {
+type EvaluateFeeResult struct {
 	GasPrice int64 `json:"gas_price"`
 	FeeLimit int64 `json:"fee_limit"`
 }
-type TransactionEvaluationFeeData struct {
+type TransactionEvaluateFeeData struct {
 	ErrorCode int         `json:"error_code"`
 	ErrorDesc string      `json:"error_desc"`
 	Result    EvFeeResult `json:"result"`
@@ -323,7 +323,8 @@ type Transaction struct {
 	Nonce         int64       `json:"nonce"`
 	GasPrice      int64       `json:"gas_price"`
 	FeeLimit      int64       `json:"fee_limit"`
-	Operation     []Operation `json:"operations"`
+	Metadata      string      `json:"metadata"`
+	Operations    []Operation `json:"operations"`
 }
 type Operation struct {
 	SourceAddress string        `json:"source_address"`

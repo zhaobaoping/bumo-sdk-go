@@ -178,7 +178,7 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetDestAddress(destAddress)
 
-	var reqDataEvaluate model.TransactionEvaluationFeeRequest
+	var reqDataEvaluate model.TransactionEvaluateFeeRequest
 	var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataEvaluate.SetSourceAddress(sourceAddress)
 	var nonce int64 = 88
@@ -192,7 +192,7 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	} else {
 		data, _ := json.Marshal(resDataEvaluate.Result)
 		fmt.Println("Evaluate:", string(data))
-		t.Log("Test_EvaluationFee succeed", resDataEvaluate.Result)
+		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
 	}
 
 }
@@ -248,7 +248,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 //Transaction_GetInfo
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
-	var hash string = "cd33ad1e033d6dfe3db3a1d29a55e190935d9d1ff40a138d777e9406ebe0fdb1"
+	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
 	reqData.SetHash(hash)
 	resData := testSdk.Transaction.GetInfo(reqData)
 	if resData.ErrorCode != 0 {

@@ -93,9 +93,9 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 }
 
 //评估费用 EvaluateFee
-func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEvaluationFeeRequest) model.TransactionEvaluationFeeResponse {
-	var resDataD model.TransactionEvaluationFeeData
-	var resData model.TransactionEvaluationFeeResponse
+func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeResponse {
+	var resDataD model.TransactionEvaluateFeeData
+	var resData model.TransactionEvaluateFeeResponse
 	if !keypair.CheckAddress(reqData.GetSourceAddress()) {
 		SDKRes := exception.GetSDKRes(exception.INVALID_SOURCEADDRESS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
@@ -115,7 +115,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetSignatureNumber() <= 0 {
+	if reqData.GetSignatureNumber() < 0 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -132,7 +132,10 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	transactionJson["source_address"] = reqData.GetSourceAddress()
 	transactionJson["nonce"] = reqData.GetNonce()
 	transactionJson["operations"] = operations
-	transactionJson["signature_number"] = reqData.GetMetadata()
+	if reqData.GetSignatureNumber() == 0 {
+		reqData.SetSignatureNumber(1)
+	}
+	transactionJson["signature_number"] = reqData.GetSignatureNumber()
 	items := make([]map[string]interface{}, 1)
 	items[0] = make(map[string]interface{})
 	items[0]["transaction_json"] = transactionJson
@@ -144,8 +147,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	post := "/testTransaction"
-	response, SDKRes := common.PostRequest(transaction.Url, post, requestJson)
+	response, SDKRes := common.PostRequest(transaction.Url, "/testTransaction", requestJson)
 	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
@@ -271,8 +273,7 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	post := "/submitTransaction"
-	response, SDKRes := common.PostRequest(transaction.Url, post, requestJson)
+	response, SDKRes := common.PostRequest(transaction.Url, "/submitTransaction", requestJson)
 	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
@@ -333,9 +334,28 @@ func (transaction *TransactionOperation) GetInfo(reqData model.TransactionGetInf
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			return resData
-
 		}
 		if resData.ErrorCode == 0 {
+			for i := range resData.Result.Transactions {
+				data, err := hex.DecodeString(resData.Result.Transactions[i].Transaction.Metadata)
+				if err != nil {
+					SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
+					resData.ErrorCode = SDKRes.ErrorCode
+					resData.ErrorDesc = SDKRes.ErrorDesc
+					return resData
+				}
+				resData.Result.Transactions[i].Transaction.Metadata = string(data)
+				for j := range resData.Result.Transactions[i].Transaction.Operations {
+					data, err := hex.DecodeString(resData.Result.Transactions[i].Transaction.Operations[j].Metadata)
+					if err != nil {
+						SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
+						resData.ErrorCode = SDKRes.ErrorCode
+						resData.ErrorDesc = SDKRes.ErrorDesc
+						return resData
+					}
+					resData.Result.Transactions[i].Transaction.Operations[j].Metadata = string(data)
+				}
+			}
 			return resData
 		} else {
 			if resData.ErrorCode == 4 {

@@ -16,7 +16,6 @@ const (
 	SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR     int = 11005
 	INVALID_ADDRESS_ERROR                     int = 11006
 	CONNECTNETWORK_ERROR                      int = 11007
-	METADATA_NOT_HEX_STRING_ERROR             int = 11008
 	NO_ASSET_ERROR                            int = 11009
 	NO_METADATA_ERROR                         int = 11010
 	INVALID_DATAKEY_ERROR                     int = 11011
@@ -80,7 +79,6 @@ var errm = map[int]string{
 	SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR:     "SourceAddress cannot be equal to destAddress.",
 	INVALID_ADDRESS_ERROR:                     "Invalid address.",
 	CONNECTNETWORK_ERROR:                      "Connect network failed.",
-	METADATA_NOT_HEX_STRING_ERROR:             "Metadata must be a hex string.",
 	NO_ASSET_ERROR:                            "The account does not have this asset",
 	NO_METADATA_ERROR:                         "The account does not have this metadata.",
 	INVALID_DATAKEY_ERROR:                     "The length of key must between 1 and 1024.",

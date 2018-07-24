@@ -3,7 +3,6 @@ package common
 
 import (
 	"container/list"
-	"encoding/hex"
 	"encoding/json"
 	"strconv"
 
@@ -224,12 +223,6 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: reqData.GetSourceAddress(),
@@ -279,12 +272,6 @@ func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMeta
 		SDKRes := exception.GetSDKRes(exception.INVALID_DATAVERSION_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	Operations := []*protocol.Operation{
@@ -374,12 +361,6 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 		TypeThresholds[i].Threshold = reqData.GetTypeThresholds()[i].Threshold
 		TypeThresholds[i].Type = (protocol.Operation_Type)(reqData.GetTypeThresholds()[i].Type)
 	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: reqData.GetSourceAddress(),
@@ -417,12 +398,7 @@ func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
+
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: reqData.GetSourceAddress(),
@@ -533,12 +509,6 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 	InitInput, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	_, err = hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -839,12 +809,6 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
 	var PayAsset protocol.OperationPayAsset
 	if reqData.GetCode() != "" && reqData.GetIssuer() != "" && reqData.GetAmount() > 0 {
 		PayAsset = protocol.OperationPayAsset{
@@ -946,12 +910,6 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			return resData
 		}
-	}
-	_, err := hex.DecodeString(reqData.GetMetadata())
-	if err != nil {
-		resData.ErrorCode = exception.METADATA_NOT_HEX_STRING_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
 	}
 	Operations := []*protocol.Operation{
 		{

@@ -138,7 +138,7 @@ func (reqData *ContractGetInfoRequest) GetAddress() string {
 	return reqData.address
 }
 
-type TransactionEvaluationFeeRequest struct {
+type TransactionEvaluateFeeRequest struct {
 	sourceAddress   string
 	nonce           int64
 	operations      list.List
@@ -146,38 +146,38 @@ type TransactionEvaluationFeeRequest struct {
 	metadata        string
 }
 
-func (reqData *TransactionEvaluationFeeRequest) SetSourceAddress(SourceAddress string) {
+func (reqData *TransactionEvaluateFeeRequest) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TransactionEvaluationFeeRequest) GetSourceAddress() string {
+func (reqData *TransactionEvaluateFeeRequest) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TransactionEvaluationFeeRequest) SetNonce(Nonce int64) {
+func (reqData *TransactionEvaluateFeeRequest) SetNonce(Nonce int64) {
 	reqData.nonce = Nonce
 }
-func (reqData *TransactionEvaluationFeeRequest) GetNonce() int64 {
+func (reqData *TransactionEvaluateFeeRequest) GetNonce() int64 {
 	return reqData.nonce
 }
-func (reqData *TransactionEvaluationFeeRequest) SetMetadata(Metadata string) {
+func (reqData *TransactionEvaluateFeeRequest) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TransactionEvaluationFeeRequest) GetMetadata() string {
+func (reqData *TransactionEvaluateFeeRequest) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TransactionEvaluationFeeRequest) SetSignatureNumber(SignatureNumber int32) {
+func (reqData *TransactionEvaluateFeeRequest) SetSignatureNumber(SignatureNumber int32) {
 	reqData.signatureNumber = SignatureNumber
 }
-func (reqData *TransactionEvaluationFeeRequest) GetSignatureNumber() int32 {
+func (reqData *TransactionEvaluateFeeRequest) GetSignatureNumber() int32 {
 	return reqData.signatureNumber
 }
-func (reqData *TransactionEvaluationFeeRequest) SetOperation(operation OperationBase) {
+func (reqData *TransactionEvaluateFeeRequest) SetOperation(operation OperationBase) {
 	reqData.operations.Init()
 	reqData.operations.PushBack(operation)
 }
-func (reqData *TransactionEvaluationFeeRequest) AddOperation(operation OperationBase) {
+func (reqData *TransactionEvaluateFeeRequest) AddOperation(operation OperationBase) {
 	reqData.operations.PushBack(operation)
 }
-func (reqData *TransactionEvaluationFeeRequest) GetOperations() list.List {
+func (reqData *TransactionEvaluateFeeRequest) GetOperations() list.List {
 	return reqData.operations
 }
 

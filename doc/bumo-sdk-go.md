@@ -2060,7 +2060,6 @@ if resData.ErrorCode == 0 {
 11005|SourceAddress cannot be equal to destAddress.
 11006|Invalid address.
 11007|Connect network failed.
-11008|Metadata must be a hex string.
 11009|The account does not have this asset
 11010|The account does not have this metadata.
 11011|The length of key must between 1 and 1024.
