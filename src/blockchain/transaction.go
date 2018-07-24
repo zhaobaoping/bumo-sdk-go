@@ -127,12 +127,6 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	//operations := make([]*protocol.Operation, len(reqDatas.Operations))
-	if SDKRes.ErrorCode != 0 {
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
 	request := make(map[string]interface{})
 	transactionJson := make(map[string]interface{})
 	transactionJson["source_address"] = reqData.GetSourceAddress()

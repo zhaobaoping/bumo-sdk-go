@@ -142,7 +142,7 @@ type TransactionEvaluationFeeRequest struct {
 	sourceAddress   string
 	nonce           int64
 	operations      list.List
-	signatureNumber int64
+	signatureNumber int32
 	metadata        string
 }
 
@@ -167,7 +167,7 @@ func (reqData *TransactionEvaluationFeeRequest) GetMetadata() string {
 func (reqData *TransactionEvaluationFeeRequest) SetSignatureNumber(SignatureNumber int64) {
 	reqData.signatureNumber = SignatureNumber
 }
-func (reqData *TransactionEvaluationFeeRequest) GetSignatureNumber() int64 {
+func (reqData *TransactionEvaluationFeeRequest) GetSignatureNumber() int32 {
 	return reqData.signatureNumber
 }
 func (reqData *TransactionEvaluationFeeRequest) SetOperation(operation OperationBase) {
