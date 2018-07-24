@@ -137,6 +137,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	transactionJson := make(map[string]interface{})
 	transactionJson["source_address"] = reqData.GetSourceAddress()
 	transactionJson["nonce"] = reqData.GetNonce()
+	transactionJson["ceil_ledger_seq"] = reqData.GetCeilLedgerSeq()
 	transactionJson["operations"] = operations
 	transactionJson["signature_number"] = SignatureNumber
 	items := make([]map[string]interface{}, 1)

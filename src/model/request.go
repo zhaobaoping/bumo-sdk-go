@@ -143,6 +143,7 @@ type TransactionEvaluateFeeRequest struct {
 	nonce           int64
 	operations      list.List
 	signatureNumber string
+	ceilLedgerSeq   int64
 	metadata        string
 }
 
@@ -163,6 +164,12 @@ func (reqData *TransactionEvaluateFeeRequest) SetMetadata(Metadata string) {
 }
 func (reqData *TransactionEvaluateFeeRequest) GetMetadata() string {
 	return reqData.metadata
+}
+func (reqData *TransactionEvaluateFeeRequest) SetCeilLedgerSeq(CeilLedgerSeq int64) {
+	reqData.ceilLedgerSeq = CeilLedgerSeq
+}
+func (reqData *TransactionEvaluateFeeRequest) GetCeilLedgerSeq() int64 {
+	return reqData.ceilLedgerSeq
 }
 func (reqData *TransactionEvaluateFeeRequest) SetSignatureNumber(SignatureNumber string) {
 	reqData.signatureNumber = SignatureNumber
