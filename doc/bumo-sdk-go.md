@@ -1183,7 +1183,7 @@ sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 code	|	string	|	选填，资产编码，长度[0, 64]，当为null时，仅触发合约
 issuer	|	string	|	选填，资产发行账户地址，当为null时，仅触发合约
-amount	|	int64	|	选填资产数量，大小[0, max(int64)]，当是0时，仅触发合约
+amount	|	int64	|	选填，资产数量，大小[0, max(int64)]，当是0时，仅触发合约
 input	|	string	|	选填，待触发的合约的main()入参
 metadata	|	string	|	选填，备注
 
