@@ -98,7 +98,7 @@ var errm = map[int]string{
 	NO_SUCH_TOKEN_ERROR:                       "The length of ctp must between 1 and 64.",
 	INVALID_TOKEN_NAME_ERROR:                  "The length of token name must between 1 and 1024.",
 	INVALID_TOKEN_SIMBOL_ERROR:                "The length of symbol must between 1 and 1024.",
-	INVALID_TOKEN_DECIMALS_ERROR:              "Decimals must less than 8.",
+	INVALID_TOKEN_DECIMALS_ERROR:              "Decimals must between 0 and 8.",
 	INVALID_TOKEN_TOTALSUPPLY_ERROR:           "TotalSupply must between 1 and max(int64).",
 	INVALID_TOKENOWNER_ERROR:                  "Invalid token owner.",
 	INVALID_CONTRACTADDRESS_ERROR:             "Invalid contract address.",

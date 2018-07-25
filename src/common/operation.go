@@ -440,6 +440,11 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 	data.SetIssuer(reqData.GetIssuer())
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByAsset(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -453,7 +458,6 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
-
 	}
 	var data model.ContractInvokeByBUOperation
 	data.SetSourceAddress(reqData.GetSourceAddress())
@@ -461,6 +465,11 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	data.SetAmount(reqData.GetAmount())
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -869,7 +878,6 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-
 	Operations := []*protocol.Operation{
 		{
 			SourceAddress: reqData.GetSourceAddress(),

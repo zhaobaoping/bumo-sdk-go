@@ -2079,7 +2079,7 @@ if resData.ErrorCode == 0 {
 11030|The length of ctp must between 1 and 64.
 11031|The length of token name must between 1 and 1024.
 11032|The length of symbol must between 1 and 1024.
-11033|Decimals must less than 8.
+11033|Decimals must between 0 and 8.
 11034|TotalSupply must between 1 and max(int64).
 11035|Invalid token owner.
 11037|Invalid contract address.
