@@ -16,6 +16,7 @@ const (
 	SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR     int = 11005
 	INVALID_ADDRESS_ERROR                     int = 11006
 	CONNECTNETWORK_ERROR                      int = 11007
+	INVALID_ISSUE_AMMOUNT_ERROR               int = 11008
 	NO_ASSET_ERROR                            int = 11009
 	NO_METADATA_ERROR                         int = 11010
 	INVALID_DATAKEY_ERROR                     int = 11011
@@ -123,6 +124,7 @@ var errm = map[int]string{
 	SYSTEM_ERROR:                              "System error.",
 	INVALID_BLOCKNUMBER_ERROR:                 "BlockNumber must bigger than 0.",
 	INVALID_OPTTYPE_ERROR:                     "OptType must between 0 and 2.",
+	INVALID_ISSUE_AMMOUNT_ERROR:               "AssetAmount this will be issued mustbetween 1 and max(int64).",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",

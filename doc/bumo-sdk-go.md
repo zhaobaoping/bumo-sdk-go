@@ -1078,7 +1078,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|------------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 code	|	string	|	必填，资产编码，长度[1 64]
-amount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
+amount	|	int64	|	必填，资产发行数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > AssetSendOperation
@@ -2060,6 +2060,7 @@ if resData.ErrorCode == 0 {
 11005|SourceAddress cannot be equal to destAddress.
 11006|Invalid address.
 11007|Connect network failed.
+11008|AssetAmount this will be issued mustbetween 1 and max(int64).
 11009|The account does not have this asset
 11010|The account does not have this metadata.
 11011|The length of key must between 1 and 1024.
