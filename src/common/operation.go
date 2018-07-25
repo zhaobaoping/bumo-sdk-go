@@ -448,8 +448,8 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 //交易BU BUSend 6
 func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	var resData model.BUSendResponse
-	if reqData.GetAmount() <= 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ADDRESS_ERROR)
+	if reqData.GetAmount() < 0 {
+		SDKRes := exception.GetSDKRes(exception.INVALID_BU_AMOUNT_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
