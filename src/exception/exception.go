@@ -26,7 +26,7 @@ const (
 	INVALID_SIGNER_ADDRESS_ERROR              int = 11016
 	INVALID_SIGNER_WEIGHT_ERROR               int = 11017
 	INVALID_TX_THRESHOLD_ERROR                int = 11018
-	INVALID_OPERATION_TYPE_ERROR              int = 11019
+	INVALID_TYPETHRESHOLD_TYPE_ERROR          int = 11019
 	INVALID_TYPE_THRESHOLD_ERROR              int = 11020
 	INVALID_ASSET_CODE_ERROR                  int = 11023
 	INVALID_ASSET_AMOUNT_ERROR                int = 11024
@@ -89,7 +89,7 @@ var errm = map[int]string{
 	INVALID_SIGNER_ADDRESS_ERROR:              "Invalid signer address.",
 	INVALID_SIGNER_WEIGHT_ERROR:               "Signer weight must between 0 and max(uint32).",
 	INVALID_TX_THRESHOLD_ERROR:                "TxThreshold must between 0 and max(int64).",
-	INVALID_OPERATION_TYPE_ERROR:              "Operation type must between 1 and 100.",
+	INVALID_TYPETHRESHOLD_TYPE_ERROR:          "Type of TypeThreshold is invalid.",
 	INVALID_TYPE_THRESHOLD_ERROR:              "TypeThreshold must between 0 and max(int64).",
 	INVALID_ASSET_CODE_ERROR:                  "The length of code must between 1 and 64.",
 	INVALID_ASSET_AMOUNT_ERROR:                "AssetAmount must between 0 and max(int64).",

@@ -2070,7 +2070,7 @@ if resData.ErrorCode == 0 {
 11016|Invalid signer address.
 11017|Signer weight must between 0 and max(uint32).
 11018|TxThreshold must between 0 and max(int64).
-11019|Operation type must between 1 and 100.
+11019|Type of TypeThreshold is invalid.
 11020|TypeThreshold must between 0 and max(int64).
 11023|The length of code must between 1 and 64.
 11024|AssetAmount must between 0 and max(int64).
