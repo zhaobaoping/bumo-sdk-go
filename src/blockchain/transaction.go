@@ -133,17 +133,35 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	request := make(map[string]interface{})
-	transactionJson := make(map[string]interface{})
-	transactionJson["source_address"] = reqData.GetSourceAddress()
-	transactionJson["nonce"] = reqData.GetNonce()
-	transactionJson["ceil_ledger_seq"] = reqData.GetCeilLedgerSeq()
-	transactionJson["operations"] = operations
-	transactionJson["signature_number"] = SignatureNumber
-	items := make([]map[string]interface{}, 1)
-	items[0] = make(map[string]interface{})
-	items[0]["transaction_json"] = transactionJson
-	request["items"] = items
+	Operations := make([]model.OperationEvaluat, len(operations))
+	for i := range operations {
+		Operations[i].SourceAddress = operations[i].GetSourceAddress()
+		Operations[i].Metadata = string(operations[i].GetMetadata())
+		Operations[i].Type = operations[i].GetType()
+		Operations[i].CreateAccount = operations[i].CreateAccount
+		Operations[i].IssueAsset = operations[i].IssueAsset
+		Operations[i].Log = operations[i].Log
+		Operations[i].PayAsset = operations[i].PayAsset
+		Operations[i].PayCoin = operations[i].PayCoin
+		Operations[i].SetMetadata = operations[i].SetMetadata
+		Operations[i].SetPrivilege = operations[i].SetPrivilege
+		Operations[i].SetSignerWeight = operations[i].SetSignerWeight
+		Operations[i].SetThreshold = operations[i].SetThreshold
+	}
+	request := &model.WebTransactionEvaluateFeeResponse{
+		Items: []model.Item{
+			{
+				TransactionJson: model.TransactionJson{
+					SourceAddress: reqData.GetSourceAddress(),
+					Metadata:      reqData.GetMetadata(),
+					Nonce:         reqData.GetNonce(),
+					CeilLedgerSeq: reqData.GetCeilLedgerSeq(),
+					Operations:    Operations,
+				},
+				SignatureNumber: SignatureNumber,
+			},
+		},
+	}
 	requestJson, err := json.Marshal(request)
 	if err != nil {
 		SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)

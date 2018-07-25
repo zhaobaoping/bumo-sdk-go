@@ -175,6 +175,7 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataOperation.Init()
 	var amount int64 = 100
 	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("63")
 	var destAddress string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataOperation.SetDestAddress(destAddress)
 
@@ -183,8 +184,9 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataEvaluate.SetSourceAddress(sourceAddress)
 	var nonce int64 = 5
 	reqDataEvaluate.SetNonce(nonce)
-	var signatureNumber string = "63"
+	var signatureNumber string = "3"
 	reqDataEvaluate.SetSignatureNumber(signatureNumber)
+	reqDataEvaluate.SetMetadata("63")
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
 	if resDataEvaluate.ErrorCode != 0 {
@@ -204,6 +206,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	var amount int64 = 100
 	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("63")
 	reqDataOperation.SetDestAddress(destAddress)
 
 	var reqDataBlob model.TransactionBuildBlobRequest
@@ -213,8 +216,9 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	reqDataBlob.SetFeeLimit(feeLimit)
 	var gasPrice int64 = 1000
 	reqDataBlob.SetGasPrice(gasPrice)
-	var nonce int64 = 88
+	var nonce int64 = 97
 	reqDataBlob.SetNonce(nonce)
+	reqDataBlob.SetMetadata("63")
 	reqDataBlob.SetOperation(reqDataOperation)
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)

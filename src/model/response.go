@@ -246,6 +246,38 @@ type TransactionBuildBlobResponse struct {
 type BuildBlobResult struct {
 	Blob string `json:"transaction_blob"`
 }
+type WebTransactionEvaluateFeeResponse struct {
+	Items []Item `json:"items"`
+}
+type Item struct {
+	TransactionJson TransactionJson `json:"transaction_json"`
+	SignatureNumber int64           `json:"signature_number"`
+}
+type TransactionJson struct {
+	SourceAddress string             `json:"source_address"`
+	Metadata      string             `json:"metadata"`
+	Nonce         int64              `json:"nonce"`
+	CeilLedgerSeq int64              `json:"ceil_ledger_seq"`
+	Operations    []OperationEvaluat `json:"operations"`
+}
+type OperationEvaluat struct {
+	Type          protocol.Operation_Type `protobuf:"varint,1,opt,name=type,enum=protocol.Operation_Type" json:"type,omitempty"`
+	SourceAddress string                  `protobuf:"bytes,2,opt,name=source_address,json=sourceAddress" json:"source_address,omitempty"`
+	Metadata      string                  `protobuf:"bytes,3,opt,name=metadata,proto3" json:"metadata,omitempty"`
+	//
+	CreateAccount        *protocol.OperationCreateAccount   `protobuf:"bytes,4,opt,name=create_account,json=createAccount" json:"create_account,omitempty"`
+	IssueAsset           *protocol.OperationIssueAsset      `protobuf:"bytes,5,opt,name=issue_asset,json=issueAsset" json:"issue_asset,omitempty"`
+	PayAsset             *protocol.OperationPayAsset        `protobuf:"bytes,6,opt,name=pay_asset,json=payAsset" json:"pay_asset,omitempty"`
+	SetMetadata          *protocol.OperationSetMetadata     `protobuf:"bytes,7,opt,name=set_metadata,json=setMetadata" json:"set_metadata,omitempty"`
+	SetSignerWeight      *protocol.OperationSetSignerWeight `protobuf:"bytes,8,opt,name=set_signer_weight,json=setSignerWeight" json:"set_signer_weight,omitempty"`
+	SetThreshold         *protocol.OperationSetThreshold    `protobuf:"bytes,9,opt,name=set_threshold,json=setThreshold" json:"set_threshold,omitempty"`
+	PayCoin              *protocol.OperationPayCoin         `protobuf:"bytes,10,opt,name=pay_coin,json=payCoin" json:"pay_coin,omitempty"`
+	Log                  *protocol.OperationLog             `protobuf:"bytes,11,opt,name=log" json:"log,omitempty"`
+	SetPrivilege         *protocol.OperationSetPrivilege    `protobuf:"bytes,12,opt,name=set_privilege,json=setPrivilege" json:"set_privilege,omitempty"`
+	XXX_NoUnkeyedLiteral struct{}                           `json:"-"`
+	XXX_unrecognized     []byte                             `json:"-"`
+	XXX_sizecache        int32                              `json:"-"`
+}
 type TransactionEvaluateFeeResponse struct {
 	ErrorCode int               `json:"error_code"`
 	ErrorDesc string            `json:"error_desc"`
