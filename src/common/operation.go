@@ -741,7 +741,7 @@ func ContractCreate(reqData model.ContractCreateOperation) model.ContractCreateR
 			return resData
 		}
 	}
-	if reqData.GetInitBalance() < 0 {
+	if reqData.GetInitBalance() <= 0 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_INITBALANCE_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
