@@ -71,10 +71,13 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	var Block BlockOperation
+	Block.Url = transaction.Url
+	resDataNumber := Block.GetNumber()
 	Transaction := protocol.Transaction{
 		SourceAddress: reqData.GetSourceAddress(),
 		Nonce:         reqData.GetNonce(),
-		CeilLedgerSeq: reqData.GetCeilLedgerSeq(),
+		CeilLedgerSeq: reqData.GetCeilLedgerSeq() + resDataNumber.Result.Header.BlockNumber,
 		FeeLimit:      reqData.GetFeeLimit(),
 		GasPrice:      reqData.GetGasPrice(),
 		Metadata:      []byte(reqData.GetMetadata()),
