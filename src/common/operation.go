@@ -580,6 +580,10 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -626,6 +630,10 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -661,6 +669,10 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -696,6 +708,10 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -725,6 +741,10 @@ func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwner
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())
 	contractData := InvokeByBU(data)
+	if contractData.ErrorCode != 0 {
+		resData.ErrorCode = contractData.ErrorCode
+		resData.ErrorDesc = contractData.ErrorDesc
+	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
