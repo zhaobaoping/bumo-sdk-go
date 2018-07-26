@@ -401,7 +401,6 @@ if resData.ErrorCode == 0 {
 	data, _ := json.Marshal(resData.Result)
 	fmt.Println("Info:", string(data))
 }
-
 ```
 #### GetNonce
 > 接口说明
@@ -1358,7 +1357,7 @@ privateKeys	|	[] string	|	必填，私钥列表
 
 参数	|	类型	|	描述
 -----------|------------|----------------
-Signatures	|	[] Signature](#signature)	|签名后的数据列表
+Signatures	|	[] [Signature](#signature)	|签名后的数据列表
 
 #### Signature
 
