@@ -4,6 +4,7 @@ package common
 import (
 	"container/list"
 	"encoding/json"
+	"fmt"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -583,6 +584,7 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 	if contractData.ErrorCode != 0 {
 		resData.ErrorCode = contractData.ErrorCode
 		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
 	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
@@ -633,6 +635,7 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 	if contractData.ErrorCode != 0 {
 		resData.ErrorCode = contractData.ErrorCode
 		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
 	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
@@ -672,7 +675,9 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 	if contractData.ErrorCode != 0 {
 		resData.ErrorCode = contractData.ErrorCode
 		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
 	}
+	fmt.Println("==============", resData)
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
@@ -711,6 +716,7 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 	if contractData.ErrorCode != 0 {
 		resData.ErrorCode = contractData.ErrorCode
 		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
 	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
@@ -744,6 +750,7 @@ func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwner
 	if contractData.ErrorCode != 0 {
 		resData.ErrorCode = contractData.ErrorCode
 		resData.ErrorDesc = contractData.ErrorDesc
+		return resData
 	}
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
