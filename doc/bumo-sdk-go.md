@@ -152,7 +152,7 @@ import (
 >初始化Sdk结构体
 
 ```
-	var testSdk sdk.Sdk
+var testSdk sdk.Sdk
 ```
 >调用SDK的接口Init
 
