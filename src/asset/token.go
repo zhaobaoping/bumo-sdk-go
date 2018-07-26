@@ -153,7 +153,7 @@ func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) mode
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_ALLOWNANCE_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -210,7 +210,7 @@ func (token *TokenOperation) GetInfo(reqData model.TokenGetInfoRequest) model.To
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -270,7 +270,7 @@ func (token *TokenOperation) GetName(reqData model.TokenGetNameRequest) model.To
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -323,7 +323,7 @@ func (token *TokenOperation) GetSymbol(reqData model.TokenGetSymbolRequest) mode
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -375,7 +375,7 @@ func (token *TokenOperation) GetDecimals(reqData model.TokenGetDecimalsRequest) 
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -433,7 +433,7 @@ func (token *TokenOperation) GetTotalSupply(reqData model.TokenGetTotalSupplyReq
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}
@@ -497,7 +497,7 @@ func (token *TokenOperation) GetBalance(reqData model.TokenGetBalanceRequest) mo
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.THE_QUERY_FAILED
+			resData.ErrorCode = exception.GET_TOKEN_INFO_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}

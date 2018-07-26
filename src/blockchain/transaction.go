@@ -280,6 +280,11 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 		return resData
 	}
 	for i := range reqDatas.Blob {
+		if reqDatas.Blob[i].GetSignatures() == nil {
+			resData.ErrorCode = exception.SIGNATURE_EMPTY_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		}
 		for j := range reqDatas.Blob[i].GetSignatures() {
 			if !keypair.CheckPublicKey(reqDatas.Blob[i].GetSignatures()[j].PublicKey) || reqDatas.Blob[i].GetSignatures()[j].SignData == "" {
 				SDKRes := exception.GetSDKRes(exception.INVALID_BLOB_ERROR)
