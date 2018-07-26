@@ -1107,7 +1107,7 @@ metadata	|	string	|	选填，备注
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
-initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(64)]
+initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(int64)]
 name	|	string	|	必填，token名称，长度[1, 1024]
 symbol	|	string	|	必填，token符号，长度[1, 1024]
 decimals	|	int64	|	必填，token数量的精度，大小[0, 8]
@@ -1121,7 +1121,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 destAddress	|	string	|	必填，待转移的目标账户地址
-amount	|	int64	|	必填，待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenTransferFromOperation
@@ -1132,7 +1132,7 @@ sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 fromAddress	|	string	|	必填，待转移的源账户地址
 destAddress	|	string	|	必填，待转移的目标账户地址
-amount	|	int64	|	必填，待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenApproveOperation
@@ -1142,7 +1142,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 spender	|	string	|	必填，授权的账户地址
-amount	|	int64	|	必填，被授权的待转移的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，被授权的待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenAssignOperation
@@ -1152,7 +1152,7 @@ metadata	|	string	|	选填，备注
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
 contractAddress	|	string	|	必填，合约账户地址
 destAddress	|	string	|	必填，待分配的目标账户地址
-amount	|	int64	|	必填，待分配的token数量，大小[1, int(64)]
+amount	|	int64	|	必填，待分配的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
 > TokenChangeOwnerOperation
@@ -1169,7 +1169,7 @@ metadata	|	string	|	选填，备注
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
 sourceAddress	|	string	|	选填，发起该操作的源账户地址
-initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(64)]
+initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(int64)]
 initInput	|	string	|	选填，对应的合约初始化参数
 payload	|	string	|	必填，对应的合约代码
 metadata	|	string	|	选填，备注
@@ -1462,7 +1462,7 @@ ErrorDesc	|	string	|	交易描述
 Hash	|	string	|	交易hash
 LedgerSeq	|	int64	|	区块序列号
 Transactions	|	[Transaction](#transaction)	|	交易内容列表
-Signatures	|	[] Signature](#signature)	|	签名列表
+Signatures	|	[] [Signature](#signature)	|	签名列表
 TxSize	|	int64	|	交易大小
 
 #### Transaction
