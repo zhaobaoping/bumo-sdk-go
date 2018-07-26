@@ -905,7 +905,7 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 			return resData
 		}
 	}
-	if len(reqData.GetTopic()) >= 128 && len(reqData.GetTopic()) < 0 {
+	if len(reqData.GetTopic()) >= 128 || len(reqData.GetTopic()) < 0 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_LOG_TOPIC_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
