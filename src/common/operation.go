@@ -684,7 +684,7 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 	var resData model.TokenAssignResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
-		resData.ErrorCode = exception.INVALID_SPENDER_ERROR
+		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
