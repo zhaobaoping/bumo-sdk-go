@@ -60,7 +60,7 @@ func (token *TokenOperation) CheckValid(reqData model.TokenCheckValidRequest) mo
 			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
-		if data.Decimals < 0 && data.Decimals > 8 {
+		if data.Decimals < 0 || data.Decimals > 8 {
 			resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData

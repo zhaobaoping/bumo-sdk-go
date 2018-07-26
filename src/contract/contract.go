@@ -34,7 +34,7 @@ func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRe
 		resData.ErrorDesc = resDataAcc.ErrorDesc
 		return resData
 	}
-	if resDataAcc.Result.Priv.MasterWeight == 0 && resDataAcc.Result.Priv.Thresholds.TxThreshold == 1 {
+	if resDataAcc.Result.Priv.MasterWeight == 0 && resDataAcc.Result.Priv.Thresholds.TxThreshold == 1 && len(resDataAcc.Result.Contract.Payload) != 0 {
 		resData.Result.IsValid = true
 		return resData
 	} else {
@@ -113,7 +113,7 @@ func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model
 			return resData
 		}
 	}
-	if reqData.GetOptType() < 0 && reqData.GetOptType() > 2 {
+	if reqData.GetOptType() < 0 || reqData.GetOptType() > 2 {
 		resData.ErrorCode = exception.INVALID_OPTTYPE_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData

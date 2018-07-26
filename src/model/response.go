@@ -53,10 +53,11 @@ type AccountGetInfoResponse struct {
 	Result    AccountGetInfoResult `json:"result"`
 }
 type AccountGetInfoResult struct {
-	Address string `json:"address"`
-	Balance int64  `json:"balance"`
-	Nonce   int64  `json:"nonce"`
-	Priv    Priv   `json:"priv"`
+	Address  string   `json:"address"`
+	Balance  int64    `json:"balance"`
+	Nonce    int64    `json:"nonce"`
+	Priv     Priv     `json:"priv"`
+	Contract Contract `json:"contract"`
 }
 type Asset struct {
 	Amount int64 `json:"amount"`

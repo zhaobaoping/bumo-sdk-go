@@ -490,17 +490,17 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetDecimals() < 0 && reqData.GetDecimals() > 8 {
+	if reqData.GetDecimals() < 0 || reqData.GetDecimals() > 8 {
 		resData.ErrorCode = exception.INVALID_TOKEN_DECIMALS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if len(reqData.GetName()) <= 0 && len(reqData.GetName()) > 1024 {
+	if len(reqData.GetName()) <= 0 || len(reqData.GetName()) > 1024 {
 		resData.ErrorCode = exception.INVALID_TOKEN_NAME_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if len(reqData.GetSymbol()) <= 0 && len(reqData.GetSymbol()) > 1024 {
+	if len(reqData.GetSymbol()) <= 0 || len(reqData.GetSymbol()) > 1024 {
 		resData.ErrorCode = exception.INVALID_TOKEN_SIMBOL_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
