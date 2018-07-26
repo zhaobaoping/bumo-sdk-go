@@ -558,7 +558,7 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetAmount() < 0 {
+	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -603,7 +603,7 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetAmount() < 0 {
+	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -639,7 +639,7 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetAmount() < 0 {
+	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -674,7 +674,7 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetAmount() < 0 {
+	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
