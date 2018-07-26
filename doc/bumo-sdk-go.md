@@ -278,19 +278,19 @@ CheckValid(model.AccountCheckValidRequest) model.AccountCheckValidResponse
 > 请求参数
 
 参数	|	 类型	 |	描述
------------ |------------ |----------------
+----------- |------------|----------------
 address	 |string	 |待检测的账户地址
 
 > 响应数据
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 IsValid	 |string	 |账户地址是否有效
 
 > 错误码
 
 异常	|	 错误码|描述
------------|----------- |--------
+-----------|-----------|--------
 SYSTEM_ERROR |20000	 |System error
 
 > 示例
@@ -315,8 +315,8 @@ Create() model.AccountCreateResponse
 
 > 响应数据
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 PrivateKey	 |string	 |私钥
 PublicKey	 |string	 |公钥
 Address	 |string	 |地址
@@ -344,8 +344,8 @@ GetInfo(model.AccountGetInfoRequest) model.AccountGetInfoResponse
 
 > 请求参数
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 address	 |string	 |待检测的账户地址
 
 > 响应数据
@@ -358,26 +358,26 @@ Nonce	|	int64	|	账户交易序列号
 Priv	|[Priv](#priv) |	账户权限
 
 #### Priv
-参数	|	 类型	 |	描述
+参数	|	类型	|	描述
 -----------|------------ |----------------
 MasterWeight |	 int64	|账户自身权重
 Signers	 |[] [Signer](#signer)|签名者权重
 Thresholds	 |[Threshold](#threshold)|	门限
 
 #### Signer
-参数	|	 类型	 |	描述
+参数	|	类型	|	描述
 -----------|------------ |----------------
 Address	 |string	|签名账户地址
 Weight	 |int64	|签名账户权重
 
 #### Threshold
-参数	|	 类型	 |	描述
+参数	|	类型	|	描述
 -----------|------------ |----------------
 TxThreshold	 |	string	|交易默认门限
 TypeThresholds|[TypeThreshold](#typethreshold)|不同类型交易的门限
 
 #### TypeThreshold
-参数	|	 类型	 |	描述
+参数	|	类型	|	描述
 -----------|------------ |----------------
 Type	 |	int64	|	操作类型
 Threshold	|	int64	|	门限
@@ -385,7 +385,7 @@ Threshold	|	int64	|	门限
 > 错误码
 
 异常	|	 错误码|描述
------------|----------- |--------
+-----------|-----------|--------
 INVALID_ADDRESS_ERROR|11006 |Invalid address
 CONNECTNETWORK_ERROR|11007|Fail to Connect network
 SYSTEM_ERROR |20000	 |System error
@@ -414,20 +414,20 @@ GetNonce(model.AccountGetNonceRequest) model.AccountGetNonceResponse
 
 > 请求参数
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 address	 |string	 |待检测的账户地址
 
 > 响应数据
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 Nonce	|int64	 |该账户的交易序列号
 
 > 错误码
 
 异常	|	 错误码|描述
------------|----------- |--------
+-----------|-----------|--------
 INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
 CONNECTNETWORK_ERROR	|	 11007	|	 Fail to Connect network
 SYSTEM_ERROR |20000	 |System error
@@ -456,14 +456,14 @@ GetBalance(model.AccountGetBalanceRequest) model.AccountGetBalanceResponse
 
 > 请求参数
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 address	 |string	 |待检测的账户地址
 
 > 响应数据
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 Balance	 |int64	 |该账户的余额
 
 > 错误码
@@ -499,20 +499,20 @@ GetAssets(model.AccountGetAssetsRequest) model.AccountGetAssetsResponse
 
 > 请求参数
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 address	 |string	 |待检测的账户地址
 
 > 响应数据
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 Assets	|[] [Asset](#asset) |账户资产
 
 #### Asset
 
-参数	|	 类型	 |	描述
------------ |------------ |----------------
+参数	|	类型	|	描述
+----------- |------------|----------------
 Key	|[Key](#key)|资产惟一标识
 Amount	|int64	|资产数量
 
@@ -526,7 +526,7 @@ Issuer	|	string	|	资产发行账户地址
 > 错误码
 
 异常	|	 错误码|描述
------------|----------- |--------
+-----------|-----------|--------
 INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
 CONNECTNETWORK_ERROR	|	 11007	|	 Fail to Connect network
 SYSTEM_ERROR	 |	20000	 |	System error
@@ -579,7 +579,7 @@ Version	 |int64	|metadata的版本
 > 错误码
 
 异常	|	 错误码|描述|
------------|----------- |-------- |
+-----------|-----------|--------
 INVALID_ADDRESS_ERROR	 |	 11006	 |	 Invalid address
 CONNECTNETWORK_ERROR	 |	 11007	 |	 Fail to Connect network
 INVALID_DATAKEY_ERROR	 |	 11011	 |	 The length of key must be between 1 and 1024
@@ -631,7 +631,7 @@ Assets	|[] [Asset](#asset)|账户资产
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_ADDRESS_ERROR	|	11006	|	Invalid address
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
 INVALID_ASSET_CODE_ERROR	|	11023	|	The length of asset code must be between 1 and 1024
@@ -669,8 +669,8 @@ Allowance(model.TokenAllowanceRequest) model.TokenAllowanceResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	必填，合约账户地址	|
 tokenOwner	|	string	|	必填，待分配的目标账户地址	|
 spender	|	string	|	必填，授权账户地址	|
@@ -685,7 +685,7 @@ Allowance	|	string	|	允许提取的金额	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
@@ -720,8 +720,8 @@ GetInfo(model.TokenGetInfoRequest) model.TokenGetInfoResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	合约账户地址	|
 
 > 响应数据
@@ -737,7 +737,7 @@ Name	|	string	|	合约Token的名称	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -768,8 +768,8 @@ if resData.ErrorCode == 0 {
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress|string|合约账户地址|
 > 响应数据
 
@@ -781,7 +781,7 @@ Name	|	string	|	合约Token的名称	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -811,8 +811,8 @@ GetSymbol(model.TokenGetSymbolRequest) model.TokenGetSymbolResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	合约账户地址	|
 > 响应数据
 
@@ -824,7 +824,7 @@ Symbol	|	string	|	合约Token的符号	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -854,8 +854,8 @@ GetDecimals(model.TokenGetDecimalsRequest) model.TokenGetDecimalsResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	合约账户地址	|
 > 响应数据
 
@@ -867,7 +867,7 @@ Decimals	|	string	|	合约Token的精度	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -896,8 +896,8 @@ GetTotalSupply(model.TokenGetTotalSupplyRequest) model.TokenGetTotalSupplyRespon
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	合约账户地址	|
 > 响应数据
 
@@ -909,7 +909,7 @@ TotalSupply	|	string	|	合约Token的总供应量	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -938,8 +938,8 @@ GetBalance(model.TokenGetBalanceRequest) model.TokenGetBalanceResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 contractAddress	|	string	|	必填，合约账户地址	|
 tokenOwner	|	string	|	必填，合约Token拥有者的账户地址	|
 
@@ -953,7 +953,7 @@ Balance	|	string	|	账户余额	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
@@ -1006,7 +1006,7 @@ Payload	|	string	|	合约代码	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
 CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
@@ -1218,8 +1218,8 @@ EvaluateFee(model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeRes
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 sourceAddress	|	string	|	必填，发起该操作的源账户地址
 nonce	|	int64	|	必填，待发起的交易序列号，大小[1, max(int64)]
 operation	|[] OperationBase	|	必填，待提交的操作列表，不能为空
@@ -1229,14 +1229,14 @@ metadata	|	string	|	选填，备注
 > 响应数据
 
 成员变量	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 FeeLimit	|	int64	|	交易费用
 GasPrice	|	int64	|	打包费用
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
 INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
@@ -1294,14 +1294,14 @@ metadata	|	string	|	选填，备注
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 TransactionBlob	|	string	|	Transaction序列化后的16进制字符串
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
 INVALIDGASPRICE_ERROR	|	11049	|	Amount must be between gasPrice in block and max(int64)
@@ -1348,29 +1348,29 @@ Sign(model.TransactionSignRequest) model.TransactionSignResponse
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 blob	|	string	|	必填，发起该操作的源账户地址
 privateKeys	|	[] string	|	必填，私钥列表
 
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 Signatures	|	[] Signature](#signature)	|签名后的数据列表
 
 #### Signature
 
 成员变量	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 signData	|	int64	|	签名后数据
 publicKey	|	int64	|	公钥
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOB_ERROR	|	11056	|	Invalid blob
 PRIVATEKEY_NULL_ERROR	|	11057	|	PrivateKeys cannot be empty
 PRIVATEKEY_ONE_ERROR	|	11058	|	One of privateKeys error
@@ -1400,21 +1400,21 @@ Submit(model.TransactionSubmitRequest) model.TransactionSubmitResponse
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 blob	|	string	|	必填，交易blob
 signature	|	[] [Signature](#signature)	|	必填，签名列表
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 Hash	|	string	|	交易hash
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOB_ERROR	|	11052	|	Invalid blob
 SYSTEM_ERROR	|	20000	|	System error
 
@@ -1441,21 +1441,21 @@ GetInfo(model.TransactionGetInfoRequest) model.TransactionGetInfoResponse
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 hash	|	string	|	交易hash
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 TotalCount	|	int64	|	返回的总交易数
 Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
 
 #### TransactionHistory
 
-成员变量|	 类型	|	描述	|
------------|------------|----------------|
+成员变量|	类型	|	描述
+-----------|------------|----------------
 ActualFee	|	string	|	交易实际费用
 CloseTime	|	int64	|	交易关闭时间
 ErrorCode	|	int64	|	交易错误码
@@ -1469,7 +1469,7 @@ TxSize	|	int64	|	交易大小
 #### Transaction
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 SourceAddress	|	string	|	交易发起的源账户地址
 FeeLimit	|	int64	|	交易费用
 GasPrice	|	int64	|	交易打包费用
@@ -1478,13 +1478,13 @@ Operations	|	[] [Operation](#operation)	|	操作列表
 
 #### ContractTrigger
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Transaction	|	[TriggerTransaction](#triggertransaction)	|	触发交易
 
 #### Operation
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Type	|	int64	|	操作类型
 SourceAddress	|	string	|	操作发起源账户地址
 Metadata	|	string	|	备注
@@ -1499,13 +1499,13 @@ Log	|	[Log](#log)	|	记录日志
 #### TriggerTransaction
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 hash	|	string	|	交易hash
 
 #### CreateAccount
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 DestAddress	|	string	|	目标账户地址
 Contract	|	[Contract](#contract)	|	合约信息
 Priv	|	[Priv](#priv)	|	账户权限
@@ -1516,14 +1516,14 @@ InitInput	|	string	|	合约init函数的入参
 #### Contract
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Type	|	int64	|	约的语种，默认不赋值
 Payload	|	string	|	对应语种的合约代码
 
 #### Metadata
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Key	|	string	|	metadata的关键词
 Value	|	string	|	metadata的内容
 Version	|	int64	|	metadata的版本
@@ -1531,14 +1531,14 @@ Version	|	int64	|	metadata的版本
 #### IssueAsset
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Code	|	string	|	资产编码，长度[1 64]
 Amount	|	int64	|	资产数量
 
 #### PayAsset
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 DestAddress	|	string	|	待转移的目标账户地址
 Asset	|	[AssetInfo](#assetinfo)	|	账户资产
 Input	|	string	|	合约main函数入参
@@ -1554,7 +1554,7 @@ Input	|	string	|	合约main函数入参
 #### SetMetadata
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Key	|	string	|	metadata的关键词
 Value	|	string	|	metadata的内容
 Version	|	int64	|	metadata的版本
@@ -1563,7 +1563,7 @@ DeleteFlag	|	bool	|	是否删除metadata
 #### SetPrivilege
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 MasterWeight	|	string	|	账户自身权重，大小[0, max(uint32)]
 Signers	|	[] [Signer](#signer)	|	签名者权重列表
 TxThreshold	|	string	|	交易门限，大小[0, max(int64)]
@@ -1572,7 +1572,7 @@ TypeThreshold	|	[TypeThreshold](#typethreshold)	|	指定类型交易门限
 #### Log
 
 成员	|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Topic	|	string	|	日志主题
 Data	|	[]string	|	日志内容
 
@@ -1612,7 +1612,7 @@ BlockNumber	|	int64	|	最新的区块高度，对应底层字段seq	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
@@ -1646,7 +1646,7 @@ IsSynchronous|bool|区块是否同步|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
@@ -1672,14 +1672,14 @@ GetTransactions(model.BlockGetTransactionRequest) model.BlockGetTransactionRespo
 > 请求参数
 
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 blockNumber	|	int64	|	必填，待查询的区块高度
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 TotalCount	|	int64	|	返回的总交易数
 Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
 
@@ -1687,7 +1687,7 @@ Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
 SYSTEM_ERROR	|	20000	|	System error
@@ -1717,8 +1717,8 @@ GetInfo(model.BlockGetInfoRequest) model.BlockGetInfoResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 blockNumber	|	int64	|	待查询的区块高度	|
 
 > 响应数据
@@ -1734,7 +1734,7 @@ Version	|	string	|	区块版本	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -1775,7 +1775,7 @@ Version	|	string	|	区块版本	|
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
 
@@ -1801,28 +1801,28 @@ GetValidators(model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
 
 > 请求参数
 
-参数	|		 类型			|	描述	|
---------|---------------|------------|
+参数	|	类型	|	描述
+--------|---------------|------------
 blockNumber	|	int64	|	待查询的区块高度	|
 
 > 响应数据
 
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
 
 #### ValidatorInfo
 
 参数|	 类型	|	描述	|
------------|------------|----------------|
+-----------|------------|----------------
 Address	|	String	|	共识节点地址
 PledgeCoinAmount	|	int64	|	验证节点押金
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -1854,14 +1854,14 @@ GetLatestValidators() model.BlockGetLatestValidatorsResponse
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -1888,21 +1888,21 @@ if resData.ErrorCode == 0 {
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 blockNumber	|	int64	|	必填，待查询的区块高度
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 BlockReward	|	int64	|	区块奖励数
 ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
 
 #### ValidatorReward
 
-成员变量|	 类型	|	描述	|
------------|------------|----------------|
+成员变量|	类型	|	描述
+-----------|------------|----------------
 Validator	|	String	|	验证节点地址
 Reward	|	int64	|	验证节点奖励
 
@@ -1910,7 +1910,7 @@ Reward	|	int64	|	验证节点奖励
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
 SYSTEM_ERROR	|	20000	|	System error
@@ -1938,8 +1938,8 @@ GetLatestReward() model.BlockGetLatestRewardResponse
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 BlockReward	|	int64	|	区块奖励数
 ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
 
@@ -1947,7 +1947,7 @@ ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
 SYSTEM_ERROR	|	20000	|	System error
 
@@ -1972,27 +1972,27 @@ GetFees(model.BlockGetFeesRequest) model.BlockGetFeesResponse
 
 > 请求参数
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 blockNumber	|	int64	|	必填，待查询的区块高度	|
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 Fees	|	[Fees](#fees)	|	费用|
 
 #### Fees
 
-成员变量|	 类型	|	描述	|
------------|------------|----------------|
+成员变量|	类型	|	描述
+-----------|------------|----------------
 BaseReserve	|	int64	|	账户最低资产限制|
 GasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
 SYSTEM_ERROR	|	20000	|	System error	|
@@ -2022,14 +2022,14 @@ GetLatestFees() model.BlockGetLatestFeesResponse
 
 > 响应数据
 
-参数	|	 类型	|	描述	|
------------|------------|----------------|
+参数	|	类型	|	描述
+-----------|------------|----------------
 Fees	|	[Fees](#fees)	|	费用
 
 > 错误码
 
 异常	|	 错误码|描述|
------------|-----------|--------|
+-----------|-----------|--------
 CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
 SYSTEM_ERROR	|	20000	|	System error
 
