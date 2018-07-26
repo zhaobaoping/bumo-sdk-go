@@ -393,8 +393,8 @@ func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetAmount() < 0 {
-		resData.ErrorCode = exception.INVALID_ASSET_AMOUNT_ERROR
+	if reqData.GetAmount() <= 0 {
+		resData.ErrorCode = exception.INVALID_ISSUE_AMMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
