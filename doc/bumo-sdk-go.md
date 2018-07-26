@@ -154,13 +154,13 @@ import (
 ```
 	var testSdk sdk.Sdk
 ```
->调用SDK的接口InitSDK
+>调用SDK的接口Init
 
 ```
 url := "http://seed1.bumotest.io:26002"
-var reqData model.SDKInitSDKRequest
-reqData.Url = url
-resData := testSdk.InitSDK(reqData)
+var reqData model.SDKInitRequest
+reqData.SetUrl(url)
+resData := testSdk.Init(reqData)
 ```
 ### 生成公私钥地址
 >通过调用Account的Create生成账户，例如：

@@ -311,7 +311,6 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 			return resData
 		}
 	}
-
 	for i := range reqData.GetSigners() {
 		if !keypair.CheckAddress(reqData.GetSigners()[i].Address) {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNER_ADDRESS_ERROR)

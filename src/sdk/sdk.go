@@ -23,13 +23,13 @@ type Sdk struct {
 //新建
 func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 	var resData model.SDKInitResponse
-	if reqData.Url == "" {
+	if reqData.GetUrl() == "" {
 		resData.ErrorCode = exception.INVALID_BLOCKNUMBER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	get := "/hello"
-	response, SDKRes := common.GetRequest(reqData.Url, get, "")
+	response, SDKRes := common.GetRequest(reqData.GetUrl(), get, "")
 	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
@@ -41,12 +41,12 @@ func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	sdk.Account.Url = reqData.Url
-	sdk.Contract.Url = reqData.Url
-	sdk.Asset.Url = reqData.Url
-	sdk.Transaction.Url = reqData.Url
-	sdk.Block.Url = reqData.Url
-	sdk.Token.Url = reqData.Url
+	sdk.Account.Url = reqData.GetUrl()
+	sdk.Contract.Url = reqData.GetUrl()
+	sdk.Asset.Url = reqData.GetUrl()
+	sdk.Transaction.Url = reqData.GetUrl()
+	sdk.Block.Url = reqData.GetUrl()
+	sdk.Token.Url = reqData.GetUrl()
 	resData.ErrorCode = exception.SUCCESS
 	return resData
 }

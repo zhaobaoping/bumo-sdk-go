@@ -480,7 +480,14 @@ func (reqData *TokenGetBalanceRequest) GetTokenOwner() string {
 }
 
 type SDKInitRequest struct {
-	Url string
+	url string
+}
+
+func (reqData *SDKInitRequest) SetUrl(Url string) {
+	reqData.url = Url
+}
+func (reqData *SDKInitRequest) GetUrl() string {
+	return reqData.url
 }
 
 //TransactionBuildBlob
