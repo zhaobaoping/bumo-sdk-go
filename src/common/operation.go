@@ -937,7 +937,7 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 		return resData
 	}
 	for i := range reqData.GetDatas() {
-		if len(reqData.GetDatas()[i]) > 1024 || len(reqData.GetTopic()) <= 0 {
+		if len(reqData.GetDatas()[i]) > 1024 || len(reqData.GetDatas()[i]) <= 0 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_LOG_DATA_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc

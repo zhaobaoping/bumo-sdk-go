@@ -13,11 +13,11 @@ import (
 var testSdk sdk.Sdk
 
 //InitSDK
-func Test_InitSDK(t *testing.T) {
+func Test_Init(t *testing.T) {
 	url := "http://seed1.bumotest.io:26002"
 	var reqData model.SDKInitSDKRequest
 	reqData.Url = url
-	resData := testSdk.InitSDK(reqData)
+	resData := testSdk.Init(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
