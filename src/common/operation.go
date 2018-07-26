@@ -4,7 +4,6 @@ package common
 import (
 	"container/list"
 	"encoding/json"
-	"fmt"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -677,7 +676,6 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 		resData.ErrorDesc = contractData.ErrorDesc
 		return resData
 	}
-	fmt.Println("==============", resData)
 	resData.ErrorCode = exception.SUCCESS
 	resData.Result.Operation = contractData.Result.Operation
 	return resData
