@@ -560,8 +560,8 @@ type GetLatestFeesResult struct {
 }
 
 // sdk
-//InitSDK
-type SDKInitSDKResponse struct {
+//Init
+type SDKInitResponse struct {
 	ErrorCode int    `json:"error_code"`
 	ErrorDesc string `json:"error_desc"`
 }

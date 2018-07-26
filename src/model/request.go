@@ -479,7 +479,7 @@ func (reqData *TokenGetBalanceRequest) GetTokenOwner() string {
 	return reqData.tokenOwner
 }
 
-type SDKInitSDKRequest struct {
+type SDKInitRequest struct {
 	Url string
 }
 

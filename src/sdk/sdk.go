@@ -21,8 +21,8 @@ type Sdk struct {
 }
 
 //新建
-func (sdk *Sdk) Init(reqData model.SDKInitSDKRequest) model.SDKInitSDKResponse {
-	var resData model.SDKInitSDKResponse
+func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
+	var resData model.SDKInitResponse
 	if reqData.Url == "" {
 		resData.ErrorCode = exception.INVALID_BLOCKNUMBER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
