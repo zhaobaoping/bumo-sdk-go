@@ -1287,7 +1287,7 @@ nonce	|	int64	|	必填，待发起的交易序列号，函数里+1，大小[1, m
 gasPrice	|	int64	|	必填，交易打包费用，单位MO，1 BU = 10^8 MO，大小[1000, max(int64)]
 feeLimit	|	int64	|	必填，交易手续费，单位MO，1 BU = 10^8 MO，大小[1000000, max(int64)]
 operation	|[] OperationBase	|	必填，待提交的操作列表，不能为空
-ceilLedgerSeq	|	int64	|	选填，区块高度限制，大于等于0，是0时不限制
+ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
 metadata	|	string	|	选填，备注
 
 
