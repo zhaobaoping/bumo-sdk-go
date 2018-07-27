@@ -18,7 +18,7 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 	var i int = 0
 	for e := operationsList.Front(); e != nil; e = e.Next() {
 		operations[i] = new(protocol.Operation)
-		operationsData, ok := e.Value.(model.OperationBase)
+		operationsData, ok := e.Value.(model.BaseOperation)
 		if !ok {
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}

@@ -177,11 +177,11 @@ func (reqData *TransactionEvaluateFeeRequest) SetSignatureNumber(SignatureNumber
 func (reqData *TransactionEvaluateFeeRequest) GetSignatureNumber() string {
 	return reqData.signatureNumber
 }
-func (reqData *TransactionEvaluateFeeRequest) SetOperation(operation OperationBase) {
+func (reqData *TransactionEvaluateFeeRequest) SetOperation(operation BaseOperation) {
 	reqData.operations.Init()
 	reqData.operations.PushBack(operation)
 }
-func (reqData *TransactionEvaluateFeeRequest) AddOperation(operation OperationBase) {
+func (reqData *TransactionEvaluateFeeRequest) AddOperation(operation BaseOperation) {
 	reqData.operations.PushBack(operation)
 }
 func (reqData *TransactionEvaluateFeeRequest) GetOperations() list.List {
@@ -537,18 +537,18 @@ func (reqData *TransactionBuildBlobRequest) SetCeilLedgerSeq(CeilLedgerSeq int64
 func (reqData *TransactionBuildBlobRequest) GetCeilLedgerSeq() int64 {
 	return reqData.ceilLedgerSeq
 }
-func (reqData *TransactionBuildBlobRequest) SetOperation(operation OperationBase) {
+func (reqData *TransactionBuildBlobRequest) SetOperation(operation BaseOperation) {
 	reqData.operations.Init()
 	reqData.operations.PushBack(operation)
 }
-func (reqData *TransactionBuildBlobRequest) AddOperation(operation OperationBase) {
+func (reqData *TransactionBuildBlobRequest) AddOperation(operation BaseOperation) {
 	reqData.operations.PushBack(operation)
 }
 func (reqData *TransactionBuildBlobRequest) GetOperations() list.List {
 	return reqData.operations
 }
 
-type OperationBase interface {
+type BaseOperation interface {
 	Get() (Type int)
 }
 

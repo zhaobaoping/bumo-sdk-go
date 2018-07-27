@@ -105,6 +105,7 @@ func Test_Account_GetNonce(t *testing.T) {
 
 //Transaction_BuildBlob_Sign_Submit
 func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
+	//Operation
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
 	var amount int64 = 100
@@ -112,7 +113,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	reqDataOperation.SetAmount(amount)
 	reqDataOperation.SetMetadata("63")
 	reqDataOperation.SetDestAddress(destAddress)
-
+	//Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
 	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataBlob.SetSourceAddress(sourceAddressBlob)
@@ -129,6 +130,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	if resDataBlob.ErrorCode != 0 {
 		fmt.Println(resDataBlob.ErrorDesc)
 	} else {
+		//Sign
 		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
@@ -138,6 +140,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 		if resDataSign.ErrorCode != 0 {
 			fmt.Println(resDataSign.ErrorDesc)
 		} else {
+			//Submit
 			var reqData model.TransactionSubmitRequest
 			reqData.SetBlob(resDataBlob.Result.Blob)
 			reqData.SetSignatures(resDataSign.Result.Signatures)
