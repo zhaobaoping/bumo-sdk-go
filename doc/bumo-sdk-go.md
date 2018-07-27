@@ -2062,7 +2062,7 @@ if resData.ErrorCode == 0 {
 11004|InitBalance must be between 1 and max(int64).
 11005|SourceAddress cannot be equal to destAddress.
 11006|Invalid address.
-11007|Fail to Connect network.
+11007|Fail to connect network.
 11008|AssetAmount this will be issued mustbetween 1 and max(int64).
 11009|The account does not have this asset
 11010|The account does not have this metadata.
@@ -2094,7 +2094,7 @@ if resData.ErrorCode == 0 {
 11045|The length of key must be between 1 and 128.
 11046|The length of value must be between 1 and 1024.
 11048|Nonce must be between 1 and max(int64).
-11049|Amount must be between 0 and max(int64).
+11049|GasPrice must be between 1000 and max(int64).
 11050|FeeLimit must be between 0 and max(int64).
 11051|Operations cannot be resolved.
 11052|CeilLedgerSeq must be equal or bigger than 0.
