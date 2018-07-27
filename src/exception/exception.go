@@ -112,7 +112,7 @@ var errm = map[int]string{
 	INVALID_LOG_TOPIC_ERROR:                   "The length of log topic must be between 1 and 128.",
 	INVALID_LOG_DATA_ERROR:                    "The length of one of log data must be between 1 and 1024.",
 	INVALID_NONCE_ERROR:                       "Nonce must be between 1 and max(int64).",
-	INVALID_GASPRICE_ERROR:                    "Amount must be between 0 and max(int64).",
+	INVALID_GASPRICE_ERROR:                    "GasPrice must be between 1000 and max(int64).",
 	INVALID_FEELIMIT_ERROR:                    "FeeLimit must be between 0 and max(int64).",
 	INVALID_OPERATIONS_ERROR:                  "Operations cannot be resolved.",
 	INVALID_CEILLEDGERSEQ_ERROR:               "CeilLedgerSeq must be equal or bigger than 0.",
