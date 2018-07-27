@@ -504,7 +504,7 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetSupply() < 0 {
+	if reqData.GetSupply() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_TOTALSUPPLY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
