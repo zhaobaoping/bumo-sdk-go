@@ -2092,6 +2092,7 @@ if resData.ErrorCode == 0 {
 11037|Invalid contract address.
 11038|contractAddress is not a contract account.
 11039|Amount must be between 1 and max(int64).
+11040|SourceAddress cannot be equal to contractAddress.
 11041|Invalid fromAddress.
 11043|Invalid spender.
 11045|The length of key must be between 1 and 128.
