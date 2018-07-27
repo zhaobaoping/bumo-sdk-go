@@ -28,12 +28,6 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	newgasPrice, _, SDKRes := common.GetLatestFees(transaction.Url)
-	if SDKRes.ErrorCode != 0 {
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
 	if reqData.GetNonce() <= 0 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_NONCE_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
@@ -46,13 +40,13 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetGasPrice() < newgasPrice {
+	if reqData.GetGasPrice() < 1000 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_GASPRICE_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetFeeLimit() < newgasPrice*1000 {
+	if reqData.GetFeeLimit() < 1 {
 		SDKRes := exception.GetSDKRes(exception.INVALID_FEELIMIT_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc

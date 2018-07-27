@@ -1310,8 +1310,8 @@ TransactionBlob	|	string	|	Transaction序列化后的16进制字符串
 -----------|-----------|--------
 INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
-INVALIDGASPRICE_ERROR	|	11049	|	Amount must be between gasPrice in block and max(int64)
-INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must be between 1000000 and max(int64)
+INVALIDGASPRICE_ERROR	|	11049	|	Amount must be between 1000 in block and max(int64)
+INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must be between 1 and max(int64)
 INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
 INVALID_CEILLEDGERSEQ_ERROR	|	11052	|	CeilLedgerSeq must be equal or bigger than 0
 SYSTEM_ERROR	|	20000	|	System error
@@ -2098,7 +2098,7 @@ if resData.ErrorCode == 0 {
 11046|The length of value must be between 1 and 1024.
 11048|Nonce must be between 1 and max(int64).
 11049|GasPrice must be between 1000 and max(int64).
-11050|FeeLimit must be between 0 and max(int64).
+11050|FeeLimit must be between 1 and max(int64).
 11051|Operations cannot be empty.
 11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations cannot be resolved.
