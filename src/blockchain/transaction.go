@@ -71,6 +71,11 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	if reqData.GetCeilLedgerSeq() < 0 {
+		resData.ErrorCode = exception.INVALID_CEILLEDGERSEQ_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var seq int64 = 0
 	if reqData.GetCeilLedgerSeq() > 0 {
 		var Block BlockOperation
