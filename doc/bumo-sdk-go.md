@@ -1263,7 +1263,7 @@ var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 reqDataEvaluate.SetSourceAddress(sourceAddress)
 var nonce int64 = 88
 reqDataEvaluate.SetNonce(nonce)
-var signatureNumber int64 = 1
+var signatureNumber string = "3"
 reqDataEvaluate.SetSignatureNumber(signatureNumber)
 var SetCeilLedgerSeq int64 = 50
 reqDataEvaluate.SetCeilLedgerSeq(SetCeilLedgerSeq)
