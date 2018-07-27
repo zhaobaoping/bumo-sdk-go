@@ -13,7 +13,7 @@ import (
 )
 
 //GetOperations
-func GetOperations(operationsList list.List, url string) ([]*protocol.Operation, exception.SDKResponse) {
+func GetOperations(operationsList list.List, url string, sourceAddress string) ([]*protocol.Operation, exception.SDKResponse) {
 	operations := make([]*protocol.Operation, operationsList.Len())
 	var i int = 0
 	for e := operationsList.Front(); e != nil; e = e.Next() {
@@ -27,6 +27,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			operationsReqData, ok := operationsData.(model.AccountActivateOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			if operationsReqData.GetDestAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
 			}
 			operationsResData := Activate(operationsReqData, url)
 			if operationsResData.ErrorCode != 0 {
@@ -68,6 +71,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetDestAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
+			}
 			operationsResData := AssetSend(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -78,7 +84,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-
+			if operationsReqData.GetDestAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
+			}
 			operationsResData := BUSend(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -99,6 +107,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+			}
 			operationsResData := Transfer(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -108,6 +119,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			operationsReqData, ok := operationsData.(model.TokenTransferFromOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
 			}
 			operationsResData := TransferFrom(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
@@ -119,6 +133,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+			}
 			operationsResData := Approve(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -129,6 +146,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+			}
 			operationsResData := Assign(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -138,6 +158,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			operationsReqData, ok := operationsData.(model.TokenChangeOwnerOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
 			}
 			operationsResData := ChangeOwner(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
@@ -159,6 +182,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+			}
 			operationsResData := InvokeByAsset(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -168,6 +194,9 @@ func GetOperations(operationsList list.List, url string) ([]*protocol.Operation,
 			operationsReqData, ok := operationsData.(model.ContractInvokeByBUOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			if operationsReqData.GetContractAddress() == sourceAddress {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
 			}
 			operationsResData := InvokeByBU(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
@@ -706,6 +735,7 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 	var data model.ContractInvokeByBUOperation
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetContractAddress())
+
 	data.SetAmount(0)
 	data.SetInput(string(InputStr))
 	data.SetMetadata(reqData.GetMetadata())

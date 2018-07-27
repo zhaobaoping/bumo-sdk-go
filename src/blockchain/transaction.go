@@ -59,7 +59,34 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	operations, SDKRes := common.GetOperations(operationsData, transaction.Url)
+	operations, SDKRes := common.GetOperations(operationsData, transaction.Url, reqData.GetSourceAddress())
+	if SDKRes.ErrorCode != 0 {
+		resData.ErrorCode = SDKRes.ErrorCode
+		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	for i := range operations {
+		switch operations[i].Type {
+		case protocol.Operation_CREATE_ACCOUNT:
+			if operations[i].GetCreateAccount().GetDestAddress() == reqData.GetSourceAddress() {
+				resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
+		case protocol.Operation_PAY_ASSET:
+			if operations[i].GetPayAsset().GetDestAddress() == reqData.GetSourceAddress() {
+				resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
+		case protocol.Operation_PAY_COIN:
+			if operations[i].GetPayCoin().GetDestAddress() == reqData.GetSourceAddress() {
+				resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
+		}
+	}
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -122,6 +149,11 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	if reqData.GetCeilLedgerSeq() < 0 {
+		resData.ErrorCode = exception.INVALID_CEILLEDGERSEQ_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var SignatureNumber int64 = 1
 	if len(reqData.GetSignatureNumber()) != 0 {
 		var err error
@@ -133,7 +165,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 			return resData
 		}
 	}
-	operations, SDKRes := common.GetOperations(operationsData, transaction.Url)
+	operations, SDKRes := common.GetOperations(operationsData, transaction.Url, reqData.GetSourceAddress())
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -154,6 +186,13 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		Operations[i].SetSignerWeight = operations[i].SetSignerWeight
 		Operations[i].SetThreshold = operations[i].SetThreshold
 	}
+	var seq int64 = 0
+	if reqData.GetCeilLedgerSeq() > 0 {
+		var Block BlockOperation
+		Block.Url = transaction.Url
+		resDataNumber := Block.GetNumber()
+		seq = reqData.GetCeilLedgerSeq() + resDataNumber.Result.Header.BlockNumber
+	}
 	request := &model.WebTransactionEvaluateFeeResponse{
 		Items: []model.Item{
 			{
@@ -161,7 +200,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 					SourceAddress: reqData.GetSourceAddress(),
 					Metadata:      reqData.GetMetadata(),
 					Nonce:         reqData.GetNonce(),
-					CeilLedgerSeq: reqData.GetCeilLedgerSeq(),
+					CeilLedgerSeq: seq,
 					Operations:    Operations,
 				},
 				SignatureNumber: SignatureNumber,

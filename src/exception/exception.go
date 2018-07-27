@@ -42,6 +42,7 @@ const (
 	INVALID_CONTRACTADDRESS_ERROR             int = 11037
 	CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR int = 11038
 	INVALID_TOKEN_AMOUNT_ERROR                int = 11039
+	SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR int = 11040
 	INVALID_FROMADDRESS_ERROR                 int = 11041
 	INVALID_SPENDER_ERROR                     int = 11043
 	INVALID_LOG_TOPIC_ERROR                   int = 11045
@@ -131,6 +132,7 @@ var errm = map[int]string{
 	SIGNATURE_EMPTY_ERROR:                     "The signatures cannot be empty.",
 	GET_ALLOWNANCE_ERROR:                      "Fail to get allowance.",
 	GET_TOKEN_INFO_ERROR:                      "Fail to get token info",
+	SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR: "SourceAddress cannot be equal to contractAddress.",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",
