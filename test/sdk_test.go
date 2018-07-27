@@ -213,13 +213,15 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	var reqDataBlob model.TransactionBuildBlobRequest
 	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataBlob.SetSourceAddress(sourceAddressBlob)
-	var feeLimit int64 = 1000000000
+	var feeLimit int64 = 1000000
 	reqDataBlob.SetFeeLimit(feeLimit)
 	var gasPrice int64 = 1000
 	reqDataBlob.SetGasPrice(gasPrice)
-	var nonce int64 = 97
+	var nonce int64 = 109
 	reqDataBlob.SetNonce(nonce)
 	reqDataBlob.SetMetadata("63")
+	var CeilLedgerSeq int64 = 50
+	reqDataBlob.SetCeilLedgerSeq(CeilLedgerSeq)
 	reqDataBlob.SetOperation(reqDataOperation)
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
@@ -227,6 +229,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 		fmt.Println(resDataBlob.ErrorDesc)
 	} else {
 		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
+
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
 		reqData.SetPrivateKeys(PrivateKey)

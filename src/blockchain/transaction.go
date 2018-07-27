@@ -262,14 +262,12 @@ func (transaction *TransactionOperation) Sign(reqData model.TransactionSignReque
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
-
 	}
 	if reqData.GetPrivateKeys() == nil {
 		SDKRes := exception.GetSDKRes(exception.PRIVATEKEY_NULL_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
-
 	}
 	for i := range reqData.GetPrivateKeys() {
 		if !keypair.CheckPrivateKey(reqData.GetPrivateKeys()[i]) {
@@ -292,9 +290,16 @@ func (transaction *TransactionOperation) Sign(reqData model.TransactionSignReque
 	}
 	TransactionBlob, err := hex.DecodeString(reqData.GetBlob())
 	if err != nil {
-		SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
+		SDKRes := exception.GetSDKRes(exception.INVALID_BLOB_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	var transactionBlob protocol.Transaction
+	err = proto.Unmarshal(TransactionBlob, &transactionBlob)
+	if err != nil {
+		resData.ErrorCode = exception.INVALID_BLOB_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	for i := range reqData.GetPrivateKeys() {
