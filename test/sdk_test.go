@@ -185,6 +185,8 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataEvaluate.SetNonce(nonce)
 	var signatureNumber string = "3"
 	reqDataEvaluate.SetSignatureNumber(signatureNumber)
+	var SetCeilLedgerSeq int64 = 50
+	reqDataEvaluate.SetCeilLedgerSeq(SetCeilLedgerSeq)
 	reqDataEvaluate.SetMetadata("63")
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)

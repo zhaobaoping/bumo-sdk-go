@@ -1225,9 +1225,10 @@ EvaluateFee(model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeRes
 -----------|------------|----------------
 sourceAddress	|	string	|	必填，发起该操作的源账户地址
 nonce	|	int64	|	必填，待发起的交易序列号，大小[1, max(int64)]
-operation	|[] [BaseOperation](#baseoperation)	|	必填，待提交的操作列表，不能为空
+operations	|	list.List	|	必填，待提交的操作列表，不能为空
 signtureNumber	|	int32	|	选填，待签名者的数量，默认是1，大小[1, max(int32)]
 metadata	|	string	|	选填，备注
+ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
 
 > 响应数据
 
@@ -1264,6 +1265,8 @@ var nonce int64 = 88
 reqDataEvaluate.SetNonce(nonce)
 var signatureNumber int64 = 1
 reqDataEvaluate.SetSignatureNumber(signatureNumber)
+var SetCeilLedgerSeq int64 = 50
+reqDataEvaluate.SetCeilLedgerSeq(SetCeilLedgerSeq)
 reqDataEvaluate.SetOperation(reqDataOperation)
 resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
 if resDataEvaluate.ErrorCode == 0 {
@@ -1290,7 +1293,7 @@ sourceAddress	|	string	|	必填，发起该操作的源账户地址
 nonce	|	int64	|	必填，待发起的交易序列号，函数里+1，大小[1, max(int64)]
 gasPrice	|	int64	|	必填，交易打包费用，单位MO，1 BU = 10^8 MO，大小[1000, max(int64)]
 feeLimit	|	int64	|	必填，交易手续费，单位MO，1 BU = 10^8 MO，大小[1000000, max(int64)]
-operation	|[] [BaseOperation](#baseoperation)	|	必填，待提交的操作列表，不能为空
+operations	|	list.List	|	必填，待提交的操作列表，不能为空
 ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
 metadata	|	string	|	选填，备注
 
@@ -2096,7 +2099,7 @@ if resData.ErrorCode == 0 {
 11048|Nonce must be between 1 and max(int64).
 11049|GasPrice must be between 1000 and max(int64).
 11050|FeeLimit must be between 0 and max(int64).
-11051|Operations cannot be resolved.
+11051|Operations cannot be empty.
 11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations cannot be resolved.
 11054|SignagureNumber must be between 1 and max(int32).

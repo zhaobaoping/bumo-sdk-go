@@ -49,7 +49,7 @@ const (
 	INVALID_NONCE_ERROR                       int = 11048
 	INVALID_GASPRICE_ERROR                    int = 11049
 	INVALID_FEELIMIT_ERROR                    int = 11050
-	INVALID_OPERATIONS_ERROR                  int = 11051
+	OPERATIONS_EMPTY_ERROR                    int = 11051
 	INVALID_CEILLEDGERSEQ_ERROR               int = 11052
 	OPERATIONS_ONE_ERROR                      int = 11053
 	INVALID_SIGNATURENUMBER_ERROR             int = 11054
@@ -82,7 +82,7 @@ var errm = map[int]string{
 	INVALID_INITBALANCE_ERROR:                 "InitBalance must be between 1 and max(int64).",
 	SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR:     "SourceAddress cannot be equal to destAddress.",
 	INVALID_ADDRESS_ERROR:                     "Invalid address.",
-	CONNECTNETWORK_ERROR:                      "Fail to Connect network.",
+	CONNECTNETWORK_ERROR:                      "Fail to connect network.",
 	NO_ASSET_ERROR:                            "The account does not have this asset.",
 	NO_METADATA_ERROR:                         "The account does not have this metadata.",
 	INVALID_DATAKEY_ERROR:                     "The length of key must be between 1 and 1024.",
@@ -113,8 +113,8 @@ var errm = map[int]string{
 	INVALID_LOG_DATA_ERROR:                    "The length of one of log data must be between 1 and 1024.",
 	INVALID_NONCE_ERROR:                       "Nonce must be between 1 and max(int64).",
 	INVALID_GASPRICE_ERROR:                    "GasPrice must be between 1000 and max(int64).",
-	INVALID_FEELIMIT_ERROR:                    "FeeLimit must be between 0 and max(int64).",
-	INVALID_OPERATIONS_ERROR:                  "Operations cannot be resolved.",
+	INVALID_FEELIMIT_ERROR:                    "FeeLimit must be between 1 and max(int64).",
+	OPERATIONS_EMPTY_ERROR:                    "Operations cannot be empty.",
 	INVALID_CEILLEDGERSEQ_ERROR:               "CeilLedgerSeq must be equal or bigger than 0.",
 	OPERATIONS_ONE_ERROR:                      "One of operations cannot be resolved.",
 	INVALID_SIGNATURENUMBER_ERROR:             "SignagureNumber must be between 1 and max(int32).",
