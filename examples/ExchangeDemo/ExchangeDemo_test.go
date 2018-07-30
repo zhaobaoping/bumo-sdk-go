@@ -1,5 +1,5 @@
-// submitTransactionDemo
-package submitTransactionDemo_test
+// ExchangeDemo_test
+package ExchangeDemo_test
 
 import (
 	"encoding/json"
