@@ -2107,7 +2107,7 @@ if resData.ErrorCode == 0 {
 11009|The account does not have this asset
 11010|The account does not have this metadata.
 11011|The length of key must be between 1 and 1024.
-11012|The length of value must be between 0 and 256000.
+11012|The length of value must be between 0 and 256k.
 11013|The version must be bigger than and equal to 0.
 11015|MasterWeight must be between 0 and max(uint32).
 11016|Invalid signer address.

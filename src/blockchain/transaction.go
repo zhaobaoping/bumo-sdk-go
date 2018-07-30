@@ -215,12 +215,12 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 		return resData
 	}
 	response, SDKRes := common.PostRequest(transaction.Url, "/testTransaction", requestJson)
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -351,12 +351,12 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 		return resData
 	}
 	response, SDKRes := common.PostRequest(transaction.Url, "/submitTransaction", requestJson)
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -395,13 +395,12 @@ func (transaction *TransactionOperation) GetInfo(reqData model.TransactionGetInf
 	}
 	get := "/getTransactionHistory?hash="
 	response, SDKRes := common.GetRequest(transaction.Url, get, reqData.GetHash())
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
-
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

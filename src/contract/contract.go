@@ -57,12 +57,12 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(contract.Url, get, reqData.GetAddress())
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()
@@ -135,12 +135,12 @@ func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model
 		return resData
 	}
 	response, SDKRes := common.PostRequest(contract.Url, "/callContract", reqDataByte)
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = exception.SYSTEM_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

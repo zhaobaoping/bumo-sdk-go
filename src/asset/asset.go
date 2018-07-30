@@ -42,12 +42,12 @@ func (asset *AssetOperation) GetInfo(reqData model.AssetGetInfoRequest) model.As
 	buf.WriteString(reqData.GetIssuer())
 	str := buf.String()
 	response, SDKRes := common.GetRequest(asset.Url, get, str)
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode == 200 {
 		decoder := json.NewDecoder(response.Body)
 		decoder.UseNumber()

@@ -30,12 +30,12 @@ func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 	}
 	get := "/hello"
 	response, SDKRes := common.GetRequest(reqData.GetUrl(), get, "")
-	defer response.Body.Close()
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	defer response.Body.Close()
 	if response.StatusCode != 200 {
 		resData.ErrorCode = exception.URL_EMPTY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)

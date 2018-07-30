@@ -87,7 +87,7 @@ var errm = map[int]string{
 	NO_ASSET_ERROR:                            "The account does not have this asset.",
 	NO_METADATA_ERROR:                         "The account does not have this metadata.",
 	INVALID_DATAKEY_ERROR:                     "The length of key must be between 1 and 1024.",
-	INVALID_DATAVALUE_ERROR:                   "The length of value must be between 0 and 256000.",
+	INVALID_DATAVALUE_ERROR:                   "The length of value must be between 0 and 256k.",
 	INVALID_DATAVERSION_ERROR:                 "The version must be bigger than and equal to 0.",
 	INVALID_MASTERWEIGHT_ERROR:                "MasterWeight must be between 0 and max(uint32).",
 	INVALID_SIGNER_ADDRESS_ERROR:              "Invalid signer address.",
