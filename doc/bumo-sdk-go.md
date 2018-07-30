@@ -1084,9 +1084,8 @@ code	|	string	|	必填，资产编码，长度[1 64]
 amount	|	int64	|	必填，资产发行数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
+
 > AssetSendOperation
-
-
 
 成员变量	|	 类型|	描述
 -------------|---------|----------------------

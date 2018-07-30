@@ -493,6 +493,12 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	if !keypair.CheckAddress(reqData.GetDestAddress()) {
+		SDKRes := exception.GetSDKRes(exception.INVALID_DESTADDRESS_ERROR)
+		resData.ErrorCode = SDKRes.ErrorCode
+		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
 	var data model.ContractInvokeByBUOperation
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetDestAddress())
