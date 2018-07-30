@@ -1055,7 +1055,7 @@ metadata	|	string	|	选填，备注
 -------------|---------|-----------
 sourceAddress|string|选填，操作源账户
 key	|string|必填，metadata的关键词，长度[1, 1024]
-value	|string|选填，metadata的内容，长度[0, 256000]
+value	|string|选填，metadata的内容，长度[0, 256K]
 version	|int64	|选填，metadata的版本
 deleteFlag	|bool	|选填，是否删除metadata
 metadata|string|选填，备注
