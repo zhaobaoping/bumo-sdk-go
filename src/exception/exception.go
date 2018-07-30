@@ -126,7 +126,7 @@ var errm = map[int]string{
 	URL_EMPTY_ERROR:                           "Url cannot be empty.",
 	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR:      "ContractAddress and code cannot be empty at the same time.",
 	SYSTEM_ERROR:                              "System error.",
-	INVALID_BLOCKNUMBER_ERROR:                 "BlockNumber must bigger than 0.",
+	INVALID_BLOCKNUMBER_ERROR:                 "BlockNumber must be bigger than 0.",
 	INVALID_OPTTYPE_ERROR:                     "OptType must be between 0 and 2.",
 	INVALID_ISSUE_AMMOUNT_ERROR:               "AssetAmount this will be issued must between 1 and max(int64).",
 	SIGNATURE_EMPTY_ERROR:                     "The signatures cannot be empty.",

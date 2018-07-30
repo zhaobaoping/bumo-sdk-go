@@ -2145,7 +2145,7 @@ if resData.ErrorCode == 0 {
 11056|Invalid blob.
 11057|PrivateKeys cannot be empty.
 11058|One of privateKeys is invalid.
-11060|BlockNumber must bigger than 0.
+11060|BlockNumber must be bigger than 0.
 11062|Url cannot be empty.
 11063|ContractAddress and code cannot be empty at the same time.
 11064|OptType must be between 0 and 2.
