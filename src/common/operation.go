@@ -598,6 +598,11 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -653,6 +658,11 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var Input model.Input
 	Input.Method = "transferFrom"
 	Input.Params.To = reqData.GetDestAddress()
@@ -686,6 +696,11 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 	var resData model.TokenApproveResponse
 	if !keypair.CheckAddress(reqData.GetSpender()) {
 		resData.ErrorCode = exception.INVALID_SPENDER_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -734,6 +749,16 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	if reqData.GetDestAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var Input model.Input
 	Input.Method = "assign"
 	Input.Params.To = reqData.GetDestAddress()
@@ -776,6 +801,11 @@ func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwner
 	InputStr, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -861,7 +891,7 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		return resData
 	}
 	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
-		SDKRes := exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
+		SDKRes := exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
@@ -934,7 +964,7 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 		return resData
 	}
 	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
-		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
