@@ -657,6 +657,11 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	if reqData.GetFromAddress() == reqData.GetDestAddress() {
+		resData.ErrorCode = exception.FROMADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var Input model.Input
 	Input.Method = "transferFrom"
 	Input.Params.To = reqData.GetDestAddress()
