@@ -743,6 +743,11 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
+	if !keypair.CheckAddress(reqData.GetContractAddress()) {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -800,6 +805,11 @@ func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwner
 	InputStr, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if !keypair.CheckAddress(reqData.GetContractAddress()) {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -884,9 +894,8 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		}
 	}
 	if !keypair.CheckAddress(reqData.GetContractAddress()) {
-		SDKRes := exception.GetSDKRes(exception.INVALID_CONTRACTADDRESS_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
@@ -957,9 +966,8 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 		}
 	}
 	if !keypair.CheckAddress(reqData.GetContractAddress()) {
-		SDKRes := exception.GetSDKRes(exception.INVALID_CONTRACTADDRESS_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
