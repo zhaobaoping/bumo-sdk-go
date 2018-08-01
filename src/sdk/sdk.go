@@ -3,21 +3,20 @@ package sdk
 
 import (
 	"github.com/bumoproject/bumo-sdk-go/src/account"
-	"github.com/bumoproject/bumo-sdk-go/src/asset"
 	"github.com/bumoproject/bumo-sdk-go/src/blockchain"
 	"github.com/bumoproject/bumo-sdk-go/src/common"
 	"github.com/bumoproject/bumo-sdk-go/src/contract"
 	"github.com/bumoproject/bumo-sdk-go/src/exception"
 	"github.com/bumoproject/bumo-sdk-go/src/model"
+	"github.com/bumoproject/bumo-sdk-go/src/token"
 )
 
 type Sdk struct {
 	Account     account.AccountOperation
 	Contract    contract.ContractOperation
-	Asset       asset.AssetOperation
 	Transaction blockchain.TransactionOperation
 	Block       blockchain.BlockOperation
-	Ctp10Token  asset.Ctp10TokenOperation
+	Token       token.TokenOperation
 }
 
 //新建
@@ -43,10 +42,10 @@ func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 	}
 	sdk.Account.Url = reqData.GetUrl()
 	sdk.Contract.Url = reqData.GetUrl()
-	sdk.Asset.Url = reqData.GetUrl()
+	sdk.Token.Asset.Url = reqData.GetUrl()
 	sdk.Transaction.Url = reqData.GetUrl()
 	sdk.Block.Url = reqData.GetUrl()
-	sdk.Ctp10Token.Url = reqData.GetUrl()
+	sdk.Token.Ctp10Token.Url = reqData.GetUrl()
 	resData.ErrorCode = exception.SUCCESS
 	return resData
 }

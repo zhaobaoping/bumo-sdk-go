@@ -1,5 +1,5 @@
 // asset
-package asset
+package token
 
 import (
 	"bytes"
@@ -11,6 +11,10 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
 
+type TokenOperation struct {
+	Asset      AssetOperation
+	Ctp10Token Ctp10TokenOperation
+}
 type AssetOperation struct {
 	Url string
 }

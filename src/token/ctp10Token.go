@@ -1,5 +1,5 @@
 // Ctp10Token
-package asset
+package token
 
 import (
 	"encoding/json"

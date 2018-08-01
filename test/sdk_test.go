@@ -375,7 +375,7 @@ func Test_Asset_GetInfo(t *testing.T) {
 	reqData.SetAddress(address)
 	reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
 	reqData.SetCode("HNC")
-	resData := testSdk.Asset.GetInfo(reqData)
+	resData := testSdk.Token.Asset.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -409,7 +409,7 @@ func Test_Ctp10Token_Allowance(t *testing.T) {
 	reqData.SetSpender(spender)
 	var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
 	reqData.SetCtp10TokenOwner(tokenOwner)
-	resData := testSdk.Ctp10Token.Allowance(reqData)
+	resData := testSdk.Token.Ctp10Token.Allowance(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -423,7 +423,7 @@ func Test_Ctp10Token_GetInfo(t *testing.T) {
 	var reqData model.Ctp10TokenGetInfoRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	resData := testSdk.Ctp10Token.GetInfo(reqData)
+	resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
 		fmt.Println(resData)
 		t.Errorf(resData.ErrorDesc)
@@ -439,7 +439,7 @@ func Test_Ctp10Token_GetName(t *testing.T) {
 	var reqData model.Ctp10TokenGetNameRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	resData := testSdk.Ctp10Token.GetName(reqData)
+	resData := testSdk.Token.Ctp10Token.GetName(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -453,7 +453,7 @@ func Test_Ctp10Token_GetSymbol(t *testing.T) {
 	var reqData model.Ctp10TokenGetSymbolRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	resData := testSdk.Ctp10Token.GetSymbol(reqData)
+	resData := testSdk.Token.Ctp10Token.GetSymbol(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -467,7 +467,7 @@ func Test_Ctp10Token_GetDecimals(t *testing.T) {
 	var reqData model.Ctp10TokenGetDecimalsRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	resData := testSdk.Ctp10Token.GetDecimals(reqData)
+	resData := testSdk.Token.Ctp10Token.GetDecimals(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -481,7 +481,7 @@ func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
 	var reqData model.Ctp10TokenGetTotalSupplyRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
-	resData := testSdk.Ctp10Token.GetTotalSupply(reqData)
+	resData := testSdk.Token.Ctp10Token.GetTotalSupply(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
@@ -497,7 +497,7 @@ func Test_Ctp10Token_GetBalance(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 	reqData.SetCtp10TokenOwner(tokenOwner)
-	resData := testSdk.Ctp10Token.GetBalance(reqData)
+	resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
 		fmt.Println(resData)
 		t.Errorf(resData.ErrorDesc)
