@@ -249,6 +249,18 @@ func (reqData *ContractCallRequest) GetOptType() int64 {
 	return reqData.optType
 }
 
+//GetAddress
+type ContractGetAddressRequest struct {
+	hash string
+}
+
+func (reqData *ContractGetAddressRequest) SetHash(Hash string) {
+	reqData.hash = Hash
+}
+func (reqData *ContractGetAddressRequest) GetHash() string {
+	return reqData.hash
+}
+
 //Sign
 type TransactionSignRequest struct {
 	blob        string

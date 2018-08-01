@@ -12,7 +12,7 @@ import (
 
 var testSdk sdk.Sdk
 
-//Init
+//init
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -24,7 +24,7 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//Get Block Number
+//get block number
 func Test_Block_GetNumber(t *testing.T) {
 	resData := testSdk.Block.GetNumber()
 	if resData.ErrorCode != 0 {
@@ -35,7 +35,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	}
 }
 
-//Check Block Status
+//check block status
 func Test_Block_CheckStatus(t *testing.T) {
 	resData := testSdk.Block.CheckStatus()
 	if resData.ErrorCode != 0 {
@@ -47,7 +47,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 
 }
 
-//Get Block Transactions
+//get block transactions
 func Test_Block_GetTransactions(t *testing.T) {
 	var reqData model.BlockGetTransactionRequest
 	var blockNumber int64 = 685714
@@ -62,7 +62,7 @@ func Test_Block_GetTransactions(t *testing.T) {
 	}
 }
 
-//Get Block Info
+//get block info
 func Test_Block_GetInfo(t *testing.T) {
 	var reqData model.BlockGetInfoRequest
 	var blockNumber int64 = 581283
@@ -77,7 +77,7 @@ func Test_Block_GetInfo(t *testing.T) {
 	}
 }
 
-//Get Block Latest
+//get block latest
 func Test_Block_GetLatest(t *testing.T) {
 	resData := testSdk.Block.GetLatest()
 	if resData.ErrorCode != 0 {
@@ -89,7 +89,7 @@ func Test_Block_GetLatest(t *testing.T) {
 	}
 }
 
-//Get Block Validators
+//get block validators
 func Test_Block_GetValidators(t *testing.T) {
 	var reqData model.BlockGetValidatorsRequest
 	var blockNumber int64 = 581283
@@ -104,7 +104,7 @@ func Test_Block_GetValidators(t *testing.T) {
 	}
 }
 
-//Get Block Latest Validators
+//get block latest validators
 func Test_Block_GetLatestValidators(t *testing.T) {
 	resData := testSdk.Block.GetLatestValidators()
 	if resData.ErrorCode != 0 {
@@ -116,7 +116,7 @@ func Test_Block_GetLatestValidators(t *testing.T) {
 	}
 }
 
-//Get Block Reward
+//get block reward
 func Test_Block_GetReward(t *testing.T) {
 	var reqData model.BlockGetRewardRequest
 	var blockNumber int64 = 581283
@@ -130,7 +130,7 @@ func Test_Block_GetReward(t *testing.T) {
 	}
 }
 
-//Get Block LatestReward
+//get block latestreward
 func Test_Block_GetLatestReward(t *testing.T) {
 	resData := testSdk.Block.GetLatestReward()
 	if resData.ErrorCode != 0 {
@@ -141,7 +141,7 @@ func Test_Block_GetLatestReward(t *testing.T) {
 	}
 }
 
-//Get Block Fees
+//get block fees
 func Test_Block_GetFees(t *testing.T) {
 	var reqData model.BlockGetFeesRequest
 	var blockNumber int64 = 581283
@@ -156,7 +156,7 @@ func Test_Block_GetFees(t *testing.T) {
 	}
 }
 
-//Get Block Latest Fees
+//get block latest fees
 func Test_Block_GetLatestFees(t *testing.T) {
 	resData := testSdk.Block.GetLatestFees()
 	if resData.ErrorCode != 0 {
@@ -168,7 +168,7 @@ func Test_Block_GetLatestFees(t *testing.T) {
 	}
 }
 
-//Evaluate Fee
+//evaluate fee
 func Test_Transaction_EvaluateFee(t *testing.T) {
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
@@ -200,7 +200,7 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	}
 }
 
-//send BU
+//send bu
 func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
@@ -253,7 +253,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	}
 }
 
-//Get Transaction Info
+//get transaction info
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
 	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
@@ -268,7 +268,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 	}
 }
 
-//checkValid Account
+//checkvalid account
 func Test_Account_checkValid(t *testing.T) {
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -282,7 +282,7 @@ func Test_Account_checkValid(t *testing.T) {
 	}
 }
 
-//Create Account
+//create account
 func Test_Account_Create(t *testing.T) {
 	resData := testSdk.Account.Create()
 	if resData.ErrorCode != 0 {
@@ -292,7 +292,7 @@ func Test_Account_Create(t *testing.T) {
 	}
 }
 
-//Get Account Info
+//get account info
 func Test_Account_GetInfo(t *testing.T) {
 	var reqData model.AccountGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -307,7 +307,7 @@ func Test_Account_GetInfo(t *testing.T) {
 	}
 }
 
-//Get Account Nonce
+//get account nonce
 func Test_Account_GetNonce(t *testing.T) {
 	var reqData model.AccountGetNonceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -321,7 +321,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	}
 }
 
-//Get Account Balance
+//get account balance
 func Test_Account_GetBalance(t *testing.T) {
 	var reqData model.AccountGetBalanceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -335,7 +335,7 @@ func Test_Account_GetBalance(t *testing.T) {
 	}
 }
 
-//Get Account Assets
+//get account assets
 func Test_Account_GetAssets(t *testing.T) {
 	var reqData model.AccountGetAssetsRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -351,7 +351,7 @@ func Test_Account_GetAssets(t *testing.T) {
 	}
 }
 
-//Get Account Metadata
+//get account metadata
 func Test_Account_GetMetadata(t *testing.T) {
 	var reqData model.AccountGetMetadataRequest
 	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -368,7 +368,7 @@ func Test_Account_GetMetadata(t *testing.T) {
 	}
 }
 
-//Get Asset Info
+//get asset info
 func Test_Asset_GetInfo(t *testing.T) {
 	var reqData model.AssetGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -385,7 +385,7 @@ func Test_Asset_GetInfo(t *testing.T) {
 	}
 }
 
-//Get Contract Info
+//get contract info
 func Test_Contract_GetInfo(t *testing.T) {
 	var reqData model.ContractGetInfoRequest
 	var address string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
@@ -400,7 +400,7 @@ func Test_Contract_GetInfo(t *testing.T) {
 	}
 }
 
-//Ctp10Token_Allowance
+//ctp10token allowance
 func Test_Ctp10Token_Allowance(t *testing.T) {
 	var reqData model.Ctp10TokenAllowanceRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -418,7 +418,7 @@ func Test_Ctp10Token_Allowance(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetInfo
+//get ctp10token info
 func Test_Ctp10Token_GetInfo(t *testing.T) {
 	var reqData model.Ctp10TokenGetInfoRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -434,7 +434,7 @@ func Test_Ctp10Token_GetInfo(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetName
+//get ctp10token name
 func Test_Ctp10Token_GetName(t *testing.T) {
 	var reqData model.Ctp10TokenGetNameRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -448,7 +448,7 @@ func Test_Ctp10Token_GetName(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetSymbol
+//get ctp10token symbol
 func Test_Ctp10Token_GetSymbol(t *testing.T) {
 	var reqData model.Ctp10TokenGetSymbolRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -462,7 +462,7 @@ func Test_Ctp10Token_GetSymbol(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetDecimals
+//get ctp10token decimals
 func Test_Ctp10Token_GetDecimals(t *testing.T) {
 	var reqData model.Ctp10TokenGetDecimalsRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -476,7 +476,7 @@ func Test_Ctp10Token_GetDecimals(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetTotalSupply
+//get ctp10token totalsupply
 func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
 	var reqData model.Ctp10TokenGetTotalSupplyRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
@@ -490,7 +490,7 @@ func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
 	}
 }
 
-//Ctp10Token_GetBalance
+//get ctp10token balance
 func Test_Ctp10Token_GetBalance(t *testing.T) {
 	var reqData model.Ctp10TokenGetBalanceRequest
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"

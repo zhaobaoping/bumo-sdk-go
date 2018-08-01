@@ -3,8 +3,10 @@ package contract
 
 import (
 	"encoding/json"
+	"strings"
 
 	"github.com/bumoproject/bumo-sdk-go/src/account"
+	"github.com/bumoproject/bumo-sdk-go/src/blockchain"
 	"github.com/bumoproject/bumo-sdk-go/src/common"
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
 	"github.com/bumoproject/bumo-sdk-go/src/exception"
@@ -161,5 +163,38 @@ func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model
 		resData.ErrorCode = exception.CONNECTNETWORK_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
+	}
+}
+
+//该方法用于查询合约归属账户
+func (contract *ContractOperation) GetAddress(reqData model.ContractGetAddressRequest) model.ContractGetAddressResponse {
+	var resData model.ContractGetAddressResponse
+	var Transaction blockchain.TransactionOperation
+	Transaction.Url = contract.Url
+	var reqDataInfo model.TransactionGetInfoRequest
+	reqDataInfo.SetHash(reqData.GetHash())
+	resDataInfo := Transaction.GetInfo(reqDataInfo)
+	if resDataInfo.ErrorCode != 0 {
+		resData.ErrorCode = resDataInfo.ErrorCode
+		resData.ErrorDesc = resDataInfo.ErrorDesc
+		return resData
+	} else {
+		if resDataInfo.Result.Transactions[0].ErrorCode != 0 {
+			resData.ErrorCode = int(resDataInfo.Result.Transactions[0].ErrorCode)
+			resData.ErrorDesc = resDataInfo.Result.Transactions[0].ErrorDesc
+			return resData
+		} else {
+			NewReader := strings.NewReader(resDataInfo.Result.Transactions[0].ErrorDesc)
+			decoder := json.NewDecoder(NewReader)
+			decoder.UseNumber()
+			err := decoder.Decode(&resData.Result.ContractAddresInfos)
+			if err != nil {
+				SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
+				resData.ErrorCode = SDKRes.ErrorCode
+				resData.ErrorDesc = SDKRes.ErrorDesc
+				return resData
+			}
+			return resData
+		}
 	}
 }

@@ -220,6 +220,18 @@ type Stat struct {
 	StackUsage  int64 `json:"stack_usage"`
 	Step        int64 `json:"step"`
 }
+type ContractGetAddressResponse struct {
+	ErrorCode int                      `json:"error_code"`
+	ErrorDesc string                   `json:"error_desc"`
+	Result    ContractGetAddressResult `json:"result"`
+}
+type ContractGetAddressResult struct {
+	ContractAddresInfos []ContractAddresInfo
+}
+type ContractAddresInfo struct {
+	ContractAddres string `json:"contract_address"`
+	OperationIndex int    `json:"operation_index"`
+}
 type ContractInvokeByAssetResponse struct {
 	ErrorCode int                 `json:"error_code"`
 	ErrorDesc string              `json:"error_desc"`
