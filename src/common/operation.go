@@ -364,7 +364,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			return resData
 		}
-		if reqData.GetTypeThresholds()[i].Type < 0 {
+		if reqData.GetTypeThresholds()[i].Threshold < 0 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_TYPE_THRESHOLD_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
