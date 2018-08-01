@@ -642,11 +642,6 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetDestAddress() == reqData.GetSourceAddress() {
-		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
 	if reqData.GetAmount() <= 0 {
 		resData.ErrorCode = exception.INVALID_TOKEN_AMOUNT_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
