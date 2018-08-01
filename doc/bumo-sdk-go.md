@@ -31,7 +31,7 @@
     - [GetMetadata](#getmetadata)
 - [资产服务](#资产服务)
 	- [GetInfo](#getinfo-asset)
-- [Token服务](#token服务)
+- [Ctp10Token服务](#token服务)
 	- [Allowance](#allowance)
 	- [GetInfo](#getinfo-token)
 	- [GetName](#getname)
@@ -83,7 +83,7 @@
 
 资产服务： 提供资产相关的查询接口
 
-Token服务： 提供合约资产相关的有效性校验与查询接口
+Ctp10Token服务： 提供合约资产相关的有效性校验与查询接口
 
 合约服务： 提供合约相关的有效性校验与查询接口
 
@@ -653,9 +653,9 @@ if resData.ErrorCode == 0 {
 ```
 
 
-### Token服务
+### Ctp10Token服务
 
- Token服务主要是Token相关的接口，目前有8个接口： Allowance, GetInfo, GetName, GetSymbol, GetDecimals, GetTotalSupply, GetBalance
+ Ctp10Token服务主要是Ctp10Token相关的接口，目前有8个接口： Allowance, GetInfo, GetName, GetSymbol, GetDecimals, GetTotalSupply, GetBalance
 
 #### Allowance
 > 接口说明
@@ -664,7 +664,7 @@ if resData.ErrorCode == 0 {
 
 > 调用方法
 
-Allowance(model.TokenAllowanceRequest) model.TokenAllowanceResponse
+Allowance(model.Ctp10TokenAllowanceRequest) model.Ctp10TokenAllowanceResponse
 
 > 请求参数
 
@@ -694,28 +694,28 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenAllowanceRequest
+var reqData model.Ctp10TokenAllowanceRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
 var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 reqData.SetSpender(spender)
 var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-reqData.SetTokenOwner(tokenOwner)
-resData := testSdk.Token.Allowance(reqData)
+reqData.SetCtp10TokenOwner(tokenOwner)
+resData := testSdk.Ctp10Token.Allowance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Allowance:", resData.Result.Allowance)
 }
 ```
 
 
-#### GetInfo-Token
+#### GetInfo-Ctp10Token
 > 接口说明
 
 获取合约token的信息
 
 > 调用方法
 
-GetInfo(model.TokenGetInfoRequest) model.TokenGetInfoResponse
+GetInfo(model.Ctp10TokenGetInfoRequest) model.Ctp10TokenGetInfoResponse
 
 > 请求参数
 
@@ -727,10 +727,10 @@ contractAddress	|	string	|	合约账户地址	|
 
 参数		|		 类型			|	描述	|
 --------	|---------------|------------|
-Symbol	|	string	|	合约Token符号	|
+Symbol	|	string	|	合约Ctp10Token符号	|
 Decimals	|	int	|	合约数量的精度	|
 TotalSupply	|	string	|	合约的总供应量	|
-Name	|	string	|	合约Token的名称	|
+Name	|	string	|	合约Ctp10Token的名称	|
 
 
 > 错误码
@@ -745,10 +745,10 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetInfoRequest
+var reqData model.Ctp10TokenGetInfoRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Token.GetInfo(reqData)
+resData := testSdk.Ctp10Token.GetInfo(reqData)
 if resData.ErrorCode == 0 {
 	data, _ := json.Marshal(resData.Result)
 	fmt.Println("info:", string(data))
@@ -763,7 +763,7 @@ if resData.ErrorCode == 0 {
 
 > 调用方法
 
-	GetName(model.TokenGetNameRequest) model.TokenGetNameResponse
+	GetName(model.Ctp10TokenGetNameRequest) model.Ctp10TokenGetNameResponse
 
 > 请求参数
 
@@ -774,7 +774,7 @@ contractAddress|string|合约账户地址|
 
 参数		|		 类型			|	描述	|
 --------	|---------------|------------|
-Name	|	string	|	合约Token的名称	|
+Name	|	string	|	合约Ctp10Token的名称	|
 
 
 > 错误码
@@ -789,10 +789,10 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetNameRequest
+var reqData model.Ctp10TokenGetNameRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Token.GetName(reqData)
+resData := testSdk.Ctp10Token.GetName(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Name:", resData.Result.Name)
 }
@@ -806,7 +806,7 @@ if resData.ErrorCode == 0 {
 
 > 调用方法
 
-GetSymbol(model.TokenGetSymbolRequest) model.TokenGetSymbolResponse
+GetSymbol(model.Ctp10TokenGetSymbolRequest) model.Ctp10TokenGetSymbolResponse
 
 > 请求参数
 
@@ -817,7 +817,7 @@ contractAddress	|	string	|	合约账户地址	|
 
 参数		|		 类型			|	描述	|
 --------	|---------------|------------|
-Symbol	|	string	|	合约Token的符号	|
+Symbol	|	string	|	合约Ctp10Token的符号	|
 
 
 > 错误码
@@ -832,10 +832,10 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetSymbolRequest
+var reqData model.Ctp10TokenGetSymbolRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Token.GetSymbol(reqData)
+resData := testSdk.Ctp10Token.GetSymbol(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Symbol:",resData.Result.Symbol)
 }
@@ -849,7 +849,7 @@ if resData.ErrorCode == 0 {
 
 > 调用方法
 
-GetDecimals(model.TokenGetDecimalsRequest) model.TokenGetDecimalsResponse
+GetDecimals(model.Ctp10TokenGetDecimalsRequest) model.Ctp10TokenGetDecimalsResponse
 
 > 请求参数
 
@@ -860,7 +860,7 @@ contractAddress	|	string	|	合约账户地址	|
 
 参数		|		 类型			|	描述	|
 --------	|---------------|------------|
-Decimals	|	string	|	合约Token的精度	|
+Decimals	|	string	|	合约Ctp10Token的精度	|
 
 
 > 错误码
@@ -874,10 +874,10 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetDecimalsRequest
+var reqData model.Ctp10TokenGetDecimalsRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Token.GetDecimals(reqData)
+resData := testSdk.Ctp10Token.GetDecimals(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Decimals:", resData.Result.Decimals)
 }
@@ -891,7 +891,7 @@ if resData.ErrorCode == 0 {
 
 > 调用方法
 
-GetTotalSupply(model.TokenGetTotalSupplyRequest) model.TokenGetTotalSupplyResponse
+GetTotalSupply(model.Ctp10TokenGetTotalSupplyRequest) model.Ctp10TokenGetTotalSupplyResponse
 
 > 请求参数
 
@@ -902,7 +902,7 @@ contractAddress	|	string	|	合约账户地址	|
 
 参数		|		 类型			|	描述	|
 --------	|---------------|------------|
-TotalSupply	|	string	|	合约Token的总供应量	|
+TotalSupply	|	string	|	合约Ctp10Token的总供应量	|
 
 
 > 错误码
@@ -916,31 +916,31 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetTotalSupplyRequest
+var reqData model.Ctp10TokenGetTotalSupplyRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Token.GetTotalSupply(reqData)
+resData := testSdk.Ctp10Token.GetTotalSupply(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("TotalSupply:", resData.Result.TotalSupply)
 }
 ```
 
 
-#### GetBalance-Token
+#### GetBalance-Ctp10Token
 > 接口说明
 
 获取合约token拥有者的账户余额
 
 > 调用方法
 
-GetBalance(model.TokenGetBalanceRequest) model.TokenGetBalanceResponse
+GetBalance(model.Ctp10TokenGetBalanceRequest) model.Ctp10TokenGetBalanceResponse
 
 > 请求参数
 
 参数	|	类型	|	描述
 --------|---------------|------------
 contractAddress	|	string	|	必填，合约账户地址	|
-tokenOwner	|	string	|	必填，合约Token拥有者的账户地址	|
+tokenOwner	|	string	|	必填，合约Ctp10Token拥有者的账户地址	|
 
 > 响应数据
 
@@ -961,12 +961,12 @@ SYSTEM_ERROR	|	20000	|	System error	|
 > 示例
 
 ```
-var reqData model.TokenGetBalanceRequest
+var reqData model.Ctp10TokenGetBalanceRequest
 var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 reqData.SetContractAddress(contractAddress)
 var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-reqData.SetTokenOwner(tokenOwner)
-resData := testSdk.Token.GetBalance(reqData)
+reqData.SetCtp10TokenOwner(tokenOwner)
+resData := testSdk.Ctp10Token.GetBalance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Balance:", resData.Result.Balance)
 }
@@ -1028,7 +1028,7 @@ if resData.ErrorCode == 0 {
 
 交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluateFee, Sign, Submit, GetInfo。
 
-其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, TokenIssueOperation, TokenTransferOperation, TokenTransferFromOperation, TokenApproveOperation, TokenAssignOperation, TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation,ContractCreateOperation
+其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, Ctp10TokenIssueOperation, Ctp10TokenTransferOperation, Ctp10TokenTransferFromOperation, Ctp10TokenApproveOperation, Ctp10TokenAssignOperation, Ctp10TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation,ContractCreateOperation
 
 ### 操作说明
 
@@ -1105,7 +1105,7 @@ destAddress	|	string	|	必填，目标账户地址
 amount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenIssueOperation
+> Ctp10TokenIssueOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
@@ -1117,7 +1117,7 @@ decimals	|	int64	|	必填，token数量的精度，大小[0, 8]
 supply	|	int64	|	必填，token发行的总供应量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenTransferOperation
+> Ctp10TokenTransferOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
@@ -1127,7 +1127,7 @@ destAddress	|	string	|	必填，待转移的目标账户地址
 amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenTransferFromOperation
+> Ctp10TokenTransferFromOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
@@ -1138,7 +1138,7 @@ destAddress	|	string	|	必填，待转移的目标账户地址
 amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenApproveOperation
+> Ctp10TokenApproveOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
@@ -1148,7 +1148,7 @@ spender	|	string	|	必填，授权的账户地址
 amount	|	int64	|	必填，被授权的待转移的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenAssignOperation
+> Ctp10TokenAssignOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
@@ -1158,7 +1158,7 @@ destAddress	|	string	|	必填，待分配的目标账户地址
 amount	|	int64	|	必填，待分配的token数量，大小[1, max(int64)]
 metadata	|	string	|	选填，备注
 
-> TokenChangeOwnerOperation
+> Ctp10TokenChangeOwnerOperation
 
 成员变量	|	 类型|	描述
 -------------|---------|---------------------
