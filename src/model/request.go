@@ -363,119 +363,119 @@ func (reqData *BlockGetFeesRequest) GetBlockNumber() int64 {
 }
 
 //CheckValid
-type TokenCheckValidRequest struct {
+type Ctp10TokenCheckValidRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenCheckValidRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenCheckValidRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenCheckValidRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenCheckValidRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //Allowance
-type TokenAllowanceRequest struct {
+type Ctp10TokenAllowanceRequest struct {
 	contractAddress string
 	tokenOwner      string
 	spender         string
 }
 
-func (reqData *TokenAllowanceRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenAllowanceRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenAllowanceRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenAllowanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenAllowanceRequest) SetTokenOwner(TokenOwner string) {
-	reqData.tokenOwner = TokenOwner
+func (reqData *Ctp10TokenAllowanceRequest) SetCtp10TokenOwner(Ctp10TokenOwner string) {
+	reqData.tokenOwner = Ctp10TokenOwner
 }
-func (reqData *TokenAllowanceRequest) GetTokenOwner() string {
+func (reqData *Ctp10TokenAllowanceRequest) GetCtp10TokenOwner() string {
 	return reqData.tokenOwner
 }
-func (reqData *TokenAllowanceRequest) SetSpender(Spender string) {
+func (reqData *Ctp10TokenAllowanceRequest) SetSpender(Spender string) {
 	reqData.spender = Spender
 }
-func (reqData *TokenAllowanceRequest) GetSpender() string {
+func (reqData *Ctp10TokenAllowanceRequest) GetSpender() string {
 	return reqData.spender
 }
 
 //GetInfo
-type TokenGetInfoRequest struct {
+type Ctp10TokenGetInfoRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenGetInfoRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetInfoRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetInfoRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetInfoRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //GetName
-type TokenGetNameRequest struct {
+type Ctp10TokenGetNameRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenGetNameRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetNameRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetNameRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetNameRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //GetSymbol
-type TokenGetSymbolRequest struct {
+type Ctp10TokenGetSymbolRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenGetSymbolRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetSymbolRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetSymbolRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetSymbolRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //GetDecimals
-type TokenGetDecimalsRequest struct {
+type Ctp10TokenGetDecimalsRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenGetDecimalsRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetDecimalsRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetDecimalsRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetDecimalsRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //GetTotalSupply
-type TokenGetTotalSupplyRequest struct {
+type Ctp10TokenGetTotalSupplyRequest struct {
 	contractAddress string
 }
 
-func (reqData *TokenGetTotalSupplyRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetTotalSupplyRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetTotalSupplyRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetTotalSupplyRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
 
 //GetBalance
-type TokenGetBalanceRequest struct {
+type Ctp10TokenGetBalanceRequest struct {
 	contractAddress string
 	tokenOwner      string
 }
 
-func (reqData *TokenGetBalanceRequest) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenGetBalanceRequest) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenGetBalanceRequest) GetContractAddress() string {
+func (reqData *Ctp10TokenGetBalanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenGetBalanceRequest) SetTokenOwner(TokenOwner string) {
-	reqData.tokenOwner = TokenOwner
+func (reqData *Ctp10TokenGetBalanceRequest) SetCtp10TokenOwner(Ctp10TokenOwner string) {
+	reqData.tokenOwner = Ctp10TokenOwner
 }
-func (reqData *TokenGetBalanceRequest) GetTokenOwner() string {
+func (reqData *Ctp10TokenGetBalanceRequest) GetCtp10TokenOwner() string {
 	return reqData.tokenOwner
 }
 
@@ -835,7 +835,7 @@ func (reqData BUSendOperation) Get() int {
 }
 
 //Issue
-type TokenIssueOperation struct {
+type Ctp10TokenIssueOperation struct {
 	sourceAddress string
 	name          string
 	symbol        string
@@ -846,57 +846,57 @@ type TokenIssueOperation struct {
 	operationType int
 }
 
-func (reqData *TokenIssueOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenIssueOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenIssueOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenIssueOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenIssueOperation) SetName(Name string) {
+func (reqData *Ctp10TokenIssueOperation) SetName(Name string) {
 	reqData.name = Name
 }
-func (reqData *TokenIssueOperation) GetName() string {
+func (reqData *Ctp10TokenIssueOperation) GetName() string {
 	return reqData.name
 }
-func (reqData *TokenIssueOperation) SetSymbol(Symbol string) {
+func (reqData *Ctp10TokenIssueOperation) SetSymbol(Symbol string) {
 	reqData.symbol = Symbol
 }
-func (reqData *TokenIssueOperation) GetSymbol() string {
+func (reqData *Ctp10TokenIssueOperation) GetSymbol() string {
 	return reqData.symbol
 }
-func (reqData *TokenIssueOperation) SetDecimals(Decimals int64) {
+func (reqData *Ctp10TokenIssueOperation) SetDecimals(Decimals int64) {
 	reqData.decimals = Decimals
 }
-func (reqData *TokenIssueOperation) GetDecimals() int64 {
+func (reqData *Ctp10TokenIssueOperation) GetDecimals() int64 {
 	return reqData.decimals
 }
-func (reqData *TokenIssueOperation) SetSupply(Supply int64) {
+func (reqData *Ctp10TokenIssueOperation) SetSupply(Supply int64) {
 	reqData.supply = Supply
 }
-func (reqData *TokenIssueOperation) GetSupply() int64 {
+func (reqData *Ctp10TokenIssueOperation) GetSupply() int64 {
 	return reqData.supply
 }
-func (reqData *TokenIssueOperation) SetInitBalance(InitBalance int64) {
+func (reqData *Ctp10TokenIssueOperation) SetInitBalance(InitBalance int64) {
 	reqData.initBalance = InitBalance
 }
-func (reqData *TokenIssueOperation) GetInitBalance() int64 {
+func (reqData *Ctp10TokenIssueOperation) GetInitBalance() int64 {
 	return reqData.initBalance
 }
-func (reqData *TokenIssueOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenIssueOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenIssueOperation) GetMetadata() string {
+func (reqData *Ctp10TokenIssueOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TokenIssueOperation) Init() {
+func (reqData *Ctp10TokenIssueOperation) Init() {
 	reqData.operationType = 7
 }
-func (reqData TokenIssueOperation) Get() int {
+func (reqData Ctp10TokenIssueOperation) Get() int {
 	return reqData.operationType
 }
 
 //Transfer
-type TokenTransferOperation struct {
+type Ctp10TokenTransferOperation struct {
 	sourceAddress   string
 	contractAddress string
 	destAddress     string
@@ -905,45 +905,45 @@ type TokenTransferOperation struct {
 	operationType   int
 }
 
-func (reqData *TokenTransferOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenTransferOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenTransferOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenTransferOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenTransferOperation) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenTransferOperation) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenTransferOperation) GetContractAddress() string {
+func (reqData *Ctp10TokenTransferOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenTransferOperation) SetDestAddress(DestAddress string) {
+func (reqData *Ctp10TokenTransferOperation) SetDestAddress(DestAddress string) {
 	reqData.destAddress = DestAddress
 }
-func (reqData *TokenTransferOperation) GetDestAddress() string {
+func (reqData *Ctp10TokenTransferOperation) GetDestAddress() string {
 	return reqData.destAddress
 }
-func (reqData *TokenTransferOperation) SetAmount(Amount int64) {
+func (reqData *Ctp10TokenTransferOperation) SetAmount(Amount int64) {
 	reqData.amount = Amount
 }
-func (reqData *TokenTransferOperation) GetAmount() int64 {
+func (reqData *Ctp10TokenTransferOperation) GetAmount() int64 {
 	return reqData.amount
 }
-func (reqData *TokenTransferOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenTransferOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenTransferOperation) GetMetadata() string {
+func (reqData *Ctp10TokenTransferOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TokenTransferOperation) Init() {
+func (reqData *Ctp10TokenTransferOperation) Init() {
 	reqData.operationType = 8
 }
-func (reqData TokenTransferOperation) Get() int {
+func (reqData Ctp10TokenTransferOperation) Get() int {
 	return reqData.operationType
 }
 
 //TransferFrom
-type TokenTransferFromOperation struct {
+type Ctp10TokenTransferFromOperation struct {
 	sourceAddress   string
 	contractAddress string
 	destAddress     string
@@ -953,51 +953,51 @@ type TokenTransferFromOperation struct {
 	operationType   int
 }
 
-func (reqData *TokenTransferFromOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenTransferFromOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenTransferFromOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenTransferFromOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenTransferFromOperation) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenTransferFromOperation) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenTransferFromOperation) GetContractAddress() string {
+func (reqData *Ctp10TokenTransferFromOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenTransferFromOperation) SetDestAddress(DestAddress string) {
+func (reqData *Ctp10TokenTransferFromOperation) SetDestAddress(DestAddress string) {
 	reqData.destAddress = DestAddress
 }
-func (reqData *TokenTransferFromOperation) GetDestAddress() string {
+func (reqData *Ctp10TokenTransferFromOperation) GetDestAddress() string {
 	return reqData.destAddress
 }
-func (reqData *TokenTransferFromOperation) SetFromAddress(FromAddress string) {
+func (reqData *Ctp10TokenTransferFromOperation) SetFromAddress(FromAddress string) {
 	reqData.fromAddress = FromAddress
 }
-func (reqData *TokenTransferFromOperation) GetFromAddress() string {
+func (reqData *Ctp10TokenTransferFromOperation) GetFromAddress() string {
 	return reqData.fromAddress
 }
-func (reqData *TokenTransferFromOperation) SetAmount(Amount int64) {
+func (reqData *Ctp10TokenTransferFromOperation) SetAmount(Amount int64) {
 	reqData.amount = Amount
 }
-func (reqData *TokenTransferFromOperation) GetAmount() int64 {
+func (reqData *Ctp10TokenTransferFromOperation) GetAmount() int64 {
 	return reqData.amount
 }
-func (reqData *TokenTransferFromOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenTransferFromOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenTransferFromOperation) GetMetadata() string {
+func (reqData *Ctp10TokenTransferFromOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TokenTransferFromOperation) Init() {
+func (reqData *Ctp10TokenTransferFromOperation) Init() {
 	reqData.operationType = 9
 }
-func (reqData TokenTransferFromOperation) Get() int {
+func (reqData Ctp10TokenTransferFromOperation) Get() int {
 	return reqData.operationType
 }
 
 //Approve
-type TokenApproveOperation struct {
+type Ctp10TokenApproveOperation struct {
 	sourceAddress   string
 	contractAddress string
 	spender         string
@@ -1006,45 +1006,45 @@ type TokenApproveOperation struct {
 	operationType   int
 }
 
-func (reqData *TokenApproveOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenApproveOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenApproveOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenApproveOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenApproveOperation) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenApproveOperation) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenApproveOperation) GetContractAddress() string {
+func (reqData *Ctp10TokenApproveOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenApproveOperation) SetSpender(Spender string) {
+func (reqData *Ctp10TokenApproveOperation) SetSpender(Spender string) {
 	reqData.spender = Spender
 }
-func (reqData *TokenApproveOperation) GetSpender() string {
+func (reqData *Ctp10TokenApproveOperation) GetSpender() string {
 	return reqData.spender
 }
-func (reqData *TokenApproveOperation) SetAmount(Amount int64) {
+func (reqData *Ctp10TokenApproveOperation) SetAmount(Amount int64) {
 	reqData.amount = Amount
 }
-func (reqData *TokenApproveOperation) GetAmount() int64 {
+func (reqData *Ctp10TokenApproveOperation) GetAmount() int64 {
 	return reqData.amount
 }
-func (reqData *TokenApproveOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenApproveOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenApproveOperation) GetMetadata() string {
+func (reqData *Ctp10TokenApproveOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TokenApproveOperation) Init() {
+func (reqData *Ctp10TokenApproveOperation) Init() {
 	reqData.operationType = 10
 }
-func (reqData TokenApproveOperation) Get() int {
+func (reqData Ctp10TokenApproveOperation) Get() int {
 	return reqData.operationType
 }
 
 //assign
-type TokenAssignOperation struct {
+type Ctp10TokenAssignOperation struct {
 	sourceAddress   string
 	contractAddress string
 	destAddress     string
@@ -1053,45 +1053,45 @@ type TokenAssignOperation struct {
 	operationType   int
 }
 
-func (reqData *TokenAssignOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenAssignOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenAssignOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenAssignOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenAssignOperation) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenAssignOperation) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenAssignOperation) GetContractAddress() string {
+func (reqData *Ctp10TokenAssignOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenAssignOperation) SetDestAddress(DestAddress string) {
+func (reqData *Ctp10TokenAssignOperation) SetDestAddress(DestAddress string) {
 	reqData.destAddress = DestAddress
 }
-func (reqData *TokenAssignOperation) GetDestAddress() string {
+func (reqData *Ctp10TokenAssignOperation) GetDestAddress() string {
 	return reqData.destAddress
 }
-func (reqData *TokenAssignOperation) SetAmount(Amount int64) {
+func (reqData *Ctp10TokenAssignOperation) SetAmount(Amount int64) {
 	reqData.amount = Amount
 }
-func (reqData *TokenAssignOperation) GetAmount() int64 {
+func (reqData *Ctp10TokenAssignOperation) GetAmount() int64 {
 	return reqData.amount
 }
-func (reqData *TokenAssignOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenAssignOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenAssignOperation) GetMetadata() string {
+func (reqData *Ctp10TokenAssignOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData *TokenAssignOperation) Init() {
+func (reqData *Ctp10TokenAssignOperation) Init() {
 	reqData.operationType = 11
 }
-func (reqData TokenAssignOperation) Get() int {
+func (reqData Ctp10TokenAssignOperation) Get() int {
 	return reqData.operationType
 }
 
 //ChangeOwner
-type TokenChangeOwnerOperation struct {
+type Ctp10TokenChangeOwnerOperation struct {
 	sourceAddress   string
 	contractAddress string
 	tokenOwner      string
@@ -1099,34 +1099,34 @@ type TokenChangeOwnerOperation struct {
 	operationType   int
 }
 
-func (reqData *TokenChangeOwnerOperation) SetSourceAddress(SourceAddress string) {
+func (reqData *Ctp10TokenChangeOwnerOperation) SetSourceAddress(SourceAddress string) {
 	reqData.sourceAddress = SourceAddress
 }
-func (reqData *TokenChangeOwnerOperation) GetSourceAddress() string {
+func (reqData *Ctp10TokenChangeOwnerOperation) GetSourceAddress() string {
 	return reqData.sourceAddress
 }
-func (reqData *TokenChangeOwnerOperation) SetContractAddress(ContractAddress string) {
+func (reqData *Ctp10TokenChangeOwnerOperation) SetContractAddress(ContractAddress string) {
 	reqData.contractAddress = ContractAddress
 }
-func (reqData *TokenChangeOwnerOperation) GetContractAddress() string {
+func (reqData *Ctp10TokenChangeOwnerOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *TokenChangeOwnerOperation) SetTokenOwner(TokenOwner string) {
-	reqData.tokenOwner = TokenOwner
+func (reqData *Ctp10TokenChangeOwnerOperation) SetCtp10TokenOwner(Ctp10TokenOwner string) {
+	reqData.tokenOwner = Ctp10TokenOwner
 }
-func (reqData *TokenChangeOwnerOperation) GetTokenOwner() string {
+func (reqData *Ctp10TokenChangeOwnerOperation) GetCtp10TokenOwner() string {
 	return reqData.tokenOwner
 }
-func (reqData *TokenChangeOwnerOperation) SetMetadata(Metadata string) {
+func (reqData *Ctp10TokenChangeOwnerOperation) SetMetadata(Metadata string) {
 	reqData.metadata = Metadata
 }
-func (reqData *TokenChangeOwnerOperation) GetMetadata() string {
+func (reqData *Ctp10TokenChangeOwnerOperation) GetMetadata() string {
 	return reqData.metadata
 }
-func (reqData TokenChangeOwnerOperation) Get() int {
+func (reqData Ctp10TokenChangeOwnerOperation) Get() int {
 	return reqData.operationType
 }
-func (reqData *TokenChangeOwnerOperation) Init() {
+func (reqData *Ctp10TokenChangeOwnerOperation) Init() {
 	reqData.operationType = 12
 }
 

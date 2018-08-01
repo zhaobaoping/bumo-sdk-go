@@ -17,7 +17,7 @@ type Sdk struct {
 	Asset       asset.AssetOperation
 	Transaction blockchain.TransactionOperation
 	Block       blockchain.BlockOperation
-	Token       asset.TokenOperation
+	Ctp10Token  asset.Ctp10TokenOperation
 }
 
 //新建
@@ -46,7 +46,7 @@ func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 	sdk.Asset.Url = reqData.GetUrl()
 	sdk.Transaction.Url = reqData.GetUrl()
 	sdk.Block.Url = reqData.GetUrl()
-	sdk.Token.Url = reqData.GetUrl()
+	sdk.Ctp10Token.Url = reqData.GetUrl()
 	resData.ErrorCode = exception.SUCCESS
 	return resData
 }

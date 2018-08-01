@@ -1,4 +1,4 @@
-// token
+// Ctp10Token
 package asset
 
 import (
@@ -13,17 +13,17 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
 
-type TokenOperation struct {
+type Ctp10TokenOperation struct {
 	Url string
 }
 
-//该接口用于检测Token是否有效
-func (token *TokenOperation) CheckValid(reqData model.TokenCheckValidRequest) model.TokenCheckValidResponse {
+//该接口用于检测Ctp10Token是否有效
+func (Ctp10Token *Ctp10TokenOperation) CheckValid(reqData model.Ctp10TokenCheckValidRequest) model.Ctp10TokenCheckValidResponse {
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var Account account.AccountOperation
-	Account.Url = token.Url
-	var resData model.TokenCheckValidResponse
+	Account.Url = Ctp10Token.Url
+	var resData model.Ctp10TokenCheckValidResponse
 	resData.Result.IsValid = false
 	var raqDataCheck model.ContractCheckValidRequest
 	raqDataCheck.SetAddress(reqData.GetContractAddress())
@@ -86,7 +86,7 @@ func (token *TokenOperation) CheckValid(reqData model.TokenCheckValidRequest) mo
 			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
-		if !keypair.CheckAddress(data.TokenOwner) {
+		if !keypair.CheckAddress(data.Ctp10TokenOwner) {
 			resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
@@ -110,17 +110,17 @@ func (token *TokenOperation) CheckValid(reqData model.TokenCheckValidRequest) mo
 }
 
 //获取Allowance
-func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) model.TokenAllowanceResponse {
-	var resData model.TokenAllowanceResponse
-	var reqDataCheck model.TokenCheckValidRequest
+func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowanceRequest) model.Ctp10TokenAllowanceResponse {
+	var resData model.Ctp10TokenAllowanceResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
+	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -131,13 +131,13 @@ func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) mode
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
 	var Input model.Input
 	Input.Method = "allowance"
-	Input.Params.Owner = reqData.GetTokenOwner()
+	Input.Params.Owner = reqData.GetCtp10TokenOwner()
 	Input.Params.Spender = reqData.GetSpender()
 	InputByte, err := json.Marshal(Input)
 	if err != nil {
@@ -178,19 +178,19 @@ func (token *TokenOperation) Allowance(reqData model.TokenAllowanceRequest) mode
 	}
 }
 
-//获取合约token的信息
-func (token *TokenOperation) GetInfo(reqData model.TokenGetInfoRequest) model.TokenGetInfoResponse {
-	var resData model.TokenGetInfoResponse
-	var reqDataCheck model.TokenCheckValidRequest
+//获取合约Ctp10Token的信息
+func (Ctp10Token *Ctp10TokenOperation) GetInfo(reqData model.Ctp10TokenGetInfoRequest) model.Ctp10TokenGetInfoResponse {
+	var resData model.Ctp10TokenGetInfoResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
@@ -238,19 +238,19 @@ func (token *TokenOperation) GetInfo(reqData model.TokenGetInfoRequest) model.To
 	}
 }
 
-//获取合约token的名称
-func (token *TokenOperation) GetName(reqData model.TokenGetNameRequest) model.TokenGetNameResponse {
-	var resData model.TokenGetNameResponse
-	var reqDataCheck model.TokenCheckValidRequest
+//获取合约Ctp10Token的名称
+func (Ctp10Token *Ctp10TokenOperation) GetName(reqData model.Ctp10TokenGetNameRequest) model.Ctp10TokenGetNameResponse {
+	var resData model.Ctp10TokenGetNameResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
@@ -290,20 +290,20 @@ func (token *TokenOperation) GetName(reqData model.TokenGetNameRequest) model.To
 	}
 }
 
-//获取合约token的符号
-func (token *TokenOperation) GetSymbol(reqData model.TokenGetSymbolRequest) model.TokenGetSymbolResponse {
+//获取合约Ctp10Token的符号
+func (Ctp10Token *Ctp10TokenOperation) GetSymbol(reqData model.Ctp10TokenGetSymbolRequest) model.Ctp10TokenGetSymbolResponse {
 
-	var resData model.TokenGetSymbolResponse
-	var reqDataCheck model.TokenCheckValidRequest
+	var resData model.Ctp10TokenGetSymbolResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
@@ -343,19 +343,19 @@ func (token *TokenOperation) GetSymbol(reqData model.TokenGetSymbolRequest) mode
 	}
 }
 
-//获取合约token的精度
-func (token *TokenOperation) GetDecimals(reqData model.TokenGetDecimalsRequest) model.TokenGetDecimalsResponse {
-	var resData model.TokenGetDecimalsResponse
-	var reqDataCheck model.TokenCheckValidRequest
+//获取合约Ctp10Token的精度
+func (Ctp10Token *Ctp10TokenOperation) GetDecimals(reqData model.Ctp10TokenGetDecimalsRequest) model.Ctp10TokenGetDecimalsResponse {
+	var resData model.Ctp10TokenGetDecimalsResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
@@ -401,19 +401,19 @@ func (token *TokenOperation) GetDecimals(reqData model.TokenGetDecimalsRequest) 
 	}
 }
 
-//获取合约token的总供应量
-func (token *TokenOperation) GetTotalSupply(reqData model.TokenGetTotalSupplyRequest) model.TokenGetTotalSupplyResponse {
-	var resData model.TokenGetTotalSupplyResponse
-	var reqDataCheck model.TokenCheckValidRequest
+//获取合约Ctp10Token的总供应量
+func (Ctp10Token *Ctp10TokenOperation) GetTotalSupply(reqData model.Ctp10TokenGetTotalSupplyRequest) model.Ctp10TokenGetTotalSupplyResponse {
+	var resData model.Ctp10TokenGetTotalSupplyResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
@@ -459,30 +459,30 @@ func (token *TokenOperation) GetTotalSupply(reqData model.TokenGetTotalSupplyReq
 	}
 }
 
-//获取合约token拥有者的账户余额
-func (token *TokenOperation) GetBalance(reqData model.TokenGetBalanceRequest) model.TokenGetBalanceResponse {
-	var resData model.TokenGetBalanceResponse
-	var reqDataCheck model.TokenCheckValidRequest
+//获取合约Ctp10Token拥有者的账户余额
+func (Ctp10Token *Ctp10TokenOperation) GetBalance(reqData model.Ctp10TokenGetBalanceRequest) model.Ctp10TokenGetBalanceResponse {
+	var resData model.Ctp10TokenGetBalanceResponse
+	var reqDataCheck model.Ctp10TokenCheckValidRequest
 	reqDataCheck.SetContractAddress(reqData.GetContractAddress())
-	resDataCheck := token.CheckValid(reqDataCheck)
+	resDataCheck := Ctp10Token.CheckValid(reqDataCheck)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
+	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Contract contract.ContractOperation
-	Contract.Url = token.Url
+	Contract.Url = Ctp10Token.Url
 	var reqDataCall model.ContractCallRequest
 	reqDataCall.SetContractAddress("buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG")
 	reqDataCall.SetOptType(2)
 	var Input model.Input
 	Input.Method = "balanceOf"
-	Input.Params.Address = reqData.GetTokenOwner()
+	Input.Params.Address = reqData.GetCtp10TokenOwner()
 	InputByte, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR

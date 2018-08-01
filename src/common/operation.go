@@ -93,17 +93,17 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 7:
-			operationsReqData, ok := operationsData.(model.TokenIssueOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenIssueOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-			operationsResData := TokenIssue(operationsReqData)
+			operationsResData := Ctp10TokenIssue(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 8:
-			operationsReqData, ok := operationsData.(model.TokenTransferOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
@@ -116,7 +116,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 9:
-			operationsReqData, ok := operationsData.(model.TokenTransferFromOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferFromOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
@@ -129,7 +129,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 10:
-			operationsReqData, ok := operationsData.(model.TokenApproveOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenApproveOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
@@ -142,7 +142,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 11:
-			operationsReqData, ok := operationsData.(model.TokenAssignOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenAssignOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
@@ -155,7 +155,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			}
 			operations[i] = &operationsResData.Result.Operation
 		case 12:
-			operationsReqData, ok := operationsData.(model.TokenChangeOwnerOperation)
+			operationsReqData, ok := operationsData.(model.Ctp10TokenChangeOwnerOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
@@ -510,8 +510,8 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 }
 
 //发行合约token 7
-func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
-	var resData model.TokenIssueResponse
+func Ctp10TokenIssue(reqData model.Ctp10TokenIssueOperation) model.Ctp10TokenIssueResponse {
+	var resData model.Ctp10TokenIssueResponse
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
 			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
@@ -580,8 +580,8 @@ func TokenIssue(reqData model.TokenIssueOperation) model.TokenIssueResponse {
 }
 
 //转移合约token 8
-func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse {
-	var resData model.TokenTransferResponse
+func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransferResponse {
+	var resData model.Ctp10TokenTransferResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
 		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -630,8 +630,8 @@ func Transfer(reqData model.TokenTransferOperation) model.TokenTransferResponse 
 }
 
 //转移合约token 9
-func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferFromResponse {
-	var resData model.TokenTransferFromResponse
+func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10TokenTransferFromResponse {
+	var resData model.Ctp10TokenTransferFromResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
 		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -686,8 +686,8 @@ func TransferFrom(reqData model.TokenTransferFromOperation) model.TokenTransferF
 }
 
 //授权从交易发送者账户转出合约token 10
-func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
-	var resData model.TokenApproveResponse
+func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveResponse {
+	var resData model.Ctp10TokenApproveResponse
 	if !keypair.CheckAddress(reqData.GetSpender()) {
 		resData.ErrorCode = exception.INVALID_SPENDER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -731,8 +731,8 @@ func Approve(reqData model.TokenApproveOperation) model.TokenApproveResponse {
 }
 
 //分配合约token 11
-func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
-	var resData model.TokenAssignResponse
+func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignResponse {
+	var resData model.Ctp10TokenAssignResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
 		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -787,16 +787,16 @@ func Assign(reqData model.TokenAssignOperation) model.TokenAssignResponse {
 }
 
 //转移合约token拥有权 12
-func ChangeOwner(reqData model.TokenChangeOwnerOperation) model.TokenChangeOwnerResponse {
-	var resData model.TokenChangeOwnerResponse
-	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
+func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenChangeOwnerResponse {
+	var resData model.Ctp10TokenChangeOwnerResponse
+	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Input model.Input
 	Input.Method = "changeOwner"
-	Input.Params.Address = reqData.GetTokenOwner()
+	Input.Params.Address = reqData.GetCtp10TokenOwner()
 	InputStr, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR
