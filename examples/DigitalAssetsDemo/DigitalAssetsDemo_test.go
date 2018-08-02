@@ -12,7 +12,7 @@ import (
 
 var testSdk sdk.Sdk
 
-//Init
+//To initialize the SDK
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -24,7 +24,7 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//CheckStatus
+//Check that the blocks are synchronized
 func Test_Block_CheckStatus(t *testing.T) {
 	resData := testSdk.Block.CheckStatus()
 	if resData.ErrorCode != 0 {
@@ -36,7 +36,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 
 }
 
-//Create
+//Create account
 func Test_Account_Create(t *testing.T) {
 	resData := testSdk.Account.Create()
 	if resData.ErrorCode != 0 {
@@ -46,7 +46,7 @@ func Test_Account_Create(t *testing.T) {
 	}
 }
 
-//checkValid
+//Verify account address
 func Test_Account_checkValid(t *testing.T) {
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -60,7 +60,7 @@ func Test_Account_checkValid(t *testing.T) {
 	}
 }
 
-//GetInfo
+//Enquiry of account details
 func Test_Account_GetInfo(t *testing.T) {
 	var reqData model.AccountGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -75,7 +75,7 @@ func Test_Account_GetInfo(t *testing.T) {
 	}
 }
 
-//GetBalance
+//Checking account balance
 func Test_Account_GetBalance(t *testing.T) {
 	var reqData model.AccountGetBalanceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -89,7 +89,179 @@ func Test_Account_GetBalance(t *testing.T) {
 	}
 }
 
-//GetNonce
+//get account assets
+func Test_Account_GetAssets(t *testing.T) {
+	var reqData model.AccountGetAssetsRequest
+	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	reqData.SetAddress(address)
+	resData := testSdk.Account.GetAssets(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result.Assets)
+		fmt.Println("Assets:", string(data))
+		t.Log("Test_Account_GetAssets succeed", resData.Result)
+
+	}
+}
+
+//get account metadata
+func Test_Account_GetMetadata(t *testing.T) {
+	var reqData model.AccountGetMetadataRequest
+	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetAddress(address)
+	reqData.SetKey("global_attribute")
+	resData := testSdk.Account.GetMetadata(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result.Metadatas[0].Value)
+
+		fmt.Println("Metadatas:", string(data))
+		t.Log("Test_Account_GetMetadata succeed", resData.Result)
+	}
+}
+
+//get asset info
+func Test_Asset_GetInfo(t *testing.T) {
+	var reqData model.AssetGetInfoRequest
+	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	reqData.SetAddress(address)
+	reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
+	reqData.SetCode("HNC")
+	resData := testSdk.Token.Asset.GetInfo(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result.Assets)
+		fmt.Println("Assets:", string(data))
+		t.Log("Test_Asset_GetInfo succeed", resData.Result.Assets)
+	}
+}
+
+//get contract info
+func Test_Contract_GetInfo(t *testing.T) {
+	var reqData model.ContractGetInfoRequest
+	var address string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	reqData.SetAddress(address)
+	resData := testSdk.Contract.GetInfo(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result.Contract)
+		fmt.Println("Contract:", string(data))
+		t.Log("Test_Contract_GetInfo succeed", resData.Result)
+	}
+}
+
+//ctp10token allowance
+func Test_Ctp10Token_Allowance(t *testing.T) {
+	var reqData model.Ctp10TokenAllowanceRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
+	reqData.SetSpender(spender)
+	var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
+	reqData.SetCtp10TokenOwner(tokenOwner)
+	resData := testSdk.Token.Ctp10Token.Allowance(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Allowance:", resData.Result.Allowance)
+		t.Log("Test_Ctp10Token_Allowance succeed", resData.Result)
+	}
+}
+
+//get ctp10token info
+func Test_Ctp10Token_GetInfo(t *testing.T) {
+	var reqData model.Ctp10TokenGetInfoRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
+	if resData.ErrorCode != 0 {
+		fmt.Println(resData)
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resData.Result)
+		fmt.Println("info:", string(data))
+		t.Log("Test_Ctp10Token_GetInfo succeed", resData.Result)
+	}
+}
+
+//get ctp10token name
+func Test_Ctp10Token_GetName(t *testing.T) {
+	var reqData model.Ctp10TokenGetNameRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.Ctp10Token.GetName(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Name:", resData.Result.Name)
+		t.Log("Test_Ctp10Token_GetName succeed", resData.Result)
+	}
+}
+
+//get ctp10token symbol
+func Test_Ctp10Token_GetSymbol(t *testing.T) {
+	var reqData model.Ctp10TokenGetSymbolRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.Ctp10Token.GetSymbol(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Symbol:", resData.Result.Symbol)
+		t.Log("Test_Ctp10Token_GetSymbol succeed", resData.Result)
+	}
+}
+
+//get ctp10token decimals
+func Test_Ctp10Token_GetDecimals(t *testing.T) {
+	var reqData model.Ctp10TokenGetDecimalsRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.Ctp10Token.GetDecimals(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Decimals:", resData.Result.Decimals)
+		t.Log("Test_Ctp10Token_GetDecimals succeed", resData.Result)
+	}
+}
+
+//get ctp10token totalsupply
+func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
+	var reqData model.Ctp10TokenGetTotalSupplyRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	resData := testSdk.Token.Ctp10Token.GetTotalSupply(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("TotalSupply:", resData.Result.TotalSupply)
+		t.Log("Test_Ctp10Token_GetTotalSupply succeed", resData.Result)
+	}
+}
+
+//get ctp10token balance
+func Test_Ctp10Token_GetBalance(t *testing.T) {
+	var reqData model.Ctp10TokenGetBalanceRequest
+	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetContractAddress(contractAddress)
+	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
+	reqData.SetCtp10TokenOwner(tokenOwner)
+	resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
+	if resData.ErrorCode != 0 {
+		fmt.Println(resData)
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Test_Ctp10Token_GetBalance succeed", resData.Result)
+	}
+}
+
+//Check the account transaction serial number
 func Test_Account_GetNonce(t *testing.T) {
 	var reqData model.AccountGetNonceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -103,7 +275,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	}
 }
 
-//BuildBlob_Sign_Submit
+//Submit and send BU transactions
 func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	//Operation
 	var reqDataOperation model.BUSendOperation
@@ -156,7 +328,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	}
 }
 
-//GetInfo
+//Enquiry of transaction details
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
 	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
@@ -171,7 +343,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 	}
 }
 
-//GetNumber
+//Get block height
 func Test_Block_GetNumber(t *testing.T) {
 	resData := testSdk.Block.GetNumber()
 	if resData.ErrorCode != 0 {
@@ -182,7 +354,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	}
 }
 
-//GetInfo
+//Get block details
 func Test_Block_GetInfo(t *testing.T) {
 	var reqData model.BlockGetInfoRequest
 	var blockNumber int64 = 581283
@@ -197,7 +369,7 @@ func Test_Block_GetInfo(t *testing.T) {
 	}
 }
 
-//GetLatest
+//Get the latest block information
 func Test_Block_GetLatest(t *testing.T) {
 	resData := testSdk.Block.GetLatest()
 	if resData.ErrorCode != 0 {
@@ -206,5 +378,37 @@ func Test_Block_GetLatest(t *testing.T) {
 		data, _ := json.Marshal(resData.Result.Header)
 		fmt.Println("Header:", string(data))
 		t.Log("Test_Block_GetLatest succeed", resData.Result)
+	}
+}
+
+//evaluate fee
+func Test_Transaction_EvaluateFee(t *testing.T) {
+	var reqDataOperation model.BUSendOperation
+	reqDataOperation.Init()
+	var amount int64 = 100
+	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("63")
+	var destAddress string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	reqDataOperation.SetDestAddress(destAddress)
+
+	var reqDataEvaluate model.TransactionEvaluateFeeRequest
+	var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqDataEvaluate.SetSourceAddress(sourceAddress)
+	var nonce int64 = 5
+	reqDataEvaluate.SetNonce(nonce)
+	var signatureNumber string = "3"
+	reqDataEvaluate.SetSignatureNumber(signatureNumber)
+	var SetCeilLedgerSeq int64 = 50
+	reqDataEvaluate.SetCeilLedgerSeq(SetCeilLedgerSeq)
+	reqDataEvaluate.SetMetadata("63")
+	reqDataEvaluate.SetOperation(reqDataOperation)
+	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
+	if resDataEvaluate.ErrorCode != 0 {
+		fmt.Println(resDataEvaluate)
+		t.Errorf(resDataEvaluate.ErrorDesc)
+	} else {
+		data, _ := json.Marshal(resDataEvaluate.Result)
+		fmt.Println("Evaluate:", string(data))
+		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
 	}
 }
