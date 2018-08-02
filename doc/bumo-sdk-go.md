@@ -31,7 +31,7 @@
     - [GetMetadata](#getmetadata)
 - [资产服务](#资产服务)
 	- [GetInfo](#getinfo-asset)
-- [Ctp10Token服务](#token服务)
+- [Ctp10Token服务](#ctp10token服务)
 	- [Allowance](#allowance)
 	- [GetInfo](#getinfo-token)
 	- [GetName](#getname)
