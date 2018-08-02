@@ -38,7 +38,7 @@ const (
 	INVALID_TOKEN_DECIMALS_ERROR              int = 11033
 	INVALID_TOKEN_TOTALSUPPLY_ERROR           int = 11034
 	INVALID_TOKENOWNER_ERROR                  int = 11035
-	GET_ALLOWNANCE_ERROR                      int = 11036
+	INVALID_TOKEN_SUPPLY_ERROR                int = 11036
 	INVALID_CONTRACTADDRESS_ERROR             int = 11037
 	CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR int = 11038
 	INVALID_TOKEN_AMOUNT_ERROR                int = 11039
@@ -63,6 +63,7 @@ const (
 	URL_EMPTY_ERROR                           int = 11062
 	CONTRACTADDRESS_CODE_BOTH_NULL_ERROR      int = 11063
 	INVALID_OPTTYPE_ERROR                     int = 11064
+	GET_ALLOWANCE_ERROR                       int = 11065
 	GET_TOKEN_INFO_ERROR                      int = 11066
 	SIGNATURE_EMPTY_ERROR                     int = 11067
 	SYSTEM_ERROR                              int = 20000
@@ -132,10 +133,11 @@ var errm = map[int]string{
 	INVALID_OPTTYPE_ERROR:                     "OptType must be between 0 and 2.",
 	INVALID_ISSUE_AMMOUNT_ERROR:               "AssetAmount this will be issued must between 1 and max(int64).",
 	SIGNATURE_EMPTY_ERROR:                     "The signatures cannot be empty.",
-	GET_ALLOWNANCE_ERROR:                      "Fail to get allowance.",
+	INVALID_TOKEN_SUPPLY_ERROR:                "Supply * decimals must be between 1 and max(int64).",
 	GET_TOKEN_INFO_ERROR:                      "Fail to get token info",
 	SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR: "SourceAddress cannot be equal to contractAddress.",
 	FROMADDRESS_EQUAL_DESTADDRESS_ERROR:       "FromAddress cannot be equal to destAddress",
+	GET_ALLOWANCE_ERROR:                       "Get allowance failed",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",

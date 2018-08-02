@@ -153,7 +153,7 @@ func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowan
 		return resData
 	} else {
 		if resDataCall.Result.QueryRets[0].Error.Data.Exception != "" {
-			resData.ErrorCode = exception.GET_ALLOWNANCE_ERROR
+			resData.ErrorCode = exception.GET_ALLOWANCE_ERROR
 			resData.ErrorDesc = resDataCall.Result.QueryRets[0].Error.Data.Exception
 			return resData
 		}

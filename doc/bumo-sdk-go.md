@@ -2149,6 +2149,7 @@ if resData.ErrorCode == 0 {
 11062|Url cannot be empty.
 11063|ContractAddress and code cannot be empty at the same time.
 11064|OptType must be between 0 and 2.
+11065|Fail to get allowance.
 11067|The signatures cannot be empty.
 11066|Fail to get token info.
 20000|System error.
