@@ -645,7 +645,7 @@ var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 reqData.SetAddress(address)
 reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
 reqData.SetCode("HNC")
-resData := testSdk.Asset.GetInfo(reqData)
+resData := testSdk.Token.Asset.GetInfo(reqData)
 if resData.ErrorCode == 0 {
 	data, _ := json.Marshal(resData.Result.Assets)
 	fmt.Println("Assets:", string(data))
@@ -695,13 +695,13 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenAllowanceRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-var spender string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 reqData.SetSpender(spender)
-var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
 reqData.SetCtp10TokenOwner(tokenOwner)
-resData := testSdk.Ctp10Token.Allowance(reqData)
+resData := testSdk.Token.Ctp10Token.Allowance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Allowance:", resData.Result.Allowance)
 }
@@ -746,9 +746,9 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetInfoRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Ctp10Token.GetInfo(reqData)
+resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
 if resData.ErrorCode == 0 {
 	data, _ := json.Marshal(resData.Result)
 	fmt.Println("info:", string(data))
@@ -790,9 +790,9 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetNameRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Ctp10Token.GetName(reqData)
+resData := testSdk.Token.Ctp10Token.GetName(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Name:", resData.Result.Name)
 }
@@ -833,9 +833,9 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetSymbolRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Ctp10Token.GetSymbol(reqData)
+resData := testSdk.Token.Ctp10Token.GetSymbol(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Symbol:",resData.Result.Symbol)
 }
@@ -875,9 +875,9 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetDecimalsRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Ctp10Token.GetDecimals(reqData)
+resData := testSdk.Token.Ctp10Token.GetDecimals(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Decimals:", resData.Result.Decimals)
 }
@@ -917,9 +917,9 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetTotalSupplyRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-resData := testSdk.Ctp10Token.GetTotalSupply(reqData)
+resData := testSdk.Token.Ctp10Token.GetTotalSupply(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("TotalSupply:", resData.Result.TotalSupply)
 }
@@ -962,11 +962,11 @@ SYSTEM_ERROR	|	20000	|	System error	|
 
 ```
 var reqData model.Ctp10TokenGetBalanceRequest
-var contractAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
-var tokenOwner string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 reqData.SetCtp10TokenOwner(tokenOwner)
-resData := testSdk.Ctp10Token.GetBalance(reqData)
+resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Balance:", resData.Result.Balance)
 }
