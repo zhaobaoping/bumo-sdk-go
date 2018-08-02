@@ -184,14 +184,18 @@ func (contract *ContractOperation) GetAddress(reqData model.ContractGetAddressRe
 			resData.ErrorDesc = resDataInfo.Result.Transactions[0].ErrorDesc
 			return resData
 		} else {
+			if resDataInfo.Result.Transactions[0].ErrorDesc == "" {
+				resData.ErrorCode = exception.QUERY_NO_RESULTS
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+				return resData
+			}
 			NewReader := strings.NewReader(resDataInfo.Result.Transactions[0].ErrorDesc)
 			decoder := json.NewDecoder(NewReader)
 			decoder.UseNumber()
 			err := decoder.Decode(&resData.Result.ContractAddresInfos)
 			if err != nil {
-				SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
-				resData.ErrorCode = SDKRes.ErrorCode
-				resData.ErrorDesc = SDKRes.ErrorDesc
+				resData.ErrorCode = exception.SYSTEM_ERROR
+				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 				return resData
 			}
 			return resData

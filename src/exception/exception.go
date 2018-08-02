@@ -68,10 +68,11 @@ const (
 	SYSTEM_ERROR                              int = 20000
 )
 const (
-	GET_ENCPUBLICKEY_ERROR int = iota + 17000
+	GET_ENCPUBLICKEY_ERROR int = iota + 14000
 	SIGN_ERROR
 	INVALID_PAYLOAD_ERROR
 	THE_QUERY_FAILED
+	QUERY_NO_RESULTS
 )
 
 var SDKRes SDKResponse
@@ -140,6 +141,7 @@ var errm = map[int]string{
 	SIGN_ERROR:             "The function 'Sign' failed.",
 	INVALID_PAYLOAD_ERROR:  "The parameter 'payload' is invalid.",
 	THE_QUERY_FAILED:       "The query failed.",
+	QUERY_NO_RESULTS:       "Query no results",
 }
 
 //GetSDKRes

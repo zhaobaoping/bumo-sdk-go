@@ -2158,7 +2158,8 @@ if resData.ErrorCode == 0 {
 
 参数|描述
 -----|-----
-17000|The function 'GetEncPublicKey' failed.
-17001|The function 'Sign' failed.
-17002|The parameter'payload' is invalid.
-17003|The query failed.
+14000|The function 'GetEncPublicKey' failed.
+14001|The function 'Sign' failed.
+14002|The parameter'payload' is invalid.
+14003|The query failed.
+14004|Query no results.
