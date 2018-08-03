@@ -789,14 +789,14 @@ func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignRespo
 //转移合约token拥有权 12
 func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenChangeOwnerResponse {
 	var resData model.Ctp10TokenChangeOwnerResponse
-	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
+	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var Input model.Input
 	Input.Method = "changeOwner"
-	Input.Params.Address = reqData.GetCtp10TokenOwner()
+	Input.Params.Address = reqData.GetTokenOwner()
 	InputStr, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR

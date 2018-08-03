@@ -700,7 +700,7 @@ reqData.SetContractAddress(contractAddress)
 var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 reqData.SetSpender(spender)
 var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
-reqData.SetCtp10TokenOwner(tokenOwner)
+reqData.SetTokenOwner(tokenOwner)
 resData := testSdk.Token.Ctp10Token.Allowance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Allowance:", resData.Result.Allowance)
@@ -965,7 +965,7 @@ var reqData model.Ctp10TokenGetBalanceRequest
 var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 reqData.SetContractAddress(contractAddress)
 var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
-reqData.SetCtp10TokenOwner(tokenOwner)
+reqData.SetTokenOwner(tokenOwner)
 resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 if resData.ErrorCode == 0 {
 	fmt.Println("Balance:", resData.Result.Balance)

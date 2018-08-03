@@ -408,7 +408,7 @@ func Test_Ctp10Token_Allowance(t *testing.T) {
 	var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
 	reqData.SetSpender(spender)
 	var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
-	reqData.SetCtp10TokenOwner(tokenOwner)
+	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Ctp10Token.Allowance(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
@@ -496,7 +496,7 @@ func Test_Ctp10Token_GetBalance(t *testing.T) {
 	var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
 	reqData.SetContractAddress(contractAddress)
 	var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
-	reqData.SetCtp10TokenOwner(tokenOwner)
+	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
 		fmt.Println(resData)

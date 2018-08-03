@@ -120,7 +120,7 @@ func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowan
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
+	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -137,7 +137,7 @@ func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowan
 	reqDataCall.SetOptType(2)
 	var Input model.Input
 	Input.Method = "allowance"
-	Input.Params.Owner = reqData.GetCtp10TokenOwner()
+	Input.Params.Owner = reqData.GetTokenOwner()
 	Input.Params.Spender = reqData.GetSpender()
 	InputByte, err := json.Marshal(Input)
 	if err != nil {
@@ -470,7 +470,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetBalance(reqData model.Ctp10TokenGetBal
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if !keypair.CheckAddress(reqData.GetCtp10TokenOwner()) {
+	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
 		resData.ErrorCode = exception.INVALID_TOKENOWNER_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -482,7 +482,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetBalance(reqData model.Ctp10TokenGetBal
 	reqDataCall.SetOptType(2)
 	var Input model.Input
 	Input.Method = "balanceOf"
-	Input.Params.Address = reqData.GetCtp10TokenOwner()
+	Input.Params.Address = reqData.GetTokenOwner()
 	InputByte, err := json.Marshal(Input)
 	if err != nil {
 		resData.ErrorCode = exception.SYSTEM_ERROR

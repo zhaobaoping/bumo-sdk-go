@@ -399,10 +399,10 @@ func (reqData *Ctp10TokenAllowanceRequest) SetContractAddress(ContractAddress st
 func (reqData *Ctp10TokenAllowanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *Ctp10TokenAllowanceRequest) SetCtp10TokenOwner(Ctp10TokenOwner string) {
-	reqData.tokenOwner = Ctp10TokenOwner
+func (reqData *Ctp10TokenAllowanceRequest) SetTokenOwner(TokenOwner string) {
+	reqData.tokenOwner = TokenOwner
 }
-func (reqData *Ctp10TokenAllowanceRequest) GetCtp10TokenOwner() string {
+func (reqData *Ctp10TokenAllowanceRequest) GetTokenOwner() string {
 	return reqData.tokenOwner
 }
 func (reqData *Ctp10TokenAllowanceRequest) SetSpender(Spender string) {
@@ -484,10 +484,10 @@ func (reqData *Ctp10TokenGetBalanceRequest) SetContractAddress(ContractAddress s
 func (reqData *Ctp10TokenGetBalanceRequest) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *Ctp10TokenGetBalanceRequest) SetCtp10TokenOwner(Ctp10TokenOwner string) {
-	reqData.tokenOwner = Ctp10TokenOwner
+func (reqData *Ctp10TokenGetBalanceRequest) SetTokenOwner(TokenOwner string) {
+	reqData.tokenOwner = TokenOwner
 }
-func (reqData *Ctp10TokenGetBalanceRequest) GetCtp10TokenOwner() string {
+func (reqData *Ctp10TokenGetBalanceRequest) GetTokenOwner() string {
 	return reqData.tokenOwner
 }
 
@@ -1123,10 +1123,10 @@ func (reqData *Ctp10TokenChangeOwnerOperation) SetContractAddress(ContractAddres
 func (reqData *Ctp10TokenChangeOwnerOperation) GetContractAddress() string {
 	return reqData.contractAddress
 }
-func (reqData *Ctp10TokenChangeOwnerOperation) SetCtp10TokenOwner(Ctp10TokenOwner string) {
-	reqData.tokenOwner = Ctp10TokenOwner
+func (reqData *Ctp10TokenChangeOwnerOperation) SetTokenOwner(TokenOwner string) {
+	reqData.tokenOwner = TokenOwner
 }
-func (reqData *Ctp10TokenChangeOwnerOperation) GetCtp10TokenOwner() string {
+func (reqData *Ctp10TokenChangeOwnerOperation) GetTokenOwner() string {
 	return reqData.tokenOwner
 }
 func (reqData *Ctp10TokenChangeOwnerOperation) SetMetadata(Metadata string) {
