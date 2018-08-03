@@ -282,7 +282,7 @@ func (reqData *TransactionSignRequest) GetPrivateKeys() []string {
 
 //Submit
 type TransactionSubmitRequests struct {
-	Blob []TransactionSubmitRequest
+	Items []TransactionSubmitRequest
 }
 type TransactionSubmitRequest struct {
 	blob       string

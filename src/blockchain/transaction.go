@@ -321,22 +321,36 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 	var resDatas model.TransactionSubmitData
 	var resData model.TransactionSubmitResponse
 	var reqDatas model.TransactionSubmitRequests
-	reqDatas.Blob = make([]model.TransactionSubmitRequest, 1)
-	reqDatas.Blob[0] = reqData
-	if reqDatas.Blob == nil {
+	reqDatas.Items = make([]model.TransactionSubmitRequest, 1)
+	reqDatas.Items[0] = reqData
+	if reqData.GetBlob() == "" {
 		SDKRes := exception.GetSDKRes(exception.INVALID_BLOB_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	for i := range reqDatas.Blob {
-		if reqDatas.Blob[i].GetSignatures() == nil {
+	TransactionBlob, err := hex.DecodeString(reqData.GetBlob())
+	if err != nil {
+		SDKRes := exception.GetSDKRes(exception.INVALID_BLOB_ERROR)
+		resData.ErrorCode = SDKRes.ErrorCode
+		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	var transactionBlob protocol.Transaction
+	err = proto.Unmarshal(TransactionBlob, &transactionBlob)
+	if err != nil {
+		resData.ErrorCode = exception.INVALID_BLOB_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	for i := range reqDatas.Items {
+		if reqDatas.Items[i].GetSignatures() == nil {
 			resData.ErrorCode = exception.SIGNATURE_EMPTY_ERROR
 			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
-		for j := range reqDatas.Blob[i].GetSignatures() {
-			if !keypair.CheckPublicKey(reqDatas.Blob[i].GetSignatures()[j].PublicKey) || reqDatas.Blob[i].GetSignatures()[j].SignData == "" {
+		for j := range reqDatas.Items[i].GetSignatures() {
+			if !keypair.CheckPublicKey(reqDatas.Items[i].GetSignatures()[j].PublicKey) || reqDatas.Items[i].GetSignatures()[j].SignData == "" {
 				SDKRes := exception.GetSDKRes(exception.INVALID_BLOB_ERROR)
 				resData.ErrorCode = SDKRes.ErrorCode
 				resData.ErrorDesc = SDKRes.ErrorDesc

@@ -53,11 +53,11 @@ func PostRequest(strUrl string, post string, data []byte) (*http.Response, excep
 //Json
 func GetRequestJson(reqData model.TransactionSubmitRequests) ([]byte, exception.SDKResponse) {
 	request := make(map[string]interface{})
-	items := make([]map[string]interface{}, len(reqData.Blob))
-	for i := range reqData.Blob {
+	items := make([]map[string]interface{}, len(reqData.Items))
+	for i := range reqData.Items {
 		items[i] = make(map[string]interface{})
-		items[i]["transaction_blob"] = reqData.Blob[i].GetBlob()
-		items[i]["signatures"] = reqData.Blob[i].GetSignatures()
+		items[i]["transaction_blob"] = reqData.Items[i].GetBlob()
+		items[i]["signatures"] = reqData.Items[i].GetSignatures()
 	}
 	request["items"] = items
 	requestJson, err := json.Marshal(request)
