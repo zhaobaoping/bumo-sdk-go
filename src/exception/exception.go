@@ -121,7 +121,7 @@ var errm = map[int]string{
 	OPERATIONS_EMPTY_ERROR:                    "Operations cannot be empty.",
 	INVALID_CEILLEDGERSEQ_ERROR:               "CeilLedgerSeq must be equal or bigger than 0.",
 	OPERATIONS_ONE_ERROR:                      "One of operations cannot be resolved.",
-	INVALID_SIGNATURENUMBER_ERROR:             "SignagureNumber must be between 1 and max(int32).",
+	INVALID_SIGNATURENUMBER_ERROR:             "SignatureNumber must be between 1 and max(int32).",
 	INVALID_HASH_ERROR:                        "Invalid transaction hash.",
 	INVALID_BLOB_ERROR:                        "Invalid blob.",
 	PRIVATEKEY_NULL_ERROR:                     "PrivateKeys cannot be empty.",

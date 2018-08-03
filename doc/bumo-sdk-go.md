@@ -1225,7 +1225,7 @@ EvaluateFee(model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeRes
 sourceAddress	|	string	|	必填，发起该操作的源账户地址
 nonce	|	int64	|	必填，待发起的交易序列号，大小[1, max(int64)]
 operations	|	list.List	|	必填，待提交的操作列表，不能为空
-signtureNumber	|	int32	|	选填，待签名者的数量，默认是1，大小[1, max(int32)]
+signtureNumber	|	string	|	选填，待签名者的数量，默认是1，大小[1, max(int32)]
 metadata	|	string	|	选填，备注
 ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
 
@@ -1244,7 +1244,7 @@ INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
 INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
 INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
 OPERATIONS_ONE_ERROR	|	11053	|	One of operations error
-INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignagureNumber must be between 1 and max(int32)
+INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignatureNumber must be between 1 and max(int32)
 SYSTEM_ERROR	|	20000	|	System error
 
 > 示例
@@ -1278,7 +1278,7 @@ if resDataEvaluate.ErrorCode == 0 {
 #### BuildBlob
 > 接口说明
 
-该接口用于交易Blob的生成
+该接口用于序列化交易，生成交易Blob串，便于网络传输
 
 > 调用方法
 
@@ -1382,7 +1382,7 @@ if resDataBlob.ErrorCode == 0 {
 #### Sign
 > 接口说明
 
-签名
+该接口用于实现交易的签名
 
 > 调用方法
 
@@ -2140,7 +2140,7 @@ if resData.ErrorCode == 0 {
 11051|Operations cannot be empty.
 11052|CeilLedgerSeq must be equal or bigger than 0.
 11053|One of operations cannot be resolved.
-11054|SignagureNumber must be between 1 and max(int32).
+11054|SignatureNumber must be between 1 and max(int32).
 11055|Invalid transaction hash.
 11056|Invalid blob.
 11057|PrivateKeys cannot be empty.

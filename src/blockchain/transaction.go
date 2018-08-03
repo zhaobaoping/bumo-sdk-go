@@ -158,7 +158,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	if len(reqData.GetSignatureNumber()) != 0 {
 		var err error
 		SignatureNumber, err = strconv.ParseInt(reqData.GetSignatureNumber(), 10, 64)
-		if err != nil || SignatureNumber <= 0 {
+		if err != nil || SignatureNumber <= 0 || SignatureNumber > 2147483648 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
