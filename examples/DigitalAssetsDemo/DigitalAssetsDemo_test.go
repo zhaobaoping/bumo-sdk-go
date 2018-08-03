@@ -1,5 +1,5 @@
-// DigitalAssetsDemo
-package DigitalAssetsDemo_test
+// digitalAssetsDemo
+package digitalAssetsDemo_test
 
 import (
 	"encoding/json"

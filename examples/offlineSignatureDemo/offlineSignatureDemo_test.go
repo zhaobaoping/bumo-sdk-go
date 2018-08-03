@@ -1,5 +1,5 @@
-// exchangeDemo_test
-package exchangeDemo_test
+// offlineSignatureDemo_test
+package offlineSignatureDemo_test
 
 import (
 	"encoding/json"
