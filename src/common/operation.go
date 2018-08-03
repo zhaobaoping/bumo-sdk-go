@@ -460,6 +460,11 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
+	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	var data model.ContractInvokeByAssetOperation
 	data.SetSourceAddress(reqData.GetSourceAddress())
 	data.SetContractAddress(reqData.GetDestAddress())
@@ -491,6 +496,11 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 		SDKRes := exception.GetSDKRes(exception.INVALID_DESTADDRESS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var data model.ContractInvokeByBUOperation
