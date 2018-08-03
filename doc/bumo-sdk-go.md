@@ -1392,7 +1392,7 @@ Sign(model.TransactionSignRequest) model.TransactionSignResponse
 
 参数		|		类型	|	描述
 -----------|------------|----------------
-blob	|	string	|	必填，Transaction序列化后的16进制字符串
+blob	|	string	|	必填，待签名的交易Blob
 privateKeys	|	[] string	|	必填，私钥列表
 
 
@@ -1444,7 +1444,7 @@ Submit(model.TransactionSubmitRequest) model.TransactionSubmitResponse
 
 参数	|	类型	|	描述
 -----------|------------|----------------
-blob	|	string	|	必填，Transaction序列化后的16进制字符串
+blob	|	string	|	必填，交易blob
 signature	|	[] [Signature](#signature)	|	必填，签名列表
 
 > 响应数据
