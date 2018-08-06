@@ -1,1034 +1,2168 @@
 # Bumo Go SDK
 
 ## 概述
-本文档简要概述Bumo Go SDK部分常用接口文档
+本文档简要概述Bumo Go SDK常用接口文档，方便开发者更方便地写入和查询BU区块链。
 
 - [配置](#配置)
 	- [包引用](#包引用)
-
+- [名词解析](#名词解析)
+- [参数与响应](#参数与响应)
+    - [请求参数](#请求参数)
+    - [响应结果](#响应结果)
 - [使用方法](#使用方法)
     - [包导入](#包导入)
-    - [初始化结构体](#初始化结构体)
-    - [新建连接](#新建连接)
-    - [生成未激活账户](#生成未激活账户)
-    - [发起TX](#发起tx)
+    - [生成SDK实例](#生成sdk实例)
+    - [生成公私钥地址](#生成公私钥地址)
+    - [有效性校验](#有效性校验)
     - [查询](#查询)
-- [区块](#区块)
-    - [新建连接](#新建连接)
-	- [获取区块高度](#获取区块高度)
-    - [检查区块同步](#检查区块同步)
-	- [根据hash查询交易](#根据hash查询交易)
-	- [根据区块序列号查询交易](#根据区块序列号查询交易)
-	- [查询区块头](#查询区块头)
-	- [生成交易](#生成交易)
-    - [评估费用](#评估费用)
-    - [签名](#签名)
-    - [提交交易](#提交交易)
-- [资产](#资产)
-	- [发行资产](#发行资产)
-	- [转移资产](#转移资产)
-	- [发送BU](#发送bu)
-- [账户](#账户)
-    - [创建未激活账户](#创建未激活账户)
-    - [创建激活账户](#创建激活账户)
-    - [检查地址](#检查地址)
-    - [查询账户](#查询账户)
-    - [查询余额](#查询余额)
-
+	- [提交交易](#提交交易)
+		- [获取账户nonce值](#获取账户nonce值)
+		- [构建操作](#构建操作)
+		- [构建交易Blob](#构建交易blob)
+		- [签名交易](#签名交易)
+		- [广播交易](#广播交易)
+- [账户服务](#账户服务)
+    - [CheckValid](#checkvalid)
+    - [Create](#create)
+    - [GetInfo](#getinfo-account)
+    - [GetNonce](#getnonce)
+    - [GetBalance](#getbalance-account)
+    - [GetAssets](#getassets)
+    - [GetMetadata](#getmetadata)
+- [资产服务](#资产服务)
+	- [GetInfo](#getinfo-asset)
+- [Ctp10Token服务](#ctp10token服务)
+	- [Allowance](#allowance)
+	- [GetInfo](#getinfo-token)
+	- [GetName](#getname)
+	- [GetSymbol](#getsymbol)
+	- [GetDecimals](#getdecimals)
+	- [GetTotalSupply](#gettotalsupply)
+	- [GetBalance](#getbalance-token)
+- [合约服务](#合约服务)
+    - [GetInfo](#getinfo-contract)
+- [交易服务](#交易服务)
+    - [操作说明](#操作说明)
+    - [BuildBlob](#buildblob)
+    - [EvaluateFee](#evaluatefee)
+    - [Sign](#sign)
+    - [Submit](#submit)
+    - [GetInfo](#getinfo-transaction)
+- [区块服务](#区块服务)
+    - [GetNumber](#getnumber)
+    - [CheckStatus](#checkstatus)
+    - [GetTransactions](#gettransactions)
+    - [GetInfo](#getinfo-block)
+    - [GetLatest](#getlatest)
+    - [GetValidators](#getvalidators)
+    - [GetLatestValidators](#getlatestvalidators)
+    - [GetReward](#getreward)
+    - [GetLatestReward](#getlatestreward)
+    - [GetFees](#getfees)
+    - [GetLatestFees](#getlatestfees)
 - [错误码](#错误码)
 
-### 配置
+## 配置
 
-#### 包引用
+### 包引用
 所依赖的golang包在src文件夹中寻找，依赖的golang包如下：
 
 ```
-    //获取包
-    go get github.com/bumoproject/bumo-sdk-go
+	//获取包
+	go get github.com/bumoproject/bumo-sdk-go
+```
+## 名词解析
+
+操作BU区块链： 向BU区块链写入或修改数据
+
+提交交易： 向BU区块链发送修改的内容
+
+查询BU区块链： 查询BU区块链中的数据
+
+账户服务： 提供账户相关的有效性校验与查询接口
+
+资产服务： 提供资产相关的查询接口
+
+Ctp10Token服务： 提供合约资产相关的有效性校验与查询接口
+
+合约服务： 提供合约相关的有效性校验与查询接口
+
+交易服务： 提供交易相关的提交与查询接口
+
+区块服务： 提供区块的查询接口
+
+账户nonce值： 每个账户都维护一个序列号，用于用户提交交易时标识交易执行顺序的
+## 参数与响应
+#### 请求参数
+> 请求参数的格式，是[类名][方法名]Request，比如Account.GetInfo()的请求参数是AccountGetInfoRequest。
+请求参数的成员，是各个方法的入参的成员变量名。
+
+例如：Account.GetInfo()的入参成员是address，那么AccountGetInfoRequest的结构如下：
+
+```
+type AccountGetInfoRequest struct {
+	address string
+}
 ```
 
-### 使用方法
+#### 响应结果
+响应结果的格式，包含错误码，错误描述和result，格式是[类名][方法名]Response。
 
-#### 包导入
+例如Account.GetInfo()的结构体名是AccountGetInfoResponse：
+
+```
+type AccountGetInfoResponse struct {
+	ErrorCode int
+	ErrorDesc string
+	Result	AccountGetInfoResult
+}
+```
+说明：
+
+(1) ErrorCode: 0表示无错误，大于0表示有错误
+
+(2) ErrorDesc: 空表示无错误，有内容表示有错误
+
+(3) Result: 返回结果的结构体，其中结构体的名称，格式是[类名][方法名]Result。
+例如Account.GetNonce()的结构体名是AccountGetNonceResult：
+
+```
+type AccountGetNonceResult struct {
+	Nonce int64
+}
+```
+
+
+## 使用方法
+
+> 这里介绍SDK的使用流程，首先需要生成SDK实例，然后调用相应服务的接口，其中服务包括账户服务、资产服务、合约服务、交易服务、区块服务，接口按使用分类分为生成公私钥地址接口、有效性校验接口、查询接口、提交交易相关接口.
+
+### 包导入
 >导入使用的包
 
 ```
 import (
 
-	"github.com/bumoproject/bumo-sdk-go/src/bumo"
+	"github.com/bumoproject/bumo-sdk-go/src/model"
+	"github.com/bumoproject/bumo-sdk-go/src/sdk"
 )
 ```
 
-#### 初始化结构体
->初始化Error和BumoSdk结构体
+### 生成SDK实例
+>初始化Sdk结构体
 
 ```
-   var Err bumo.Error
-   var bumosdk bumo.BumoSdk
+var testSdk sdk.Sdk
 ```
-#### 新建连接
->获取相应的连接
+>调用SDK的接口Init
 
 ```
-  	bumosdk.Newbumo(url)
+url := "http://seed1.bumotest.io:26002"
+var reqData model.SDKInitRequest
+reqData.SetUrl(url)
+resData := testSdk.Init(reqData)
 ```
-#### 生成未激活账户
->通过调用Account的CreateInactive生成账户，例如：
+### 生成公私钥地址
+>通过调用Account的Create生成账户，例如：
 
 ```
-    newPublicKey, newPrivateKey, newAddress, Err := bumosdk.Account.CreateInactive()
+resData := testSdk.Account.Create()
+```
+### 有效性校验
+此接口用于校验信息的有效性的，直接调用相应的接口即可，比如，校验账户地址有效性，调用如下：
+
+```
+//初始化传入参数
+var reqData model.AccountCheckValidRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+//调用接口检查
+resData := testSdk.Account.CheckValid(reqData)
+```
+### 查询
+调用相应的接口，例如：查询账户信息
+
+```
+//初始化传入参数
+var reqData model.AccountGetInfoRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+//调用接口查询
+resData := testSdk.Account.GetInfo(reqData)
 ```
 
-#### 发起TX
-> 创建激活账户、发行资产、转移资产、发送BU等功能可通过以下四步完成
+### 提交交易
+> 提交交易的过程包括以下几步：获取账户nonce值，构建操作，构建交易Blob，签名交易和广播交易
 
-1. 创建operation
-   
-通过调用对应方法，创建出指定功能的操作，以发行资产为例调用Asset的Issue方法：
-   
+#### 获取账户nonce值
+
+开发者可自己维护各个账户nonce，在提交完一个交易后，自动递增1，这样可以在短时间内发送多笔交易，否则，必须等上一个交易执行完成后，账户的nonce值才会加1。接口调用如下：
+
 ```
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress, code, amount)
+// 初始化请求参数
+var reqData model.AccountGetNonceRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetNonce(reqData)
+// 调用GetNonce接口
+resData := testSdk.Account.GetNonce(reqData)
+```
+#### 构建操作
+
+> 这里的操作是指在交易中做的一些动作。 例如：构建发送BU操作BUSendOperation，调用如下：
+
+```
+var buSendOperation model.BUSendOperation
+buSendOperation.Init()
+var amount int64 = 100
+var address string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+buSendOperation.SetAmount(amount)
+buSendOperation.SetDestAddress(address)
 ```
 
+#### 构建交易Blob
 
-2.  构建transaction
-
-   构建构建transaction，并设置gasPrice、feeLimit和signer等信息
+> 该接口用于生成交易Blob串，接口调用如下：
 > 注意：gasPrice和feeLimit的单位是MO，且 1 BU = 10^8 MO
-   
-   例如：
-   
-```
-    //需要传入费用参数gasPrice，feeLimit
-    transaction, Err := bumosdk.CreateTransactionWithFee(address, nonce, gasPrice, feeLimit, operation)
-```
-3.  签名
-
-   对transaction数据签名
-   
-   例如：
-   
-```
-    signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-```
-4. 提交transaction
-
-提交transaction，等待区块网络确认结果，一般确认时间是10秒，确认超时时间为500秒。
- 
-```
-    submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-```
-
-
-
-#### 查询
-调用bumo的相应的接口，例如：查询账户信息
-```
-    addressInfo, Err := bumosdk.Account.GetInfo(address)
-```
-
-### 区块
-
-#### 新建连接
-
-###### 调用方法
-```
-	//获取连接
-	bumosdk.Newbumo(url)
-```
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-url              |    String    | 公钥           | 
-
-#### 获取区块高度
-
-
-###### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-blockNumber  |    int64      | 区块高度   | 
-Err    |   bumo.Error     | 错误描述 |
-
-###### 调用方法
-```
-	blockNumber, Err := bumosdk.GetBlockNumber()
-	fmt.Println("blockNumber:", blockNumber)
-	fmt.Println(Err)
-```
-
-###### 运行结果
 
 ```
-    blockNumber: 146518
-    err: {0 <nil>}
+//初始化传入参数
+var reqDataBlob model.TransactionBuildBlobRequest
+reqDataBlob.SetSourceAddress(surceAddress)
+reqDataBlob.SetFeeLimit(feeLimit)
+reqDataBlob.SetGasPrice(gasPrice)
+reqDataBlob.SetNonce(senderNonce)
+reqDataBlob.SetOperation(buSendOperation)
+//调用BuildBlob接口
+resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 ```
 
+#### 签名交易
 
-#### 检查区块同步
-
-
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-blockStatus  |    bool      |是否同步   | 
-Err  |    bumo.Error      |错误描述   | 
-###### 调用方法
-```
-	blockStatus, Err := bumosdk.CheckBlockStatus()
-	fmt.Println("blockStatus:", blockStatus)
-	fmt.Println("err:", Err)
-```
-###### 运行结果
+> 该接口用于交易发起者使用私钥对交易进行签名。接口调用如下：
 
 ```
-    blockStatus: true
-    err: {0 <nil>}
+//初始化传入参数
+PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
+var reqData model.TransactionSignRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetPrivateKeys(PrivateKey)
+//调用Sign接口
+resDataSign := testSdk.Transaction.Sign(reqData)
 ```
+#### 广播交易
 
-
-
-#### 根据hash查询交易
-
-> 通过hash查询交易的终态信息
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-hash  |    String      | hash值   | 
-
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-transaction  |    string      |交易详情   | 
-Err  |    bumo.Error      |错误描述   | 
-
-###### 调用方法
+> 该接口用于向BU区块链发送交易，触发交易的执行。接口调用如下：
 
 ```
-    hash := "2cc586cbcec3648dacb1e5d8423a76214ee39395bff409435b908684e5177f0d"
-	transaction, Err := bumosdk.GetTransaction(hash)
-	fmt.Println("transaction:", transaction)
-	fmt.Println("err:", Err)
+//初始化传入参数
+var reqData model.TransactionSubmitRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetSignatures(resDataSign.Result.Signatures)
+//调用Submit接口
+resDataSubmit := testSdk.Transaction.Submit(reqData)
 ```
 
-###### 运行结果
+## 账户服务
+
+账户服务主要是账户相关的接口，包括5个接口：CheckValid, GetInfo, GetNonce, GetBalance, GetAssets, GetMetadata。
+
+#### CheckValid
+> 接口说明
+
+该接口用于检测账户地址的有效性
+> 调用方法
+
+CheckValid(model.AccountCheckValidRequest) model.AccountCheckValidResponse
+
+> 请求参数
+
+参数	|	 类型	 |	描述
+----------- |------------|----------------
+address	 |string	 |待检测的账户地址
+
+> 响应数据
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+IsValid	 |string	 |账户地址是否有效
+
+> 错误码
+
+异常	|	 错误码|描述
+-----------|-----------|--------
+SYSTEM_ERROR |20000	 |System error
+
+> 示例
 
 ```
-transaction:
-{
-    "total_count":1,
-    "transactions":[
-        {
-            "actual_fee":275000,
-            "close_time":1527212703857389,
-            "error_code":0,
-            "error_desc":"",
-            "hash":"2cc586cbcec3648dacb1e5d8423a76214ee39395bff409435b908684e5177f0d",
-            "ledger_seq":16903,
-            "signatures":[
-                {
-                    "public_key":"b00180c2007082d1e2519a0f2d08fd65ba607fe3b8be646192a2f18a5fa0bee8f7a810d011ed",
-                    "sign_data":"09216a0cabeec1eacf3dd302aa50ec3554b16d0144343c7d01ee7ac4f9f6ef1d5ed9f3f344dd898c02cf16bf2be3c57bfc5e74077ea2f96fa2ad143d69602701"
-                }
-            ],
-            "transaction":{
-                "fee_limit":1000000,
-                "gas_price":1000,
-                "metadata":"6275696c642073696d706c65206163636f756e74",
-                "nonce":59,
-                "operations":[
-                    {
-                        "create_account":{
-                            "dest_address":"buQqjAzXfLkJyWXnSfaQkSTgGUUW8kqCEAor",
-                            "init_balance":10000000,
-                            "priv":{
-                                "master_weight":1,
-                                "thresholds":{
-                                    "tx_threshold":1
-                                }
-                            }
-                        },
-                        "type":1
-                    }
-                ],
-                "source_address":"buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-            },
-            "tx_size":275
-        }
-    ]
+var reqData model.AccountCheckValidRequest
+address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.CheckValid(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println(resData.Result.IsValid)
 }
-err: {0 <nil>}
-
-//注释：
-total_count： 交易总数
-transactions： 交易列表
-actual_fee： 实际费用
-close_time： 交易关闭时间
-error_code： 错误码
-error_desc: 错误描述
-hash: 交易哈希
-ledger_seq： 区块高度
-signatures： 签名者列表
-public_key： 公钥
-sign_data： 签名数据
-transaction：交易内容
-fee_limit：费用限制
-gas_price：打包价格
-nonce： 交易序列号
-operations：操作列表
-pay_coin：操作名称
-amount： BU的数量
-dest_address： 目标地址
-type：操作类型
-source_address：交易发起账户
-tx_size：交易所占字节数
-
 ```
 
+#### Create
+> 接口说明
 
-#### 根据区块序列号查询交易
+生成公私钥对
+> 调用方法
 
-> 通过区块序列号查询交易的终态信息
+Create() model.AccountCreateResponse
 
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-ledgerSeq  |    int64      | 区块高度   | 
+> 响应数据
 
+参数	|	类型	|	描述
+----------- |------------|----------------
+PrivateKey	 |string	 |私钥
+PublicKey	 |string	 |公钥
+Address	 |string	 |地址
 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-block  |    string      |交易详情   | 
-Err  |    bumo.Error      |错误描述   | 
-
-
-
-###### 调用方法
+> 示例
 
 ```
-    var ledgerSeq int64 = 53488
-	block, Err := bumosdk.GetBlock(ledgerSeq)
-	fmt.Println("block:", block)
-	fmt.Println("err:", Err)
-```
-
-###### 运行结果
-
-```
-block:
-{
-    "total_count":1,
-    "transactions":[
-        {
-            "actual_fee":438000,
-            "close_time":1527580634891468,
-            "error_code":0,
-            "error_desc":"",
-            "hash":"2c8a74ca250d8bb42b737ae6da13e0dcecc57226d4196b601e2d829b2d80c0f5",
-            "ledger_seq":53488,
-            "signatures":[
-                {
-                    "public_key":"b00180c2007082d1e2519a0f2d08fd65ba607fe3b8be646192a2f18a5fa0bee8f7a810d011ed",
-                    "sign_data":"cca2fcdd0f56cc0de7368136f7ad1a7212477b2c067d2b700b7be7f7f43636de61bd5aa347e35540cfe94e079472c3398c5bba1374e27cd675c9eee56161f30b"
-                }
-            ],
-            "transaction":{
-                "fee_limit":445000,
-                "gas_price":1000,
-                "metadata":"65346261613465363938393336643635373436313634363137343631",
-                "nonce":122,
-                "operations":[
-                    {
-                        "create_account":{
-                            "dest_address":"buQcZ4oHkj9aUvkTQjvjUaZu1tujvjbERDaF",
-                            "init_balance":10000000,
-                            "metadatas":[
-                                {
-                                    "key":"key1",
-                                    "value":"自定义value1"
-                                },
-                                {
-                                    "key":"key2",
-                                    "value":"自定义value2"
-                                }
-                            ],
-                            "priv":{
-                                "master_weight":15,
-                                "signers":[
-                                    {
-                                        "address":"buQjddo7iZLKugdkofivaSKmQtYj87Vj59ni",
-                                        "weight":10
-                                    },
-                                    {
-                                        "address":"buQWnB3a9cHb6UJ9YUr8pGLfp42T2dgmYevi",
-                                        "weight":10
-                                    }
-                                ],
-                                "thresholds":{
-                                    "tx_threshold":15,
-                                    "type_thresholds":[
-                                        {
-                                            "threshold":8,
-                                            "type":1
-                                        },
-                                        {
-                                            "threshold":6,
-                                            "type":4
-                                        },
-                                        {
-                                            "threshold":4,
-                                            "type":2
-                                        }
-                                    ]
-                                }
-                            }
-                        },
-                        "type":1
-                    }
-                ],
-                "source_address":"buQs9npaCq9mNFZG18qu88ZcmXYqd6bqpTU3"
-            },
-            "tx_size":438
-        }
-    ]
+resData := testSdk.Account.Create()
+if resData.ErrorCode == 0 {
+	fmt.Println("Address:",resData.Result.Address)
+	fmt.Println("PrivateKey:",resData.Result.PrivateKey)
+	fmt.Println("PublicKey:",resData.Result.PublicKey)
 }
-err: {0 <nil>}
-
-//注释：
-total_count： 交易总数
-transactions： 交易列表
-actual_fee： 实际费用
-close_time： 交易关闭时间
-error_code： 错误码
-error_desc: 错误描述
-hash: 交易哈希
-ledger_seq： 区块高度
-signatures： 签名者列表
-public_key： 公钥
-sign_data： 签名数据
-transaction：交易内容
-fee_limit：费用限制
-gas_price：打包价格
-nonce： 交易序列号
-operations：操作列表
-pay_coin：操作名称
-amount： BU的数量
-dest_address： 目标地址
-type：操作类型
-source_address：交易发起账户
-tx_size：交易所占字节数  
 ```
 
-#### 查询区块头
+#### GetInfo-Account
 
-> 通过区块序列号查询区块头
+> 接口说明
 
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-ledgerSeq  |    int64      | 区块高度   | 
+查询账户信息
 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-ledger  |    string      |交易详情   | 
-Err  |    bumo.Error      |错误描述   |
+> 调用方法
 
+GetInfo(model.AccountGetInfoRequest) model.AccountGetInfoResponse
 
-###### 调用方法
+> 请求参数
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+address	 |string	 |待检测的账户地址
+
+> 响应数据
+
+参数	|	 类型	|	描述
+--------- |------------- |----------------
+Address	|	string	 |	账户地址
+Balance	|	int64	|	账户余额
+Nonce	|	int64	|	账户交易序列号
+Priv	|[Priv](#priv) |	账户权限
+
+#### Priv
+参数	|	类型	|	描述
+-----------|------------ |----------------
+MasterWeight |	 int64	|账户自身权重
+Signers	 |[] [Signer](#signer)|签名者权重
+Thresholds	 |[Threshold](#threshold)|	门限
+
+#### Signer
+参数	|	类型	|	描述
+-----------|------------ |----------------
+Address	 |string	|签名账户地址
+Weight	 |int64	|签名账户权重
+
+#### Threshold
+参数	|	类型	|	描述
+-----------|------------ |----------------
+TxThreshold	 |	string	|交易默认门限
+TypeThresholds|[TypeThreshold](#typethreshold)|不同类型交易的门限
+
+#### TypeThreshold
+参数	|	类型	|	描述
+-----------|------------ |----------------
+Type	 |	int64	|	操作类型
+Threshold	|	int64	|	门限
+
+> 错误码
+
+异常	|	 错误码|描述
+-----------|-----------|--------
+INVALID_ADDRESS_ERROR|11006 |Invalid address
+CONNECTNETWORK_ERROR|11007|Fail to Connect network
+SYSTEM_ERROR |20000	 |System error
+
+> 示例
 
 ```
-    var ledgerSeq int64 = 53488
-    ledger, Err := bumosdk.GetLedger(ledgerSeq)
-	fmt.Println("ledger:", ledger)
-	fmt.Println("err:", Err)    
-```
-
-###### 运行结果
-
-```
-ledger: 
-{
-    "header":{
-        "account_tree_hash":"ba71637cdb4ee20e12ef41ae80b8600629aebdb4c78bdb8fd8dd351df3a4e95a",
-        "close_time":1527580634891468,
-        "consensus_value_hash":"8402d0dd2aab314379f9cb17ddc58fef25e22ac6ab081d91862e6a5a45904a80",
-        "fees_hash":"916daa78d264b3e2d9cff8aac84c943a834f49a62b7354d4fa228dab65515313",
-        "hash":"673c507e7c77fc6609dd5bdaf488125f11c68d79dc93dbcd76ca5395a6b5c6a7",
-        "previous_hash":"6ee11609070a90e83231dcb6809fe1663b4faac157099bb937e1150501694f1c",
-        "seq":53488,
-        "tx_count":123,
-        "validators_hash":"8ca7d06910f144ba47bf0a7437e24713176126b4f82ba8c0ae7995264f30acf5",
-        "version":1000
-    }
+var reqData model.AccountGetInfoRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result)
+	fmt.Println("Info:", string(data))
 }
-err: {0 <nil>}  
-//注释：
-account_tree_hash： 账户树哈希
-close_time： 交易关闭时间
-consensus_value_hash： 共识哈希
-fees_hash： 费用哈希
-hash: 交易哈希
-previous_hash： 上一区块哈希
-seq: 区块高度
-tx_count：交易数
-validators_hash：验证哈希
-version： 版本
 ```
+#### GetNonce
+> 接口说明
 
+该接口用于获取账户的nonce
 
-#### 生成交易
+> 调用方法
 
-> 通过交易具体操作生成交易序列化数据
+GetNonce(model.AccountGetNonceRequest) model.AccountGetNonceResponse
 
-##### 传入参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-nonce  |    int64      | 账号序列号   | 
-gasPrice  |    int64      | 打包费用 (单位 : MO　注:1 BU = 10^8 MO)  | 
-feeLimit  |    int64      | 交易手续费 (单位 : MO　注:1 BU = 10^8 MO)  | 
-operation  |    []byte      | 交易操作   |
+> 请求参数
 
+参数	|	类型	|	描述
+----------- |------------|----------------
+address	 |string	 |待检测的账户地址
 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-transaction    |   String     | 交易序列化数据 | 
-Err  |    bumo.Error      |错误描述   | 
+> 响应数据
 
+参数	|	类型	|	描述
+----------- |------------|----------------
+Nonce	|int64	 |该账户的交易序列号
 
-###### 调用方法
+> 错误码
+
+异常	|	 错误码|描述
+-----------|-----------|--------
+INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
+CONNECTNETWORK_ERROR	|	 11007	|	 Fail to Connect network
+SYSTEM_ERROR |20000	 |System error
+
+> 示例
 
 ```
-    transaction, Err := bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-```
-
-##### 评估费用
-
-> 通过交易具体操作评估需要的费用
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-nonce  |    int64      | 账号序列号   | 
-operation  |    []byte      | 交易操作   | 
-signatureNumber  |    int64      | 签名次数 | 
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-actualFee    |   int64     | 交易费用 | 
-gasPrice  |    int64      | 交易单位  | 
-Err  |    bumo.Error      |错误描述   | 
-
-> 以发送BU为例
-
-```
-    // 交易提交人区块链账户地址
-	sourceAddress := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	//接受账户
-	receiverAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-	//发送数量
-	var amount int64 = 10000
-	//账号序列号
-	var nonce int64 = 133
-	//签名次数
-	var signatureNumber int64 = 1
-	// 创建operation
-     operation, Err := bumosdk.Account.Asset.SendBU(sourceAddress,receiverAddress, amount)
-	 //评估费用
-	 actualFee, gasPrice, Err := bumosdk.EvaluationFee(sourceAddress, nonce, operation, signatureNumber)
-
-```
-
-
-#### 签名
-
-> 对交易序列化数据进行签名
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-transaction  |    String      | 序列化交易   | 
-sourcePrivateKey    |   String     | 签名者私钥 | 
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-signTransaction  |    String      | 签名数据   | 
-publicKey    |   String     | 公钥 | 
-Err  |    bumo.Error      |错误描述   | 
-
-###### 调用方法
-
-```
-   signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-```
-
-
-#### 提交交易
-
-> 提交签名的交易
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-transaction  |    String      | 序列化交易   | 
-signTransaction    |   String     | 签名数据 | 
-publicKey  |    String      | 公钥     | 
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-submitTransaction  |    String      | 提交结果（成功返回交易hash）   | 
-Err  |    bumo.Error      |错误描述   | 
-
-
-
-###### 调用方法
-
-```
-   submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-```
-
-
-### 资产
-#### 发行资产
-
-> 可通过该方法将数字化资产登记到区块链网络中。资产编码和资产发行方区块链地址共同确定唯一性资产。为此再次发行同一种资产该资产数量累加（追加）。
-
-
-###### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-code    |   String     | 资产标签 | 
-amount  |    int64      | 发行数量   | 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-issueData  |    []byte      | 交易操作   | 
-
-###### 调用方法
-
-```
-    // 交易提交人区块链账户地址
-	sourceAddress := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	// 交易提交人账户公钥
-	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
-	// 交易提交人账户私钥
-	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-	
-	// 创建operation
-	assetCode := "HNC"
-	issueAmount := 1000000000 // 发行1000000000 HNC
-    operation, Err := bumosdk.Account.Asset.Issue(sourceAddress,  assetCode, issueAmount) // 创建资产发行操作
-	
-	// 构造Tx
-	//交易序列号
-	nonce := 128
-	gasPrice := 1000
-	feeLimit := 10000000
-	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
-	//签名
-	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
-	// 提交Tx
-	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-
-```
-
-
-
-
-#### 转移资产
-
-> 将当前账户（资产发送方）已拥有资产转移（转给）指定账户（资产接收方）
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-issueAddress    |   String     | 发行者地址 | 
-destAddress    |   String     | 目标地址 | 
-code  |    String      | 资产标签   | 
-amount  |    int64      | 发行数量   | 
-
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-payData  |    []byte      | 序列化交易   | 
-Err  |    bumo.Error      |错误描述   |
-
-###### 调用方法
-```
-    // 交易提交人区块链账户地址
-	sourceAddress := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	// 交易提交人账户公钥
-	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
-	// 交易提交人账户私钥
-	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-	//资产创建账户
-	issueAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-    //目标账户
-	destAddress := "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-
-	
-	// 创建operation
-	assetCode := "HNC"
-	issueAmount := 100 // 转移100 HNC
-    operation, Err := bumosdk.Account.Asset.Pay(sourceAddress, destAddress, issueAddress, issueAmount, assetCode)
-	
-	// 构造Tx
-	//交易序列号
-	nonce := 128
-	gasPrice := 1000
-	feeLimit := 10000000
-	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
-	//签名
-	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
-	// 提交Tx
-	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-
-```
-#### 发送BU
-> 将当前账户（发送方）已拥有BU转移（转给）指定账户（接收方）
-
-
-
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress  |    String      | 源地址   | 
-destAddress    |   String     | 目标地址 | 
-amount  |    int64      | 发送数量   | 
-
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-payData  |    []byte      | 序列化交易   | 
-Err  |    bumo.Error      |错误描述   |
-
-###### 调用方法
-
-
-```
-    // 交易提交人区块链账户地址
-	sourceAddress := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	// 交易提交人账户公钥
-	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
-	// 交易提交人账户私钥
-	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-    //目标账户
-	destAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-	
-	// 创建operation
-    amount := 10000//发送10000BU
-	operation, Err := bumosdk.Account.Asset.SendBU(sourceAddress, destAddress, amount)
-	
-	// 构造Tx
-	//交易序列号
-	nonce := 128
-	gasPrice := 1000
-	feeLimit := 10000000
-	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
-	//签名
-	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
-	// 提交Tx
-	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-
-```
-
-
-### 账户
-#### 创建未激活账户
-
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-newPublicKey  |    String      | 公钥   | 
-newPrivateKey    |   String     | 私钥 | 
-newAddress  |    String      | 地址     | 
-Err  |    bumo.Error      |错误描述   | 
-
-###### 调用方法
-
-```
-    // 随机一个Bumo区块账户的公私钥对及区块链地址
-    newPublicKey, newPrivateKey, newAddress, Err := bumosdk.Account.CreateInactive()
-
-    // 注：开发者系统需要记录该账户的公私钥对及地址
-
-    accountAddress := newAddress // Block chain account address
-    accountPrivateKey := newPrivateKey // Block chain account private key
-    accountPublicKey := newPublicKey // Block chain account public key
-```
-
-#### 创建激活账户
-
-> 创建新账户需要创建账户操作者(区块链已有账户)花费约0.01BU的交易费用，并且给新账户至少0.1BU的初始化数量，该初始化BU数量由创建账户操作者提供。
-
-
-
-###### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-sourceAddress    |    String    | 源地址         | 
-receiverAddress  |   String     | 目标地址       | 
-initBalance      |    int64     | 创建账户初始化账户余额，最少10000000 MO（注:1 BU = 10^8 MO） |
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-createActive  |    []byte      | 交易序列化   | 
-Err  |    bumo.Error      |错误描述   | 
-
-###### 调用方法
-
-```
-    // 随机一个Bumo区块账户的公私钥对及区块链地址
-    newPublicKey, newPrivateKey, newAddress, Err := bumosdk.Account.CreateInactive()
-
-    // 注：开发者系统需要记录该账户的公私钥对及地址
-
-    // 交易提交人区块链账户地址
-	sourceAddress := "buQtL1v6voSdT292gqwTi77ovR4JRa7YLyqf"
-	// 交易提交人账户公钥
-	sourcePublicKey := "b0013ea511beaf5baa41b4901d0bd8410e1cf7a8ff376042d870e2cbd3e960e251dde5e6be1f"
-	// 交易提交人账户私钥
-	sourcePrivateKey := "privbtHrv27sXbMm41MYp1ezpfuNRJNjJB7i9ggYMP2xtDMCJ9SGNBJy"
-	// 创建账户目前最少初始化账户余额是0.1BU
-	initBalance := 100000000
-	
-	operation, Err := bumosdk.Account.CreateActive(sourceAddress, newAddress, initBalance) // 创建创建账户操作
-	
-	// 构造Tx
-	//交易序列号
-	nonce := 128
-	gasPrice := 1000
-	feeLimit := 10000000
-	transaction, Err = bumosdk.CreateTransactionWithFee(sourceAddress, nonce, gasPrice, feeLimit, operation)
-	
-	//签名
-	signTransaction, publicKey, Err := bumosdk.SignTransaction(transaction, sourcePrivateKey)
-	
-	// 提交Tx
-	submitTransaction, Err := bumosdk.SubmitTransaction(transaction, signTransaction, publicKey)
-
-
-```
-#### 检查地址
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-checkAddress  |    bool      | 是否有效   | 
-
-###### 调用方法
-
-```
-    checkAddress := bumosdk.Account.CheckAddress(address)
-```
-
-#### 查询账户
-
-
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
-
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-addressInfo  |    String      | 账户详情   | 
-Err  |    bumo.Error      |错误描述   | 
-
-
-###### 调用方法
-
-```
-    address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	addressInfo, Err := bumosdk.Account.GetInfo(address)
-	fmt.Println("addressInfo:", addressInfo)
-	fmt.Println("err:", Err)
-```
-
-###### 运行结果
-```
-{
-    "address":"buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn",
-    "assets":[
-        {
-            "amount":19990,
-            "key":{
-                "code":"RMB",
-                "issuer":"buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-            }
-        }
-    ],
-    "assets_hash":"2870d272af8298d2426979cc417fb8b34da557d52911bfc281640c53255bcba1",
-    "balance":99999700884116000,
-    "metadatas":null,
-    "metadatas_hash":"ad67d57ae19de8068dbcd47282146bd553fe9f684c57c8c114453863ee41abc3",
-    "nonce":133,
-    "priv":{
-        "master_weight":1,
-        "thresholds":{
-            "tx_threshold":1
-        }
-    }
+var reqData model.AccountGetNonceRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetNonce(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println(resData.Result.Nonce)
 }
-// 注释
-address： 账户地址
-assets: 账户资产列表
-assets_hash: 账户资产哈希
-balance: 账户余额
-metadatas: 附加属性
-metaddatas_hash: 附加属性哈希
-nonce: 账户交易序列号
-priv: 权限
-master_weight: 账户本身权限
-thresholds: 门限
-tx_threshold: 交易门限
+```
 
+
+#### GetBalance-Account
+> 接口说明
+
+该接口用于获取账户的Balance
+
+> 调用方法
+
+GetBalance(model.AccountGetBalanceRequest) model.AccountGetBalanceResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+address	 |string	 |待检测的账户地址
+
+> 响应数据
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+Balance	 |int64	 |该账户的余额
+
+> 错误码
+
+异常	|	 错误码|描述
+-----------	|	 -----------	 |	 --------
+INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
+CONNECTNETWORK_ERROR	|	 11007	|	 Fail to Connect network
+SYSTEM_ERROR |20000	 |System error
+
+
+> 示例
+
+```
+var reqData model.AccountGetBalanceRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetBalance(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Balance", resData.Result.Balance)
+}
+```
+
+#### GetAssets
+
+> 接口说明
+
+该接口用于获取账户的nonce
+
+> 调用方法
+
+GetAssets(model.AccountGetAssetsRequest) model.AccountGetAssetsResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+address	 |string	 |待检测的账户地址
+
+> 响应数据
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+Assets	|[] [Asset](#asset) |账户资产
+
+#### Asset
+
+参数	|	类型	|	描述
+----------- |------------|----------------
+Key	|[Key](#key)|资产惟一标识
+Amount	|int64	|资产数量
+
+ #### Key
+
+参数|	 类型	|	 描述
+-------- |----------- |	-----------
+Code	 |	string	|	资产编码，长度[1 64]
+Issuer	|	string	|	资产发行账户地址
+
+> 错误码
+
+异常	|	 错误码|描述
+-----------|-----------|--------
+INVALID_ADDRESS_ERROR	|	 11006	 |	 Invalid address
+CONNECTNETWORK_ERROR	|	 11007	|	 Fail to Connect network
+SYSTEM_ERROR	 |	20000	 |	System error
+
+
+> 示例
+
+```
+var reqData model.AccountGetAssetsRequest
+var address string = "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetAssets(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Assets)
+	fmt.Println("Assets:", string(data))
+}
+```
+
+
+#### GetMetadata
+> 接口说明
+
+获取账户的metadata信息
+
+> 调用方法
+
+GetMetadata(model.AccountGetMetadataRequest) model.AccountGetMetadataResponse
+
+> 请求参数
+
+参数|类型|	描述
+-------- |-------- |----------------
+address|string|待检测的账户地址
+key	|string|选填，metadata关键字，长度[1, 1024]
+
+> 响应数据
+
+参数	|	 类型	|	描述
+----------- |----------- |----------------
+Metadatas	|[] [Metadata](#metadata)|账户
+
+#### Metadata
+参数	|	 类型	|	描述
+----------- |----------- |----------------
+Key	 |string	 |metadata的关键词
+Value	|string	 |metadata的内容
+Version	 |int64	|metadata的版本
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_ADDRESS_ERROR	 |	 11006	 |	 Invalid address
+CONNECTNETWORK_ERROR	 |	 11007	 |	 Fail to Connect network
+INVALID_DATAKEY_ERROR	 |	 11011	 |	 The length of key must be between 1 and 1024
+SYSTEM_ERROR	 |	 20000	|	 System error
+
+> 示例
+
+```
+var reqData model.AccountGetMetadataRequest
+var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+reqData.SetAddress(address)
+resData := testSdk.Account.GetMetadata(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Metadatas)
+	fmt.Println("Metadatas:", string(data))
+}
 ```
 
 
 
+## 资产服务
 
-#### 查询余额
+资产服务主要是资产相关的接口，目前有1个接口：GetInfo
 
-##### 入参
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-address  |    String      | 地址   | 
+#### GetInfo-Asset
 
+> 接口说明
 
-##### 返回参数
-参数             |      类型    |      描述      |
----------------- | ------------ |  ------------  |
-balance  |    int64      | BU数量 (单位 : MO　)  | 
-Err  |    bumo.Error      |错误描述   |
+获取账户指定资产数量
 
+> 调用方法
 
+GetInfo(model.AssetGetInfoRequest) model.AssetGetInfoResponse
 
-###### 调用方法
+> 请求参数
+
+参数	|	 类型	|	描述
+-----------|------------|----------------
+address	|string	|必填，待查询的账户地址
+code	|string	|必填，资产编码，长度[1, 64]
+issuer	|string	|必填，资产发行账户地址
+
+> 响应数据
+
+参数	|	 类型	|	描述
+-----------|------------|----------------
+Assets	|[] [Asset](#asset)|账户资产
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_ADDRESS_ERROR	|	11006	|	Invalid address
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
+INVALID_ASSET_CODE_ERROR	|	11023	|	The length of asset code must be between 1 and 1024
+INVALID_ISSUER_ADDRESS_ERROR	|	11027	|	Invalid issuer address
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
 
 ```
-    address := "buQtfFxpQP9JCFgmu4WBojBbEnVyQGaJDgGn"
-	balance, Err := bumosdk.Account.GetBalance(address)
-	fmt.Println("balance:", balance)
-	fmt.Println("err:", Err)
+var reqData model.AssetGetInfoRequest
+var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+reqData.SetAddress(address)
+reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
+reqData.SetCode("HNC")
+resData := testSdk.Token.Asset.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Assets)
+	fmt.Println("Assets:", string(data))
+}
 ```
 
-###### 运行结果
+
+### Ctp10Token服务
+
+ Ctp10Token服务主要是Ctp10Token相关的接口，目前有8个接口： Allowance, GetInfo, GetName, GetSymbol, GetDecimals, GetTotalSupply, GetBalance
+
+#### Allowance
+> 接口说明
+
+获取Allowance
+
+> 调用方法
+
+Allowance(model.Ctp10TokenAllowanceRequest) model.Ctp10TokenAllowanceResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	必填，合约账户地址	|
+tokenOwner	|	string	|	必填，待分配的目标账户地址	|
+spender	|	string	|	必填，授权账户地址	|
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Allowance	|	string	|	允许提取的金额	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
+INVALID_SPENDER_ERROR	|	11043	|	Invalid spender	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
 ```
-    balance: 99999700884116000
-    err: {0 <nil>}
+var reqData model.Ctp10TokenAllowanceRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+var spender string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
+reqData.SetSpender(spender)
+var tokenOwner string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
+reqData.SetTokenOwner(tokenOwner)
+resData := testSdk.Token.Ctp10Token.Allowance(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Allowance:", resData.Result.Allowance)
+}
 ```
+
+
+#### GetInfo-Ctp10Token
+> 接口说明
+
+获取合约token的信息
+
+> 调用方法
+
+GetInfo(model.Ctp10TokenGetInfoRequest) model.Ctp10TokenGetInfoResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	合约账户地址	|
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Symbol	|	string	|	合约Ctp10Token符号	|
+Decimals	|	int	|	合约数量的精度	|
+TotalSupply	|	string	|	合约的总供应量	|
+Name	|	string	|	合约Ctp10Token的名称	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetInfoRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result)
+	fmt.Println("info:", string(data))
+}
+```
+
+
+#### GetName
+> 接口说明
+
+获取合约token的名称
+
+> 调用方法
+
+	GetName(model.Ctp10TokenGetNameRequest) model.Ctp10TokenGetNameResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress|string|合约账户地址|
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Name	|	string	|	合约Ctp10Token的名称	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetNameRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+resData := testSdk.Token.Ctp10Token.GetName(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Name:", resData.Result.Name)
+}
+```
+
+
+#### GetSymbol
+> 接口说明
+
+获取合约token的符号
+
+> 调用方法
+
+GetSymbol(model.Ctp10TokenGetSymbolRequest) model.Ctp10TokenGetSymbolResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	合约账户地址	|
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Symbol	|	string	|	合约Ctp10Token的符号	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetSymbolRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+resData := testSdk.Token.Ctp10Token.GetSymbol(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Symbol:",resData.Result.Symbol)
+}
+```
+
+
+#### GetDecimals
+> 接口说明
+
+获取合约token的精度
+
+> 调用方法
+
+GetDecimals(model.Ctp10TokenGetDecimalsRequest) model.Ctp10TokenGetDecimalsResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	合约账户地址	|
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Decimals	|	string	|	合约Ctp10Token的精度	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetDecimalsRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+resData := testSdk.Token.Ctp10Token.GetDecimals(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Decimals:", resData.Result.Decimals)
+}
+```
+
+
+#### GetTotalSupply
+> 接口说明
+
+获取合约token的总供应量
+
+> 调用方法
+
+GetTotalSupply(model.Ctp10TokenGetTotalSupplyRequest) model.Ctp10TokenGetTotalSupplyResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	合约账户地址	|
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+TotalSupply	|	string	|	合约Ctp10Token的总供应量	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetTotalSupplyRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+resData := testSdk.Token.Ctp10Token.GetTotalSupply(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("TotalSupply:", resData.Result.TotalSupply)
+}
+```
+
+
+#### GetBalance-Ctp10Token
+> 接口说明
+
+获取合约token拥有者的账户余额
+
+> 调用方法
+
+GetBalance(model.Ctp10TokenGetBalanceRequest) model.Ctp10TokenGetBalanceResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+contractAddress	|	string	|	必填，合约账户地址	|
+tokenOwner	|	string	|	必填，合约Ctp10Token拥有者的账户地址	|
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Balance	|	string	|	账户余额	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+INVALID_TOKENOWNER_ERROR	|	11035	|	Invalid token owner	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.Ctp10TokenGetBalanceRequest
+var contractAddress string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+reqData.SetContractAddress(contractAddress)
+var tokenOwner string = "buQW5p6gaCd331NerjxhD1cAHpmSGwxrt6e6"
+reqData.SetTokenOwner(tokenOwner)
+resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("Balance:", resData.Result.Balance)
+}
+```
+
+
+## 合约服务
+
+合约服务主要是合约相关的接口,目前有1个接口:GetInfo
+
+#### GetInfo-contract
+> 接口说明
+
+获取合约信息
+
+> 调用方法
+
+GetInfo(model.ContractGetInfoRequest) model.ContractGetInfoResponse
+
+> 请求参数
+
+参数|类型|描述|
+----|------|-----|
+contractAddress	|	string	|	必填，合约账户地址	|
+
+
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+Type	|	int64	|	合约类型，默认0	|
+Payload	|	string	|	合约代码	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address	|
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	contractAddress is not a contract account	|
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.ContractGetInfoRequest
+var address string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
+reqData.SetAddress(address)
+resData := testSdk.Contract.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Contract)
+	fmt.Println("Contract:", string(data))
+}
+```
+
+## 交易服务
+
+交易服务主要是交易相关的接口，目前有5个接口：BuildBlob, EvaluateFee, Sign, Submit, GetInfo。
+
+其中调用BuildBlob之前需要构建一些操作，目前操作有16种，分别包括AccountActivateOperation，AccountSetMetadataOperation, AccountSetPrivilegeOperation, AssetIssueOperation, AssetSendOperation, BUSendOperation, Ctp10TokenIssueOperation, Ctp10TokenTransferOperation, Ctp10TokenTransferFromOperation, Ctp10TokenApproveOperation, Ctp10TokenAssignOperation, Ctp10TokenChangeOwnerOperation, ContractInvokeByAssetOperation, ContractInvokeByBUOperation, LogCreateOperation,ContractCreateOperation
+
+### 操作说明
+
+#### BaseOperation
+
+操作对象，根据不同的操作生成，详情如下：
+
+>AccountActivateOperation
+
+
+
+成员变量	|	 类型|	描述
+-------------|--------|--------------
+sourceAddress|string|选填，操作源账户
+destAddress|string|必填，目标账户地址
+initBalance|int64|必填，初始化资产，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> AccountSetMetadataOperation
+
+
+
+成员变量	|	 类型|	描述
+-------------|---------|-----------
+sourceAddress|string|选填，操作源账户
+key	|string|必填，metadata的关键词，长度[1, 1024]
+value	|string|选填，metadata的内容，长度[0, 256K]
+version	|int64	|选填，metadata的版本
+deleteFlag	|bool	|选填，是否删除metadata
+metadata|string|选填，备注
+
+> AccountSetPrivilegeOperation
+
+
+
+成员变量	|	 类型|	描述
+-------------|---------|--------------------------
+sourceAddress|string|选填，操作源账户
+masterWeight	|	string	|	选填，账户自身权重，大小[0, max(uint32)]
+signers	|	[] [Signer](#signer)	|	选填，签名者权重列表
+txThreshold	|	string	|	选填，交易门限，大小[0, max(int64)]
+typeThreshold	|	[TypeThreshold](#typethreshold)	|	选填，指定类型交易门限
+metadata	|	string	|	选填，备注
+
+> AssetIssueOperation
+
+
+
+成员变量	|	 类型|	描述
+-------------|---------|------------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+code	|	string	|	必填，资产编码，长度[1 64]
+amount	|	int64	|	必填，资产发行数量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+
+> AssetSendOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|----------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+destAddress	|	string	|	必填，目标账户地址
+code	|	string	|	必填，资产编码，长度[1 64]
+issuer	|	string	|	必填，资产发行账户地址
+amount	|	int64	|	必填，资产数量，大小[ 0, max(int64)]
+metadata	|	string	|	选填，备注
+
+> BUSendOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+destAddress	|	string	|	必填，目标账户地址
+amount	|	int64	|	必填，资产发行数量，大小[0, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenIssueOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(int64)]
+name	|	string	|	必填，token名称，长度[1, 1024]
+symbol	|	string	|	必填，token符号，长度[1, 1024]
+decimals	|	int64	|	必填，token数量的精度，大小[0, 8]
+supply	|	int64	|	必填，token发行的总供应量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenTransferOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+destAddress	|	string	|	必填，待转移的目标账户地址
+amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenTransferFromOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+fromAddress	|	string	|	必填，待转移的源账户地址
+destAddress	|	string	|	必填，待转移的目标账户地址
+amount	|	int64	|	必填，待转移的token数量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenApproveOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+spender	|	string	|	必填，授权的账户地址
+amount	|	int64	|	必填，被授权的待转移的token数量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenAssignOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+destAddress	|	string	|	必填，待分配的目标账户地址
+amount	|	int64	|	必填，待分配的token数量，大小[1, max(int64)]
+metadata	|	string	|	选填，备注
+
+> Ctp10TokenChangeOwnerOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+tokenOwner	|	string	|	必填，待分配的目标账户地址
+metadata	|	string	|	选填，备注
+
+> ContractCreateOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+initBalance	|	int64	|	必填，给合约账户的初始化资产，大小[1, max(int64)]
+initInput	|	string	|	选填，对应的合约初始化参数
+payload	|	string	|	必填，对应的合约代码
+metadata	|	string	|	选填，备注
+
+> ContractInvokeByAssetOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+code	|	string	|	选填，资产编码，长度[0, 64]，当为null时，仅触发合约
+issuer	|	string	|	选填，资产发行账户地址，当为null时，仅触发合约
+amount	|	int64	|	选填，资产数量，大小[0, max(int64)]，当是0时，仅触发合约
+input	|	string	|	选填，待触发的合约的main()入参
+metadata	|	string	|	选填，备注
+
+> ContractInvokeByBUOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+contractAddress	|	string	|	必填，合约账户地址
+amount	|	int64	|	选填，资产发行数量，大小[0, max(int64)]，当0时仅触发合约
+input	|	string	|	选填，待触发的合约的main()入参
+metadata	|	string	|	选填，备注
+
+> LogCreateOperation
+
+成员变量	|	 类型|	描述
+-------------|---------|---------------------
+sourceAddress	|	string	|	选填，发起该操作的源账户地址
+topic	|	string	|	必填，日志主题，长度[1, 128]
+data	|	[]string	|	必填，日志内容，每个字符串长度[1, 1024]
+metadata	|	string	|	选填，备注
+
+
+#### EvaluateFee
+> 接口说明
+
+评估费用
+
+> 调用方法
+
+EvaluateFee(model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+sourceAddress	|	string	|	必填，发起该操作的源账户地址
+nonce	|	int64	|	必填，待发起的交易序列号，大小[1, max(int64)]
+operations	|	list.List	|	必填，待提交的操作列表，不能为空
+signtureNumber	|	string	|	选填，待签名者的数量，默认是1，大小[1, max(int32)]
+metadata	|	string	|	选填，备注
+ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
+
+> 响应数据
+
+成员变量	|	 类型	|	描述	|
+-----------|------------|----------------
+FeeLimit	|	int64	|	交易费用
+GasPrice	|	int64	|	打包费用
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
+INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
+INVALID_OPERATIONS_ERROR	|	11051	|	Operations cannot be resolved
+OPERATIONS_ONE_ERROR	|	11053	|	One of operations error
+INVALID_SIGNATURENUMBER_ERROR	|	11054	|	SignatureNumber must be between 1 and max(int32)
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+var reqDataOperation model.BUSendOperation
+reqDataOperation.Init()
+var amount int64 = 100
+reqDataOperation.SetAmount(amount)
+var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+reqDataOperation.SetDestAddress(destAddress)
+
+var reqDataEvaluate model.TransactionEvaluateFeeRequest
+var sourceAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+reqDataEvaluate.SetSourceAddress(sourceAddress)
+var nonce int64 = 88
+reqDataEvaluate.SetNonce(nonce)
+var signatureNumber string = "3"
+reqDataEvaluate.SetSignatureNumber(signatureNumber)
+var SetCeilLedgerSeq int64 = 50
+reqDataEvaluate.SetCeilLedgerSeq(SetCeilLedgerSeq)
+reqDataEvaluate.SetOperation(reqDataOperation)
+resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
+if resDataEvaluate.ErrorCode == 0 {
+	data, _ := json.Marshal(resDataEvaluate.Result)
+	fmt.Println("Evaluate:", string(data))
+}
+```
+
+
+#### BuildBlob
+> 接口说明
+
+该接口用于序列化交易，生成交易Blob串，便于网络传输
+
+> 调用方法
+
+BuildBlob(model.TransactionBuildBlobRequest) model.TransactionBuildBlobResponse
+
+> 请求参数
+
+参数	|	 类型	|	描述
+-----------|------------|----------------
+sourceAddress	|	string	|	必填，发起该操作的源账户地址
+nonce	|	int64	|	必填，待发起的交易序列号，函数里+1，大小[1, max(int64)]
+gasPrice	|	int64	|	必填，交易打包费用，单位MO，1 BU = 10^8 MO，大小[1000, max(int64)]
+feeLimit	|	int64	|	必填，交易手续费，单位MO，1 BU = 10^8 MO，大小[1, max(int64)]
+operations	|	list.List	|	必填，待提交的操作列表，不能为空
+ceilLedgerSeq	|	int64	|	选填，距离当前区块高度指定差值的区块内执行的限制，当区块超出当时区块高度与所设差值的和后，交易执行失败。必须大于等于0，是0时不限制
+metadata	|	string	|	选填，备注
+
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+TransactionBlob	|	string	|	Transaction序列化后的16进制字符串
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_SOURCEADDRESS_ERROR	|	11002	|	Invalid sourceAddress
+INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
+INVALID_DESTADDRESS_ERROR	|	11003	|	Invalid destAddress
+INVALID_INITBALANCE_ERROR	|	11004	|	InitBalance must be between 1 and max(int64)
+SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR	|	11005	|	SourceAddress cannot be equal to destAddress
+INVALID_ISSUE_AMMOUNT_ERROR	|	11008	|	AssetAmount this will be issued must be between 1 and max(int64)
+INVALID_DATAKEY_ERROR	|	11011	|	The length of key must be between 1 and 1024
+INVALID_DATAVALUE_ERROR	|	11012	|	The length of value must be between 0 and 256000
+INVALID_DATAVERSION_ERROR	|	11013	|	The version must be equal or bigger than 0
+INVALID_MASTERWEIGHT _ERROR	|	11015	|	MasterWeight must be between 0 and max(uint32)
+INVALID_SIGNER_ADDRESS_ERROR	|	11016	|	Invalid signer address
+INVALID_SIGNER_WEIGHT _ERROR	|	11017	|	Signer weight must be between 0 and max(uint32)
+INVALID_TX_THRESHOLD_ERROR	|	11018	|	TxThreshold must be between 0 and max(int64)
+INVALID_OPERATION_TYPE_ERROR	|	11019	|	Operation type must be between 1 and 100
+INVALID_TYPE_THRESHOLD_ERROR	|	11020	|	TypeThreshold must be between 0 and max(int64)
+INVALID_ASSET_CODE _ERROR	|	11023	|	The length of key must be between 1 and 64
+INVALID_ASSET_AMOUNT_ERROR	|	11024	|	AssetAmount must be between 0 and max(int64)
+INVALID_BU_AMOUNT_ERROR	|	11026	|	BuAmount must be between 0 and max(int64)
+INVALID_ISSUER_ADDRESS_ERROR	|	11027	|	Invalid issuer address
+NO_SUCH_TOKEN_ERROR	|	11030	|	No such token
+INVALID_TOKEN_NAME_ERROR	|	11031	|	The length of token name must be between 1 and 1024
+INVALID_TOKEN_SYMBOL_ERROR	|	11032	|	The length of symbol must be between 1 and 1024
+INVALID_TOKEN_DECIMALS_ERROR	|	11033	|	Decimals must be between 0 and 8
+INVALID_TOKEN_TOTALSUPPLY_ERROR	|	11034	|	TotalSupply must be between 1 and max(int64)
+INVALID_TOKENOWNER_ERRPR	|	11035	|	Invalid token owner
+INVALID_CONTRACTADDRESS_ERROR	|	11037	|	Invalid contract address
+CONTRACTADDRESS_NOT_CONTRACTACCOUNT_ERROR	|	11038	|	ContractAddress is not a contract account
+INVALID_TOKEN_AMOUNT_ERROR	|	11039	|	Token amount must be between 1 and max(int64)
+SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR	|	11040	|	SourceAddress cannot be equal to contractAddress
+INVALID_FROMADDRESS_ERROR	|	11041	|	Invalid fromAddress
+FROMADDRESS_EQUAL_DESTADDRESS_ERROR	|	11042	|	FromAddress cannot be equal to destAddress
+INVALID_SPENDER_ERROR	|	11043	|	Invalid spender
+PAYLOAD_EMPTY_ERROR	|	11044	|	Payload cannot be empty
+INVALID_LOG_TOPIC _ERROR	|	11045	|	The length of key must be between 1 and 128
+INVALID_LOG_DATA _ERROR	|	11046	|	The length of value must be between 1 and 1024
+INVALID_CONTRACT_TYPE_ERROR	|	11047	|	Type must be equal or bigger than 0
+INVALID_NONCE_ERROR	|	11048	|	Nonce must be between 1 and max(int64)
+INVALID_ GASPRICE_ERROR	|	11049	|	GasPrice must be between 1000 and max(int64)
+INVALID_FEELIMIT_ERROR	|	11050	|	FeeLimit must be between 1 and max(int64)
+OPERATIONS_EMPTY_ERROR	|	11051	|	Operations cannot be empty
+INVALID_CEILLEDGERSEQ_ERROR	|	11052	|	CeilLedgerSeq must be equal or bigger than 0
+OPERATIONS_ONE_ERROR	|	11053	|	One of operations cannot be resolved
+SYSTEM_ERROR	|	20000	|	System error
+
+
+> 示例
+
+```
+var reqDataOperation model.BUSendOperation
+reqDataOperation.Init()
+var amount int64 = 100
+var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+reqDataOperation.SetAmount(amount)
+reqDataOperation.SetDestAddress(destAddress)
+
+var reqDataBlob model.TransactionBuildBlobRequest
+var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+reqDataBlob.SetSourceAddress(sourceAddressBlob)
+var feeLimit int64 = 1000000000
+reqDataBlob.SetFeeLimit(feeLimit)
+var gasPrice int64 = 1000
+reqDataBlob.SetGasPrice(gasPrice)
+var nonce int64 = 88
+reqDataBlob.SetNonce(nonce)
+reqDataBlob.SetOperation(reqDataOperation)
+
+resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
+if resDataBlob.ErrorCode == 0 {
+	fmt.Println("Blob:", resDataBlob.Result)
+}
+```
+
+#### Sign
+> 接口说明
+
+该接口用于实现交易的签名
+
+> 调用方法
+
+Sign(model.TransactionSignRequest) model.TransactionSignResponse
+
+> 请求参数
+
+参数		|		类型	|	描述
+-----------|------------|----------------
+blob	|	string	|	必填，待签名的交易Blob
+privateKeys	|	[] string	|	必填，私钥列表
+
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+Signatures	|	[] [Signature](#signature)	|签名后的数据列表
+
+#### Signature
+
+成员变量	|	 类型	|	描述	|
+-----------|------------|----------------
+signData	|	int64	|	签名后数据
+publicKey	|	int64	|	公钥
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOB_ERROR	|	11056	|	Invalid blob
+PRIVATEKEY_NULL_ERROR	|	11057	|	PrivateKeys cannot be empty
+PRIVATEKEY_ONE_ERROR	|	11058	|	One of privateKeys error
+GET_ENCPUBLICKEY_ERROR	|	14000	|	The function 'GetEncPublicKey' failed
+SIGN_ERROR	|	14001	|	The function 'Sign' failed
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
+var reqData model.TransactionSignRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetPrivateKeys(PrivateKey)
+resDataSign := testSdk.Transaction.Sign(reqData)
+if resDataSign.ErrorCode == 0 {
+	fmt.Println("Sign:", resDataSign.Result)
+}
+```
+
+#### Submit
+> 接口说明
+
+提交
+
+> 调用方法
+
+Submit(model.TransactionSubmitRequest) model.TransactionSubmitResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+blob	|	string	|	必填，交易blob
+signature	|	[] [Signature](#signature)	|	必填，签名列表
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+Hash	|	string	|	交易hash
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOB_ERROR	|	11052	|	Invalid blob
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+var reqData model.TransactionSubmitRequest
+reqData.SetBlob(resDataBlob.Result.Blob)
+reqData.SetSignatures(resDataSign.Result.Signatures)
+resDataSubmit := testSdk.Transaction.Submit(reqData.Result)
+if resDataSubmit.ErrorCode == 0 {
+	fmt.Println("Hash:", resDataSubmit.Result.Hash)
+}
+```
+
+#### GetInfo-transaction
+> 接口说明
+
+根据hash查询交易
+
+> 调用方法
+
+GetInfo(model.TransactionGetInfoRequest) model.TransactionGetInfoResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+hash	|	string	|	交易hash
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+TotalCount	|	int64	|	返回的总交易数
+Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
+
+#### TransactionHistory
+
+成员变量|	类型	|	描述
+-----------|------------|----------------
+ActualFee	|	string	|	交易实际费用
+CloseTime	|	int64	|	交易关闭时间
+ErrorCode	|	int64	|	交易错误码
+ErrorDesc	|	string	|	交易描述
+Hash	|	string	|	交易hash
+LedgerSeq	|	int64	|	区块序列号
+Transactions	|	[Transaction](#transaction)	|	交易内容列表
+Signatures	|	[] [Signature](#signature)	|	签名列表
+TxSize	|	int64	|	交易大小
+
+#### Transaction
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+SourceAddress	|	string	|	交易发起的源账户地址
+FeeLimit	|	int64	|	交易费用
+GasPrice	|	int64	|	交易打包费用
+Nonce	|	int64	|	交易序列号
+Operations	|	[] [Operation](#operation)	|	操作列表
+
+#### ContractTrigger
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Transaction	|	[TriggerTransaction](#triggertransaction)	|	触发交易
+
+#### Operation
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Type	|	int64	|	操作类型
+SourceAddress	|	string	|	操作发起源账户地址
+Metadata	|	string	|	备注
+CreateAccount	|	[CreateAccount](#createaccount)	|	创建账户操作
+IssueAsset	|	[IssueAsset](#issueasset)	|	发行资产操作
+PayAsset	|	[PayAsset](#payasset)	|	转移资产操作
+PayCoin	|	[PayCoin](#paycoin)	|	发送BU操作
+SetMetadata	|	[SetMetadata](#setmetadata)	|	设置metadata操作
+SetPrivilege	|	[SetPrivilege](#setprivilege)	|	设置账户权限操作
+Log	|	[Log](#log)	|	记录日志
+
+#### TriggerTransaction
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+hash	|	string	|	交易hash
+
+#### CreateAccount
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+DestAddress	|	string	|	目标账户地址
+Contract	|	[Contract](#contract)	|	合约信息
+Priv	|	[Priv](#priv)	|	账户权限
+Metadata	|	[] [Metadata](#metadata)	|	账户
+InitBalance	|	int64	|	账户资产
+InitInput	|	string	|	合约init函数的入参
+
+#### Contract
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Type	|	int64	|	约的语种，默认不赋值
+Payload	|	string	|	对应语种的合约代码
+
+#### Metadata
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Key	|	string	|	metadata的关键词
+Value	|	string	|	metadata的内容
+Version	|	int64	|	metadata的版本
+
+#### IssueAsset
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Code	|	string	|	资产编码，长度[1 64]
+Amount	|	int64	|	资产数量
+
+#### PayAsset
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+DestAddress	|	string	|	待转移的目标账户地址
+Asset	|	[AssetInfo](#assetinfo)	|	账户资产
+Input	|	string	|	合约main函数入参
+
+#### PayCoin
+
+成员	|	 类型	|	描述	|
+-----------	|	 ------------	|	 ----------------	|
+DestAddress	|	string	|	待转移的目标账户地址
+Amount	|	int64	|	待转移的BU数量
+Input	|	string	|	合约main函数入参
+
+#### SetMetadata
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Key	|	string	|	metadata的关键词
+Value	|	string	|	metadata的内容
+Version	|	int64	|	metadata的版本
+DeleteFlag	|	bool	|	是否删除metadata
+
+#### SetPrivilege
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+MasterWeight	|	string	|	账户自身权重，大小[0, max(uint32)]
+Signers	|	[] [Signer](#signer)	|	签名者权重列表
+TxThreshold	|	string	|	交易门限，大小[0, max(int64)]
+TypeThreshold	|	[TypeThreshold](#typethreshold)	|	指定类型交易门限
+
+#### Log
+
+成员	|	 类型	|	描述	|
+-----------|------------|----------------
+Topic	|	string	|	日志主题
+Data	|	[]string	|	日志内容
+
+> 示例
+
+```
+var reqData model.TransactionGetInfoRequest
+var hash string = "cd33ad1e033d6dfe3db3a1d29a55e190935d9d1ff40a138d777e9406ebe0fdb1"
+reqData.SetHash(hash)
+resData := testSdk.Transaction.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result)
+	fmt.Println("info:", string(data)
+}
+```
+
+
+## 区块服务
+
+区块服务主要是区块相关的接口，目前有11个接口：GetNumber, CheckStatus, GetTransactions , GetInfo, GetLatestInfo, GetValidators, GetLatestValidators, GetReward, GetLatestReward, GetFees, GetLatestFees。
+
+#### GetNumber
+> 接口说明
+
+获取区块高度
+
+> 调用方法
+
+GetNumber() model.BlockGetNumberResponse
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+BlockNumber	|	int64	|	最新的区块高度，对应底层字段seq	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetNumber()
+if resData.ErrorCode == 0 {
+	fmt.Println("BlockNumber:", resData.Result.BlockNumber)
+}
+```
+
+
+#### CheckStatus
+> 接口说明
+
+检查区块同步
+
+> 调用方法
+
+CheckStatus() model.BlockCheckStatusResponse
+
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+IsSynchronous|bool|区块是否同步|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.CheckStatus()
+if resData.ErrorCode == 0 {
+	fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+}
+```
+
+
+#### GetTransactions
+> 接口说明
+
+根据高度查询交易
+
+> 调用方法
+
+GetTransactions(model.BlockGetTransactionRequest) model.BlockGetTransactionResponse
+
+> 请求参数
+
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+blockNumber	|	int64	|	必填，待查询的区块高度
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+TotalCount	|	int64	|	返回的总交易数
+Transactions	|	[] [TransactionHistory](#transactionhistory)	|	交易内容
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+var reqData model.BlockGetTransactionRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetTransactions(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Transactions)
+	fmt.Println("Transactions:", string(data))
+}
+```
+
+
+#### GetInfo-block
+> 接口说明
+
+获取区块信息
+
+> 调用方法
+
+GetInfo(model.BlockGetInfoRequest) model.BlockGetInfoResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+blockNumber	|	int64	|	待查询的区块高度	|
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+CloseTime	|	int64	|	区块关闭时间	|
+Number	|	int64	|	区块高度	|
+TxCount	|	int64	|	交易总量	|
+Version	|	string	|	区块版本	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetInfoRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetInfo(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Header)
+	fmt.Println("Header:", string(data))
+}
+```
+
+
+#### GetLatest
+> 接口说明
+
+获取最新区块信息
+
+> 调用方法
+
+ GetLatest() model.BlockGetLatestResponse
+
+> 响应数据
+
+参数		|		 类型			|	描述	|
+--------	|---------------|------------|
+CloseTime	|	int64	|	区块关闭时间	|
+Number	|	int64	|	区块高度	|
+TxCount	|	int64	|	交易总量	|
+Version	|	string	|	区块版本	|
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatest()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Header)
+	fmt.Println("Header:", string(data))
+}
+```
+
+
+#### GetValidators
+> 接口说明
+
+获取指定区块中所有验证节点数
+
+> 调用方法
+
+GetValidators(model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+--------|---------------|------------
+blockNumber	|	int64	|	待查询的区块高度	|
+
+> 响应数据
+
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
+
+#### ValidatorInfo
+
+参数|	 类型	|	描述	|
+-----------|------------|----------------
+Address	|	String	|	共识节点地址
+PledgeCoinAmount	|	int64	|	验证节点押金
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetValidatorsRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetValidators(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Validators)
+	fmt.Println("Validators:", string(data))
+}
+```
+
+
+#### GetLatestValidators
+
+> 接口说明
+
+获取最新区块中所有验证节点数
+
+> 调用方法
+
+GetLatestValidators() model.BlockGetLatestValidatorsResponse
+
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+validators|[] [ValidatorInfo](#validatorinfo)|验证节点列表
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestValidators()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Validators)
+	fmt.Println("Validators:", string(data))
+}
+```
+
+
+#### GetReward
+> 接口说明
+
+获取指定区块中的区块奖励和验证节点奖励
+
+> 调用方法
+
+	GetReward(model.BlockGetRewardRequest) model.BlockGetRewardResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+blockNumber	|	int64	|	必填，待查询的区块高度
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+BlockReward	|	int64	|	区块奖励数
+ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
+
+#### ValidatorReward
+
+成员变量|	类型	|	描述
+-----------|------------|----------------
+Validator	|	String	|	验证节点地址
+Reward	|	int64	|	验证节点奖励
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
+SYSTEM_ERROR	|	20000	|	System error
+> 示例
+
+```
+var reqData model.BlockGetRewardRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetReward(reqData)
+if resData.ErrorCode == 0 {
+	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+}
+```
+
+
+#### GetLatestReward
+> 接口说明
+
+获取最新区块中的区块奖励和验证节点奖励
+
+> 调用方法
+
+GetLatestReward() model.BlockGetLatestRewardResponse
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+BlockReward	|	int64	|	区块奖励数
+ValidatorsReward	|	[] [ValidatorReward](#validatorreward)|	验证节点奖励情况
+
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
+SYSTEM_ERROR	|	20000	|	System error
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestReward()
+if resData.ErrorCode == 0 {
+	fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+}
+```
+
+
+#### GetFees
+> 接口说明
+
+获取指定区块中的账户最低资产限制和打包费用
+
+> 调用方法
+
+GetFees(model.BlockGetFeesRequest) model.BlockGetFeesResponse
+
+> 请求参数
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+blockNumber	|	int64	|	必填，待查询的区块高度	|
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+Fees	|	[Fees](#fees)	|	费用|
+
+#### Fees
+
+成员变量|	类型	|	描述
+-----------|------------|----------------
+BaseReserve	|	int64	|	账户最低资产限制|
+GasPrice	|	int64	|	打包费用，单位MO，1 BU = 10^8 MO|
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+INVALID_BLOCKNUMBER_ERROR	|	11060	|	BlockNumber must bigger than 0	|
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network	|
+SYSTEM_ERROR	|	20000	|	System error	|
+
+> 示例
+
+```
+var reqData model.BlockGetFeesRequest
+var blockNumber int64 = 581283
+reqData.SetBlockNumber(blockNumber)
+resData := testSdk.Block.GetFees(reqData)
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Fees)
+	fmt.Println("Fees:", string(data))
+}
+```
+
+
+#### GetLatestFees
+> 接口说明
+
+获取最新区块中的账户最低资产限制和打包费用
+
+> 调用方法
+
+GetLatestFees() model.BlockGetLatestFeesResponse
+
+> 响应数据
+
+参数	|	类型	|	描述
+-----------|------------|----------------
+Fees	|	[Fees](#fees)	|	费用
+
+> 错误码
+
+异常	|	 错误码|描述|
+-----------|-----------|--------
+CONNECTNETWORK_ERROR	|	11007	|	Fail to Connect network
+SYSTEM_ERROR	|	20000	|	System error
+
+
+> 示例
+
+```
+resData := testSdk.Block.GetLatestFees()
+if resData.ErrorCode == 0 {
+	data, _ := json.Marshal(resData.Result.Fees)
+	fmt.Println("Fees:", string(data))
+}
+```
+
+
 
 
 
 ### 错误码
-> 接口调用错误码信息
+> 公共错误码信息
 
-
-参数 | 描述
+参数|描述
 -----|-----
-0|Success.
-10001|Invalid private key.
-10002|Invalid public key.
-10003|Invalid adress.
-10005|Transaction fail.
-10006|Nonce too small.
-10007|Not enough weight.
-10008|Invalid number of arguments to the function.
-10009|Invalid type of argument to the function.
-10010|Argument cannot be empty.
-10011|Internal Server Error.
-10012|Nonce incorrect.
-10013|BU is not enough.
-10014|Source address equal to dest address.
-10015|Dest account already exists.
-10016|Fee not enough.
-10017|Query result not exist.
-10018|Discard transaction because of lower fee  in queue.
-10019|Include invalid arguments.
-10020|Fail.
-10093|Not enough weight.
-10099|Nonce incorrect.
-10100|BU is not enough.
-10101|Source address equal to dest address.
-10102|Dest address already exists.
-10103|Account not exist.
-10111|Fee not enough.
-10160|Discard transaction, because of lower fee in queue.
-10201|Account does not exist.
-10202|Transaction does not exist.
-10203|Block does not exist.
-10204|The parameter is wrong.
-10205|The function 'keypair.Create' failed.
-10206|The function 'proto.Marshal' failed.
-10207|The function 'proto.Unmarshal' failed.
-10208|The function 'http.NewRequest' failed.
-10209|The function 'client.Do' failed.
-10210|The function 'json.Unarshal' failed.
-10211|The function 'json.Marshal' failed.
-10212|The function 'ioutil.ReadAll' failed.
-10213|The function 'Transaction is invalid' failed.
-10214|The function 'keypair.GetEncPublicKey' failed.
-10215|The function 'keypair.CheckAddress' failed.
-10216|The function 'hex.DecodeString' failed.
-10217|The function 'signature.Sign' failed.
-10218|The function 'decoder.Decode' failed.
-10219|The function 'strconv.ParseInt' failed.
-10220|The parameter 'amount' is invalid.
-10221|The parameter 'code' is invalid.
-10222|The parameter 'issueAddress' is invalid.
-10223|The parameter 'sourceAddress' is invalid.
-10224|The parameter 'destAddress' is invalid.
-10225|The parameter 'initBalance' is invalid.
-10226|The parameter 'payload' is invalid.
-10227|The parameter 'nonce' is invalid.
-10228|The parameter 'operation' is invalid.
-10229|The parameter 'gasPrice' is invalid.
-10230|The parameter 'feeLimit' is invalid.
-10231|The parameter 'signatureNumber' is invalid.
-10232|The parameter 'transactionBlob' is invalid.
-10233|The parameter 'privateKey' is invalid.
-10234|The parameter 'publicKey' is invalid.
-10235|The parameter 'signData' is invalid.
-10236|The parameter 'signatures' is invalid.
-10237|The parameter 'key' is invalid.
-10238|The parameter 'value' is invalid.
-10239|The parameter 'version' is invalid.
-10240|The parameter 'signerAddress' is invalid.
-10241|The parameter 'masterWeight' is invalid.
-10242|The parameter 'weight' is invalid.
-10243|The parameter 'txThreshold' is invalid.
-10244|The parameter 'thresholdsType' is invalid.
-10245|The parameter 'thresholds' is invalid.
-10246|'sourceAddress' is equal to 'destAddress'.
+11001|Create account failed.
+11002|Invalid sourceAddress.
+11003|Invalid destAddress.
+11004|InitBalance must be between 1 and max(int64).
+11005|SourceAddress cannot be equal to destAddress.
+11006|Invalid address.
+11007|Fail to connect network.
+11008|AssetAmount this will be issued mustbetween 1 and max(int64).
+11009|The account does not have this asset
+11010|The account does not have this metadata.
+11011|The length of key must be between 1 and 1024.
+11012|The length of value must be between 0 and 256k.
+11013|The version must be bigger than and equal to 0.
+11015|MasterWeight must be between 0 and max(uint32).
+11016|Invalid signer address.
+11017|Signer weight must be between 0 and max(uint32).
+11018|TxThreshold must be between 0 and max(int64).
+11019|Type of TypeThreshold is invalid.
+11020|TypeThreshold must be between 0 and max(int64).
+11023|The length of code must be between 1 and 64.
+11024|AssetAmount must be between 0 and max(int64).
+11026|BuAmount must be between 0 and max(int64).
+11027|Invalid issuer address.
+11030|The length of ctp must be between 1 and 64.
+11031|The length of token name must be between 1 and 1024.
+11032|The length of symbol must be between 1 and 1024.
+11033|Decimals must be between 0 and 8.
+11034|TotalSupply must be between 1 and max(int64).
+11035|Invalid token owner.
+11036|Fail to get allowance.
+11037|Invalid contract address.
+11038|contractAddress is not a contract account.
+11039|Amount must be between 1 and max(int64).
+11040|SourceAddress cannot be equal to contractAddress.
+11041|Invalid fromAddress.
+11042|FromAddress cannot be equal to destAddress.
+11043|Invalid spender.
+11045|The length of key must be between 1 and 128.
+11046|The length of value must be between 1 and 1024.
+11048|Nonce must be between 1 and max(int64).
+11049|GasPrice must be between 1000 and max(int64).
+11050|FeeLimit must be between 1 and max(int64).
+11051|Operations cannot be empty.
+11052|CeilLedgerSeq must be equal or bigger than 0.
+11053|One of operations cannot be resolved.
+11054|SignatureNumber must be between 1 and max(int32).
+11055|Invalid transaction hash.
+11056|Invalid blob.
+11057|PrivateKeys cannot be empty.
+11058|One of privateKeys is invalid.
+11060|BlockNumber must be bigger than 0.
+11062|Url cannot be empty.
+11063|ContractAddress and code cannot be empty at the same time.
+11064|OptType must be between 0 and 2.
+11065|Fail to get allowance.
+11067|The signatures cannot be empty.
+11066|Fail to get token info.
+20000|System error.
+
+
+> Go错误码信息
+
+参数|描述
+-----|-----
+14000|The function 'GetEncPublicKey' failed.
+14001|The function 'Sign' failed.
+14002|The parameter'payload' is invalid.
+14003|The query failed.
+14004|Query no results.
