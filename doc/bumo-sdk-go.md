@@ -234,7 +234,7 @@ reqDataBlob.SetGasPrice(gasPrice)
 reqDataBlob.SetNonce(senderNonce)
 reqDataBlob.SetOperation(buSendOperation)
 //调用BuildBlob接口
-resDataBlob := testSdk.Transaction.(reqDataBlob)
+resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 ```
 
 #### 签名交易
@@ -248,7 +248,7 @@ var reqData model.TransactionSignRequest
 reqData.SetBlob(resDataBlob.Result.Blob)
 reqData.SetPrivateKeys(PrivateKey)
 //调用Sign接口
-resDataSign := testSdk.Transaction.(reqData)
+resDataSign := testSdk.Transaction.Sign(reqData)
 ```
 #### 广播交易
 
