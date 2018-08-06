@@ -76,8 +76,6 @@ const (
 	QUERY_NO_RESULTS
 )
 
-var SDKRes SDKResponse
-
 var errm = map[int]string{
 	SUCCESS:                                   "",
 	ACCOUNT_CREATE_ERROR:                      "Create account failed.",
@@ -148,7 +146,7 @@ var errm = map[int]string{
 
 //GetSDKRes
 func GetSDKRes(code int) SDKResponse {
-
+	var SDKRes SDKResponse
 	v, _ := errm[code]
 	SDKRes.ErrorCode = code
 	SDKRes.ErrorDesc = v
