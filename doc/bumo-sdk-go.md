@@ -1375,7 +1375,7 @@ reqDataBlob.SetOperation(reqDataOperation)
 
 resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 if resDataBlob.ErrorCode == 0 {
-	fmt.Println("Blob:", resDataSubmit.Result)
+	fmt.Println("Blob:", resDataBlob.Result)
 }
 ```
 
@@ -1429,7 +1429,7 @@ reqData.SetBlob(resDataBlob.Result.Blob)
 reqData.SetPrivateKeys(PrivateKey)
 resDataSign := testSdk.Transaction.Sign(reqData)
 if resDataSign.ErrorCode == 0 {
-	fmt.Println("Sign:", resDataSubmit.Result)
+	fmt.Println("Sign:", resDataSign.Result)
 }
 ```
 
