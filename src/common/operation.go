@@ -28,7 +28,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-			if operationsReqData.GetDestAddress() == sourceAddress {
+			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
 				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
 			}
 			operationsResData := Activate(operationsReqData, url)
@@ -71,7 +71,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-			if operationsReqData.GetDestAddress() == sourceAddress {
+			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
 				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
 			}
 			operationsResData := AssetSend(operationsReqData)
@@ -84,7 +84,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-			if operationsReqData.GetDestAddress() == sourceAddress {
+			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
 				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
 			}
 			operationsResData := BUSend(operationsReqData)
@@ -167,8 +167,10 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
-			if operationsReqData.GetContractAddress() == sourceAddress {
-				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+			if sourceAddress != "" {
+				if operationsReqData.GetContractAddress() == sourceAddress {
+					return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
+				}
 			}
 			operationsResData := ChangeOwner(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
@@ -248,7 +250,7 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
+	if reqData.GetSourceAddress() == reqData.GetDestAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -472,7 +474,7 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
+	if reqData.GetSourceAddress() == reqData.GetDestAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -510,7 +512,7 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 		resData.ErrorDesc = SDKRes.ErrorDesc
 		return resData
 	}
-	if reqData.GetSourceAddress() == reqData.GetDestAddress() {
+	if reqData.GetSourceAddress() == reqData.GetDestAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -609,12 +611,12 @@ func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransfe
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetDestAddress() == reqData.GetSourceAddress() {
+	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -669,7 +671,7 @@ func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10Toke
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -710,7 +712,7 @@ func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveRe
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -765,12 +767,12 @@ func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignRespo
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetDestAddress() == reqData.GetSourceAddress() {
+	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -825,7 +827,7 @@ func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenC
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetContractAddress() == reqData.GetSourceAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
@@ -910,7 +912,7 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		SDKRes := exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -982,7 +984,7 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	if reqData.GetSourceAddress() == reqData.GetContractAddress() {
+	if reqData.GetContractAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
