@@ -533,7 +533,7 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	return resData
 }
 
-//发行合约token 7
+//发行合约Ctp10token 7
 func Ctp10TokenIssue(reqData model.Ctp10TokenIssueOperation) model.Ctp10TokenIssueResponse {
 	var resData model.Ctp10TokenIssueResponse
 	if reqData.GetSourceAddress() != "" {
@@ -603,7 +603,7 @@ func Ctp10TokenIssue(reqData model.Ctp10TokenIssueOperation) model.Ctp10TokenIss
 	return resData
 }
 
-//转移合约token 8
+//转移合约Ctp10token 8
 func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransferResponse {
 	var resData model.Ctp10TokenTransferResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -653,7 +653,7 @@ func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransfe
 	return resData
 }
 
-//转移合约token 9
+//转移合约Ctp10token 9
 func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10TokenTransferFromResponse {
 	var resData model.Ctp10TokenTransferFromResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -704,7 +704,7 @@ func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10Toke
 	return resData
 }
 
-//授权从交易发送者账户转出合约token 10
+//授权从交易发送者账户转出合约Ctp10token 10
 func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveResponse {
 	var resData model.Ctp10TokenApproveResponse
 	if !keypair.CheckAddress(reqData.GetSpender()) {
@@ -749,7 +749,7 @@ func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveRe
 	return resData
 }
 
-//分配合约token 11
+//分配合约Ctp10token 11
 func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignResponse {
 	var resData model.Ctp10TokenAssignResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -805,7 +805,7 @@ func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignRespo
 	return resData
 }
 
-//转移合约token拥有权 12
+//转移合约Ctp10token拥有权 12
 func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenChangeOwnerResponse {
 	var resData model.Ctp10TokenChangeOwnerResponse
 	if !keypair.CheckAddress(reqData.GetTokenOwner()) {

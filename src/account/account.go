@@ -278,3 +278,22 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 		return resData
 	}
 }
+
+//查询账户信息 CheckActivated
+func (account *AccountOperation) CheckActivated(reqData model.AccountCheckActivatedRequest) model.AccountCheckActivatedResponse {
+	var resData model.AccountCheckActivatedResponse
+	resData.Result.IsActivated = false
+	var reqDataInfo model.AccountGetInfoRequest
+	reqDataInfo.SetAddress(reqData.GetAddress())
+	resDataInfo := account.GetInfo(reqDataInfo)
+	if resDataInfo.ErrorCode == 0 {
+		resData.Result.IsActivated = true
+		return resData
+	} else if resDataInfo.ErrorCode == 4 {
+		return resData
+	} else {
+		resData.ErrorCode = resDataInfo.ErrorCode
+		resData.ErrorDesc = resDataInfo.ErrorDesc
+		return resData
+	}
+}

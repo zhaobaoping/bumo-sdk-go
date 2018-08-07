@@ -28,6 +28,16 @@ type CheckValidResult struct {
 	IsValid bool
 }
 
+//CheckActivated
+type AccountCheckActivatedResponse struct {
+	ErrorCode int                  `json:"error_code"`
+	ErrorDesc string               `json:"error_desc"`
+	Result    CheckActivatedResult `json:"result"`
+}
+type CheckActivatedResult struct {
+	IsActivated bool
+}
+
 //Create
 type AccountCreateResponse struct {
 	ErrorCode int                 `json:"error_code"`

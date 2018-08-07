@@ -368,6 +368,19 @@ func Test_Account_GetMetadata(t *testing.T) {
 	}
 }
 
+//Check account Activated
+func Test_Account_CheckActivated(t *testing.T) {
+	var reqData model.AccountCheckActivatedRequest
+	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetAddress(address)
+	resData := testSdk.Account.CheckActivated(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Account_CheckActivated succeed", resData.Result)
+	}
+}
+
 //get asset info
 func Test_Asset_GetInfo(t *testing.T) {
 	var reqData model.AssetGetInfoRequest
