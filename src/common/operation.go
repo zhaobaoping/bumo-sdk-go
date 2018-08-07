@@ -232,6 +232,9 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 			}
+			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
+			}
 			operationsResData := Atp10TokenIssue(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
@@ -244,6 +247,9 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			operationsReqData, ok := operationsData.(model.Atp10TokenAppendToIssueOperation)
 			if !ok {
 				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
+				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
 			}
 			operationsResData := AppendToIssue(operationsReqData)
 			if operationsResData.ErrorCode != 0 {
