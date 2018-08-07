@@ -1348,3 +1348,95 @@ func (reqData *LogCreateOperation) Init() {
 func (reqData LogCreateOperation) Get() int {
 	return reqData.operationType
 }
+
+//Issue
+type Atp10TokenIssueOperation struct {
+	sourceAddress string
+	destAddress   string
+	issueType     int32
+	code          string
+	supply        int64
+	nowSupply     int64
+	decimals      int32
+	description   string
+	metadata      string
+	operationType int
+}
+
+func (reqData *Atp10TokenIssueOperation) SetMetadata(Metadata string) {
+	reqData.metadata = Metadata
+}
+func (reqData *Atp10TokenIssueOperation) GetMetadata() string {
+	return reqData.metadata
+}
+func (reqData *Atp10TokenIssueOperation) SetDescription(Description string) {
+	reqData.description = Description
+}
+func (reqData *Atp10TokenIssueOperation) GetDescription() string {
+	return reqData.description
+}
+func (reqData *Atp10TokenIssueOperation) SetSourceAddress(SourceAddress string) {
+	reqData.sourceAddress = SourceAddress
+}
+func (reqData *Atp10TokenIssueOperation) GetSourceAddress() string {
+	return reqData.sourceAddress
+}
+func (reqData *Atp10TokenIssueOperation) SetDestAddress(DestAddress string) {
+	reqData.destAddress = DestAddress
+}
+func (reqData *Atp10TokenIssueOperation) GetDestAddress() string {
+	return reqData.destAddress
+}
+func (reqData *Atp10TokenIssueOperation) SetIssueType(IssueType int32) {
+	reqData.issueType = IssueType
+}
+func (reqData *Atp10TokenIssueOperation) GetIssueType() int32 {
+	return reqData.issueType
+}
+func (reqData *Atp10TokenIssueOperation) SetCode(Code string) {
+	reqData.code = Code
+}
+func (reqData *Atp10TokenIssueOperation) GetCode() string {
+	return reqData.code
+}
+func (reqData *Atp10TokenIssueOperation) SetSupply(Supply int64) {
+	reqData.supply = Supply
+}
+func (reqData *Atp10TokenIssueOperation) GetSupply() int64 {
+	return reqData.supply
+}
+func (reqData *Atp10TokenIssueOperation) SetNowSupply(NowSupply int64) {
+	reqData.nowSupply = NowSupply
+}
+func (reqData *Atp10TokenIssueOperation) GetNowSupply() int64 {
+	return reqData.nowSupply
+}
+func (reqData *Atp10TokenIssueOperation) SetDecimals(Decimals int32) {
+	reqData.decimals = Decimals
+}
+func (reqData *Atp10TokenIssueOperation) GetDecimals() int32 {
+	return reqData.decimals
+}
+func (reqData *Atp10TokenIssueOperation) Init() {
+	reqData.operationType = 17
+}
+func (reqData Atp10TokenIssueOperation) Get() int {
+	return reqData.operationType
+}
+
+//AppendToIssue
+type Atp10TokenAppendToIssueOperation struct {
+	sourceAddress string
+	destAddress   string
+	code          string
+	appendSupply  int64
+	metadata      string
+	operationType int
+}
+
+func (reqData *Atp10TokenAppendToIssueOperation) Init() {
+	reqData.operationType = 18
+}
+func (reqData Atp10TokenAppendToIssueOperation) Get() int {
+	return reqData.operationType
+}

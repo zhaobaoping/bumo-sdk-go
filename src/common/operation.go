@@ -227,6 +227,32 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
 			operations[i] = &operationsResData.Result.Operation
+		case 17:
+			operationsReqData, ok := operationsData.(model.Atp10TokenIssueOperation)
+			if !ok {
+				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			operationsResData := Atp10TokenIssue(operationsReqData)
+			if operationsResData.ErrorCode != 0 {
+				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
+			}
+			for j := range operationsResData.Result.Operations {
+				operations[i] = &operationsResData.Result.Operations[j]
+				i++
+			}
+		case 18:
+			operationsReqData, ok := operationsData.(model.Atp10TokenAppendToIssueOperation)
+			if !ok {
+				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
+			}
+			operationsResData := AppendToIssue(operationsReqData)
+			if operationsResData.ErrorCode != 0 {
+				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
+			}
+			for j := range operationsResData.Result.Operations {
+				operations[i] = &operationsResData.Result.Operations[j]
+				i++
+			}
 		default:
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}
@@ -1054,5 +1080,17 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 		},
 	}
 	resData.Result.Operation = *(Operations[0])
+	return resData
+}
+
+//在区块链上写日志信息 Atp10TokenIssue 17
+func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation) model.Atp10TokenIssueResponse {
+	var resData model.Atp10TokenIssueResponse
+	return resData
+}
+
+//在区块链上写日志信息 Atp10TokenAppendToIssue 18
+func AppendToIssue(reqData model.Atp10TokenAppendToIssueOperation) model.Atp10TokenAppendToIssueResponse {
+	var resData model.Atp10TokenAppendToIssueResponse
 	return resData
 }
