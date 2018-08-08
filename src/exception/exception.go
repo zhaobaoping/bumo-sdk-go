@@ -68,8 +68,10 @@ const (
 	SIGNATURE_EMPTY_ERROR                     int = 11067
 	INVALID_ISSUE_TYPE_ERROR                  int = 11068
 	INVALID_TOKEN_CODE_ERROR                  int = 11069
-	INVALID_TOKEN_NOW_SUPPLY_ERROR            int = 11071
+	INVALID_TOKEN_DESCRIPTION_ERROR           int = 11070
+	INVALID_LIMITED_TOKEN_NOW_SUPPLY_ERROR    int = 11071
 	INVALID_TOKEN_APPEND_SUPPLY_ERROR         int = 11073
+	INVALID_UNLIMITED_TOKEN_NOW_SUPPLY_ERROR  int = 11074
 	SYSTEM_ERROR                              int = 20000
 )
 const (
@@ -142,8 +144,10 @@ var errm = map[int]string{
 	GET_ALLOWANCE_ERROR:                       "Get allowance failed",
 	INVALID_TOKEN_CODE_ERROR:                  "The length of token code must be between 1 and 64",
 	INVALID_ISSUE_TYPE_ERROR:                  "Invalid issuing type",
-	INVALID_TOKEN_NOW_SUPPLY_ERROR:            "The nowSupply must be between 0 and supply",
+	INVALID_LIMITED_TOKEN_NOW_SUPPLY_ERROR:    "The nowSupply must be between 1 and supply in the limited issuance",
 	INVALID_TOKEN_APPEND_SUPPLY_ERROR:         "The appendSupply must be between 1 and max(int64)",
+	INVALID_TOKEN_DESCRIPTION_ERROR:           "The length of description must be between 1 and 1024",
+	INVALID_UNLIMITED_TOKEN_NOW_SUPPLY_ERROR:  "NowSupply * (10 ^ decimals) must be between 1 and max(int64) in the unlimited issuance",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",

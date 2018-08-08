@@ -1086,7 +1086,7 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 	return resData
 }
 
-//atp10Token的一次性发行 Atp10TokenIssue 17
+//Atp10Token的一次性发行 Atp10TokenIssue 17
 func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceAddress string) model.Atp10TokenIssueResponse {
 	var resData model.Atp10TokenIssueResponse
 	if reqData.GetSourceAddress() != "" {
@@ -1124,7 +1124,7 @@ func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceA
 		return resData
 	}
 	if reqData.GetNowSupply() <= reqData.GetSupply() {
-		resData.ErrorCode = exception.INVALID_TOKEN_NOW_SUPPLY_ERROR
+		resData.ErrorCode = exception.INVALID_LIMITED_TOKEN_NOW_SUPPLY_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
@@ -1134,7 +1134,7 @@ func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceA
 		return resData
 	}
 	if len(reqData.GetDescription()) > 1024 || len(reqData.GetDescription()) < 1 {
-		resData.ErrorCode = exception.INVALID_TOKEN_CODE_ERROR
+		resData.ErrorCode = exception.INVALID_TOKEN_DESCRIPTION_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
