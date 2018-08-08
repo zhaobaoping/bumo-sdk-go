@@ -66,7 +66,9 @@ const (
 	GET_ALLOWANCE_ERROR                       int = 11065
 	GET_TOKEN_INFO_ERROR                      int = 11066
 	SIGNATURE_EMPTY_ERROR                     int = 11067
+	INVALID_ISSUE_TYPE_ERROR                  int = 11068
 	INVALID_TOKEN_CODE_ERROR                  int = 11069
+	INVALID_TOKEN_NOW_SUPPLY_ERROR            int = 11071
 	SYSTEM_ERROR                              int = 20000
 )
 const (
@@ -138,6 +140,8 @@ var errm = map[int]string{
 	FROMADDRESS_EQUAL_DESTADDRESS_ERROR:       "FromAddress cannot be equal to destAddress",
 	GET_ALLOWANCE_ERROR:                       "Get allowance failed",
 	INVALID_TOKEN_CODE_ERROR:                  "The length of token code must be between 1 and 64",
+	INVALID_ISSUE_TYPE_ERROR:                  "Invalid issuing type",
+	INVALID_TOKEN_NOW_SUPPLY_ERROR:            "The nowSupply must be between 0 and supply",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",

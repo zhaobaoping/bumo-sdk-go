@@ -45,8 +45,7 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	get := "/getAccount?address="
-	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	response, SDKRes := common.GetRequest(account.Url, "/getAccount?address=", reqData.GetAddress())
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -76,7 +75,6 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 		resData.ErrorCode = exception.CONNECTNETWORK_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
-
 	}
 }
 

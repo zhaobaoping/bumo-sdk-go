@@ -13,6 +13,12 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
 
+const (
+	ONE_OFF int32 = iota
+	INCREMENTAL
+	UNLIMITED
+)
+
 //http get
 func GetRequest(strUrl string, get string, str string) (*http.Response, exception.SDKResponse) {
 	var buf bytes.Buffer
@@ -144,4 +150,35 @@ func GetCallDataStr(funcstr string, ContractAddress string, TokenOwner string) (
 	}
 	return string(callDataStr), exception.GetSDKRes(exception.SUCCESS)
 
+}
+
+func CheckActivated(address string, url string) (bool, exception.SDKResponse) {
+	var resData model.AccountGetInfoResponse
+	if !keypair.CheckAddress(address) {
+		return false, exception.GetSDKRes(exception.INVALID_ADDRESS_ERROR)
+	}
+	response, SDKRes := GetRequest(url, "/getAccount?address=", address)
+	if SDKRes.ErrorCode != 0 {
+		return false, SDKRes
+	}
+	defer response.Body.Close()
+	if response.StatusCode == 200 {
+		decoder := json.NewDecoder(response.Body)
+		decoder.UseNumber()
+		err := decoder.Decode(&resData)
+		if err != nil {
+			return false, exception.GetSDKRes(exception.SYSTEM_ERROR)
+		}
+		if resData.ErrorCode == 0 {
+			return true, exception.GetSDKRes(exception.SUCCESS)
+		} else if resData.ErrorCode == 4 {
+			return false, exception.GetSDKRes(exception.SUCCESS)
+		} else {
+			SDKRes.ErrorCode = resData.ErrorCode
+			SDKRes.ErrorDesc = resData.ErrorDesc
+			return false, SDKRes
+		}
+	} else {
+		return false, exception.GetSDKRes(exception.CONNECTNETWORK_ERROR)
+	}
 }
