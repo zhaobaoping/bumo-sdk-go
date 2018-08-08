@@ -66,6 +66,7 @@ const (
 	GET_ALLOWANCE_ERROR                       int = 11065
 	GET_TOKEN_INFO_ERROR                      int = 11066
 	SIGNATURE_EMPTY_ERROR                     int = 11067
+	INVALID_TOKEN_CODE_ERROR                  int = 11069
 	SYSTEM_ERROR                              int = 20000
 )
 const (
@@ -136,6 +137,7 @@ var errm = map[int]string{
 	SOURCEADDRESS_EQUAL_CONTRACTADDRESS_ERROR: "SourceAddress cannot be equal to contractAddress.",
 	FROMADDRESS_EQUAL_DESTADDRESS_ERROR:       "FromAddress cannot be equal to destAddress",
 	GET_ALLOWANCE_ERROR:                       "Get allowance failed",
+	INVALID_TOKEN_CODE_ERROR:                  "The length of token code must be between 1 and 64",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",

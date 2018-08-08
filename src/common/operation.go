@@ -951,21 +951,18 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		return resData
 	}
 	if len(reqData.GetCode()) > 64 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ASSET_CODE_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ASSET_CODE_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetAmount() < 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ASSET_AMOUNT_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ASSET_AMOUNT_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetIssuer() != "" && !keypair.CheckAddress(reqData.GetIssuer()) {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ISSUER_ADDRESS_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ISSUER_ADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var PayAsset protocol.OperationPayAsset
@@ -1005,9 +1002,8 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 	var resData model.ContractInvokeByBUResponse
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			SDKRes := exception.GetSDKRes(exception.INVALID_SOURCEADDRESS_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 	}
@@ -1048,22 +1044,19 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 	var resData model.LogCreateResponse
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			SDKRes := exception.GetSDKRes(exception.INVALID_SOURCEADDRESS_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 	}
 	if len(reqData.GetTopic()) > 128 || len(reqData.GetTopic()) <= 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_LOG_TOPIC_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_LOG_TOPIC_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetDatas() == nil {
-		SDKRes := exception.GetSDKRes(exception.INVALID_LOG_DATA_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_LOG_DATA_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	for i := range reqData.GetDatas() {
@@ -1092,6 +1085,23 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 //在区块链上写日志信息 Atp10TokenIssue 17
 func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation) model.Atp10TokenIssueResponse {
 	var resData model.Atp10TokenIssueResponse
+	if reqData.GetSourceAddress() != "" {
+		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		}
+	}
+	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if len(reqData.GetCode()) > 64 {
+		resData.ErrorCode = exception.INVALID_TOKEN_CODE_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	return resData
 }
 

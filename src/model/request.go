@@ -1434,6 +1434,36 @@ type Atp10TokenAppendToIssueOperation struct {
 	operationType int
 }
 
+func (reqData *Atp10TokenAppendToIssueOperation) SetSourceAddress(SourceAddress string) {
+	reqData.sourceAddress = SourceAddress
+}
+func (reqData *Atp10TokenAppendToIssueOperation) GetSourceAddress() string {
+	return reqData.sourceAddress
+}
+func (reqData *Atp10TokenAppendToIssueOperation) SetDestAddress(DestAddress string) {
+	reqData.destAddress = DestAddress
+}
+func (reqData *Atp10TokenAppendToIssueOperation) GetDestAddress() string {
+	return reqData.destAddress
+}
+func (reqData *Atp10TokenAppendToIssueOperation) SetCode(Code string) {
+	reqData.code = Code
+}
+func (reqData *Atp10TokenAppendToIssueOperation) GetCode() string {
+	return reqData.code
+}
+func (reqData *Atp10TokenAppendToIssueOperation) SetAppendSupply(AppendSupply int64) {
+	reqData.appendSupply = AppendSupply
+}
+func (reqData *Atp10TokenAppendToIssueOperation) GetAppendSupply() int64 {
+	return reqData.appendSupply
+}
+func (reqData *Atp10TokenAppendToIssueOperation) SetMetadata(Metadata string) {
+	reqData.metadata = Metadata
+}
+func (reqData *Atp10TokenAppendToIssueOperation) GetMetadata() string {
+	return reqData.metadata
+}
 func (reqData *Atp10TokenAppendToIssueOperation) Init() {
 	reqData.operationType = 18
 }
