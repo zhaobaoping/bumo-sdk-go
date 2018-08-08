@@ -1098,6 +1098,11 @@ func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceA
 			sourceAddress = reqData.GetSourceAddress()
 		}
 	}
+	if !keypair.CheckAddress(reqData.GetDestAddress()) {
+		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
 		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
@@ -1201,5 +1206,84 @@ func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceA
 //追加发行指定资产 Atp10TokenAppendToIssue 18
 func AppendToIssue(reqData model.Atp10TokenAppendToIssueOperation, url string, sourceAddress string) model.Atp10TokenAppendToIssueResponse {
 	var resData model.Atp10TokenAppendToIssueResponse
+	if reqData.GetAppendSupply() < 1 {
+		resData.ErrorCode = exception.INVALID_TOKEN_APPEND_SUPPLY_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetSourceAddress() != "" {
+		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+			return resData
+		} else {
+			sourceAddress = reqData.GetSourceAddress()
+		}
+	}
+	if !keypair.CheckAddress(reqData.GetDestAddress()) {
+		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
+		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	if len(reqData.GetCode()) > 64 {
+		resData.ErrorCode = exception.INVALID_TOKEN_CODE_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
+	Check, SDKRes := CheckActivated(reqData.GetDestAddress(), url)
+	if SDKRes.ErrorCode != 0 {
+		resData.ErrorCode = SDKRes.ErrorCode
+		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+	if !Check {
+		var reqDataActivate model.AccountActivateOperation
+		reqDataActivate.Init()
+		reqDataActivate.SetDestAddress(reqData.GetDestAddress())
+		reqDataActivate.SetInitBalance(INIT_BALANCE)
+		reqDataActivate.SetMetadata(reqData.GetMetadata())
+		reqDataActivate.SetSourceAddress(reqData.GetSourceAddress())
+		resDataActivate := Activate(reqDataActivate, url)
+		if resDataActivate.ErrorCode != 0 {
+			resData.ErrorCode = resDataActivate.ErrorCode
+			resData.ErrorDesc = resDataActivate.ErrorDesc
+			return resData
+		}
+		resData.Result.Operations = append(resData.Result.Operations, resDataActivate.Result.Operation)
+	}
+
+	var reqDataAssetIssue model.AssetIssueOperation
+	reqDataAssetIssue.Init()
+	reqDataAssetIssue.SetAmount(reqData.GetAppendSupply())
+	reqDataAssetIssue.SetCode(reqData.GetCode())
+	reqDataAssetIssue.SetMetadata(reqData.GetMetadata())
+	reqDataAssetIssue.SetSourceAddress(reqData.GetSourceAddress())
+	resDataAssetIssue := AssetIssue(reqDataAssetIssue)
+	if resDataAssetIssue.ErrorCode != 0 {
+		resData.ErrorCode = resDataAssetIssue.ErrorCode
+		resData.ErrorDesc = resDataAssetIssue.ErrorDesc
+		return resData
+	}
+	resData.Result.Operations = append(resData.Result.Operations, resDataAssetIssue.Result.Operation)
+
+	var reqDataAssetSend model.AssetSendOperation
+	reqDataAssetSend.Init()
+	reqDataAssetSend.SetAmount(reqData.GetAppendSupply())
+	reqDataAssetSend.SetCode(reqData.GetCode())
+	reqDataAssetSend.SetMetadata(reqData.GetMetadata())
+	reqDataAssetSend.SetSourceAddress(reqData.GetSourceAddress())
+	reqDataAssetSend.SetDestAddress(reqData.GetDestAddress())
+	reqDataAssetSend.SetSourceAddress(sourceAddress)
+	resDataAssetSend := AssetSend(reqDataAssetSend)
+	if resDataAssetSend.ErrorCode != 0 {
+		resData.ErrorCode = resDataAssetSend.ErrorCode
+		resData.ErrorDesc = resDataAssetSend.ErrorDesc
+		return resData
+	}
 	return resData
 }

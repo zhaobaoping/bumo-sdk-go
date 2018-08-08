@@ -69,6 +69,7 @@ const (
 	INVALID_ISSUE_TYPE_ERROR                  int = 11068
 	INVALID_TOKEN_CODE_ERROR                  int = 11069
 	INVALID_TOKEN_NOW_SUPPLY_ERROR            int = 11071
+	INVALID_TOKEN_APPEND_SUPPLY_ERROR         int = 11073
 	SYSTEM_ERROR                              int = 20000
 )
 const (
@@ -142,6 +143,7 @@ var errm = map[int]string{
 	INVALID_TOKEN_CODE_ERROR:                  "The length of token code must be between 1 and 64",
 	INVALID_ISSUE_TYPE_ERROR:                  "Invalid issuing type",
 	INVALID_TOKEN_NOW_SUPPLY_ERROR:            "The nowSupply must be between 0 and supply",
+	INVALID_TOKEN_APPEND_SUPPLY_ERROR:         "The appendSupply must be between 1 and max(int64)",
 
 	GET_ENCPUBLICKEY_ERROR: "The function 'GetEncPublicKey' failed.",
 	SIGN_ERROR:             "The function 'Sign' failed.",
