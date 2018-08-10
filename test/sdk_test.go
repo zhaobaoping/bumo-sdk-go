@@ -228,7 +228,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	if resDataBlob.ErrorCode != 0 {
 		fmt.Println(resDataBlob.ErrorDesc)
 	} else {
-		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
+		PrivateKey := []string{"PrivateKey"}
 
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
@@ -288,6 +288,8 @@ func Test_Account_Create(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
+		str, _ := json.Marshal(resData.Result)
+		fmt.Println(string(str))
 		t.Log("Test_Account_Create", resData.Result)
 	}
 }

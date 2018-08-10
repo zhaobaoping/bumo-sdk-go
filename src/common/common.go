@@ -13,12 +13,6 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
 
-const (
-	ONE_OFF int32 = iota
-	INCREMENTAL
-	UNLIMITED
-)
-
 //http get
 func GetRequest(strUrl string, get string, str string) (*http.Response, exception.SDKResponse) {
 	var buf bytes.Buffer

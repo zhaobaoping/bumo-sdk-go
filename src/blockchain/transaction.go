@@ -4,6 +4,7 @@ package blockchain
 import (
 	"encoding/hex"
 	"encoding/json"
+	"math"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/common"
@@ -85,6 +86,7 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 				return resData
 			}
+		default:
 		}
 	}
 	if SDKRes.ErrorCode != 0 {
@@ -158,7 +160,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	if len(reqData.GetSignatureNumber()) != 0 {
 		var err error
 		SignatureNumber, err = strconv.ParseInt(reqData.GetSignatureNumber(), 10, 64)
-		if err != nil || SignatureNumber <= 0 || SignatureNumber > 2147483648 {
+		if err != nil || SignatureNumber <= 0 || SignatureNumber > math.MaxInt32 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc

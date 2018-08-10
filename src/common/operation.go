@@ -4,6 +4,7 @@ package common
 import (
 	"container/list"
 	"encoding/json"
+	"math"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -18,15 +19,15 @@ const (
 
 //GetOperations
 func GetOperations(operationsList list.List, url string, sourceAddress string) ([]*protocol.Operation, exception.SDKResponse) {
-	operations := make([]*protocol.Operation, operationsList.Len())
-	var i int = 0
+	var operations []*protocol.Operation
 	for e := operationsList.Front(); e != nil; e = e.Next() {
-		operations[i] = new(protocol.Operation)
 		operationsData, ok := e.Value.(model.BaseOperation)
 		if !ok {
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}
 		switch operationsData.Get() {
+		case 0:
+			return operations, exception.GetSDKRes(exception.OPERATION_NOT_INIT)
 		case 1:
 			operationsReqData, ok := operationsData.(model.AccountActivateOperation)
 			if !ok {
@@ -39,7 +40,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 2:
 			operationsReqData, ok := operationsData.(model.AccountSetMetadataOperation)
 			if !ok {
@@ -49,7 +50,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 3:
 			operationsReqData, ok := operationsData.(model.AccountSetPrivilegeOperation)
 			if !ok {
@@ -59,7 +60,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 4:
 			operationsReqData, ok := operationsData.(model.AssetIssueOperation)
 			if !ok {
@@ -69,7 +70,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 5:
 			operationsReqData, ok := operationsData.(model.AssetSendOperation)
 			if !ok {
@@ -82,7 +83,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 6:
 			operationsReqData, ok := operationsData.(model.BUSendOperation)
 			if !ok {
@@ -95,7 +96,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 7:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenIssueOperation)
 			if !ok {
@@ -105,7 +106,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 8:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferOperation)
 			if !ok {
@@ -120,7 +121,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 9:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferFromOperation)
 			if !ok {
@@ -135,7 +136,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 10:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenApproveOperation)
 			if !ok {
@@ -150,7 +151,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 11:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenAssignOperation)
 			if !ok {
@@ -165,7 +166,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 12:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenChangeOwnerOperation)
 			if !ok {
@@ -180,7 +181,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 13:
 			operationsReqData, ok := operationsData.(model.ContractCreateOperation)
 			if !ok {
@@ -190,7 +191,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 14:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByAssetOperation)
 			if !ok {
@@ -205,7 +206,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 15:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByBUOperation)
 			if !ok {
@@ -220,7 +221,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 16:
 			operationsReqData, ok := operationsData.(model.LogCreateOperation)
 			if !ok {
@@ -230,43 +231,10 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
-		case 17:
-			operationsReqData, ok := operationsData.(model.Atp10TokenIssueOperation)
-			if !ok {
-				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
-			}
-			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
-				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
-			}
-			operationsResData := Atp10TokenIssue(operationsReqData, url, sourceAddress)
-			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
-			}
-			for j := range operationsResData.Result.Operations {
-				operations[i] = &operationsResData.Result.Operations[j]
-				i++
-			}
-		case 18:
-			operationsReqData, ok := operationsData.(model.Atp10TokenAppendToIssueOperation)
-			if !ok {
-				return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
-			}
-			if operationsReqData.GetDestAddress() == sourceAddress && sourceAddress != "" {
-				return operations, exception.GetSDKRes(exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR)
-			}
-			operationsResData := AppendToIssue(operationsReqData, url, sourceAddress)
-			if operationsResData.ErrorCode != 0 {
-				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
-			}
-			for j := range operationsResData.Result.Operations {
-				operations[i] = &operationsResData.Result.Operations[j]
-				i++
-			}
+			operations = append(operations, &operationsResData.Result.Operation)
 		default:
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}
-		i++
 	}
 	return operations, exception.GetSDKRes(exception.SUCCESS)
 }
@@ -377,7 +345,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 	}
 	if reqData.GetMasterWeight() != "" {
 		masterWeightInt, err := strconv.ParseInt(reqData.GetMasterWeight(), 10, 64)
-		if err != nil || masterWeightInt < 0 || masterWeightInt > 4294967295 {
+		if err != nil || masterWeightInt < 0 || masterWeightInt > math.MaxUint32 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_MASTERWEIGHT_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
@@ -391,7 +359,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			return resData
 		}
-		if reqData.GetSigners()[i].Weight > 4294967295 || reqData.GetSigners()[i].Weight < 0 {
+		if reqData.GetSigners()[i].Weight > math.MaxUint32 || reqData.GetSigners()[i].Weight < 0 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNER_WEIGHT_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
@@ -1083,207 +1051,5 @@ func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 		},
 	}
 	resData.Result.Operation = *(Operations[0])
-	return resData
-}
-
-//Atp10Token的一次性发行 Atp10TokenIssue 17
-func Atp10TokenIssue(reqData model.Atp10TokenIssueOperation, url string, sourceAddress string) model.Atp10TokenIssueResponse {
-	var resData model.Atp10TokenIssueResponse
-	if reqData.GetSourceAddress() != "" {
-		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
-			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-			return resData
-		} else {
-			sourceAddress = reqData.GetSourceAddress()
-		}
-	}
-	if !keypair.CheckAddress(reqData.GetDestAddress()) {
-		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
-		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetIssueType() < 0 || reqData.GetIssueType() > 2 {
-		resData.ErrorCode = exception.INVALID_ISSUE_TYPE_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if len(reqData.GetCode()) > 64 {
-		resData.ErrorCode = exception.INVALID_TOKEN_CODE_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetSupply() <= 0 {
-		resData.ErrorCode = exception.INVALID_TOKEN_TOTALSUPPLY_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetNowSupply() <= reqData.GetSupply() {
-		resData.ErrorCode = exception.INVALID_LIMITED_TOKEN_NOW_SUPPLY_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetDecimals() < 0 || reqData.GetDecimals() > 8 {
-		resData.ErrorCode = exception.INVALID_TOKEN_DECIMALS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if len(reqData.GetDescription()) > 1024 || len(reqData.GetDescription()) < 1 {
-		resData.ErrorCode = exception.INVALID_TOKEN_DESCRIPTION_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	Check, SDKRes := CheckActivated(reqData.GetDestAddress(), url)
-	if SDKRes.ErrorCode != 0 {
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
-	if !Check {
-		var reqDataActivate model.AccountActivateOperation
-		reqDataActivate.Init()
-		reqDataActivate.SetDestAddress(reqData.GetDestAddress())
-		reqDataActivate.SetInitBalance(INIT_BALANCE)
-		reqDataActivate.SetMetadata(reqData.GetMetadata())
-		reqDataActivate.SetSourceAddress(reqData.GetSourceAddress())
-		resDataActivate := Activate(reqDataActivate, url)
-		if resDataActivate.ErrorCode != 0 {
-			resData.ErrorCode = resDataActivate.ErrorCode
-			resData.ErrorDesc = resDataActivate.ErrorDesc
-			return resData
-		}
-		resData.Result.Operations = append(resData.Result.Operations, resDataActivate.Result.Operation)
-	}
-	var reqDataAssetIssue model.AssetIssueOperation
-	reqDataAssetIssue.Init()
-	reqDataAssetIssue.SetAmount(reqData.GetSupply())
-	reqDataAssetIssue.SetCode(reqData.GetCode())
-	reqDataAssetIssue.SetMetadata(reqData.GetMetadata())
-	reqDataAssetIssue.SetSourceAddress(reqData.GetSourceAddress())
-	resDataAssetIssue := AssetIssue(reqDataAssetIssue)
-	if resDataAssetIssue.ErrorCode != 0 {
-		resData.ErrorCode = resDataAssetIssue.ErrorCode
-		resData.ErrorDesc = resDataAssetIssue.ErrorDesc
-		return resData
-	}
-	resData.Result.Operations = append(resData.Result.Operations, resDataAssetIssue.Result.Operation)
-	var reqDataAssetSend model.AssetSendOperation
-	reqDataAssetSend.Init()
-	reqDataAssetSend.SetAmount(reqData.GetNowSupply())
-	reqDataAssetSend.SetCode(reqData.GetCode())
-	reqDataAssetSend.SetMetadata(reqData.GetMetadata())
-	reqDataAssetSend.SetSourceAddress(reqData.GetSourceAddress())
-	reqDataAssetSend.SetDestAddress(reqData.GetDestAddress())
-	reqDataAssetSend.SetSourceAddress(sourceAddress)
-	resDataAssetSend := AssetSend(reqDataAssetSend)
-	if resDataAssetSend.ErrorCode != 0 {
-		resData.ErrorCode = resDataAssetSend.ErrorCode
-		resData.ErrorDesc = resDataAssetSend.ErrorDesc
-		return resData
-	}
-	resData.Result.Operations = append(resData.Result.Operations, resDataAssetSend.Result.Operation)
-	if reqData.GetIssueType() == ONE_OFF {
-		var reqDataSetPrivilege model.AccountSetPrivilegeOperation
-		reqDataSetPrivilege.SetMetadata(reqData.GetMetadata())
-		reqDataSetPrivilege.SetMasterWeight("0")
-		reqDataSetPrivilege.SetTxThreshold("1")
-		resDataSetPrivilege := SetPrivilege(reqDataSetPrivilege)
-		if resDataSetPrivilege.ErrorCode != 0 {
-			resData.ErrorCode = resDataSetPrivilege.ErrorCode
-			resData.ErrorDesc = resDataSetPrivilege.ErrorDesc
-			return resData
-		}
-		resData.Result.Operations = append(resData.Result.Operations, resDataSetPrivilege.Result.Operation)
-	}
-	return resData
-}
-
-//追加发行指定资产 Atp10TokenAppendToIssue 18
-func AppendToIssue(reqData model.Atp10TokenAppendToIssueOperation, url string, sourceAddress string) model.Atp10TokenAppendToIssueResponse {
-	var resData model.Atp10TokenAppendToIssueResponse
-	if reqData.GetAppendSupply() < 1 {
-		resData.ErrorCode = exception.INVALID_TOKEN_APPEND_SUPPLY_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetSourceAddress() != "" {
-		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
-			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-			return resData
-		} else {
-			sourceAddress = reqData.GetSourceAddress()
-		}
-	}
-	if !keypair.CheckAddress(reqData.GetDestAddress()) {
-		resData.ErrorCode = exception.INVALID_DESTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if reqData.GetDestAddress() == reqData.GetSourceAddress() && reqData.GetSourceAddress() != "" {
-		resData.ErrorCode = exception.SOURCEADDRESS_EQUAL_DESTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	if len(reqData.GetCode()) > 64 {
-		resData.ErrorCode = exception.INVALID_TOKEN_CODE_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
-		return resData
-	}
-	Check, SDKRes := CheckActivated(reqData.GetDestAddress(), url)
-	if SDKRes.ErrorCode != 0 {
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
-		return resData
-	}
-	if !Check {
-		var reqDataActivate model.AccountActivateOperation
-		reqDataActivate.Init()
-		reqDataActivate.SetDestAddress(reqData.GetDestAddress())
-		reqDataActivate.SetInitBalance(INIT_BALANCE)
-		reqDataActivate.SetMetadata(reqData.GetMetadata())
-		reqDataActivate.SetSourceAddress(reqData.GetSourceAddress())
-		resDataActivate := Activate(reqDataActivate, url)
-		if resDataActivate.ErrorCode != 0 {
-			resData.ErrorCode = resDataActivate.ErrorCode
-			resData.ErrorDesc = resDataActivate.ErrorDesc
-			return resData
-		}
-		resData.Result.Operations = append(resData.Result.Operations, resDataActivate.Result.Operation)
-	}
-
-	var reqDataAssetIssue model.AssetIssueOperation
-	reqDataAssetIssue.Init()
-	reqDataAssetIssue.SetAmount(reqData.GetAppendSupply())
-	reqDataAssetIssue.SetCode(reqData.GetCode())
-	reqDataAssetIssue.SetMetadata(reqData.GetMetadata())
-	reqDataAssetIssue.SetSourceAddress(reqData.GetSourceAddress())
-	resDataAssetIssue := AssetIssue(reqDataAssetIssue)
-	if resDataAssetIssue.ErrorCode != 0 {
-		resData.ErrorCode = resDataAssetIssue.ErrorCode
-		resData.ErrorDesc = resDataAssetIssue.ErrorDesc
-		return resData
-	}
-	resData.Result.Operations = append(resData.Result.Operations, resDataAssetIssue.Result.Operation)
-
-	var reqDataAssetSend model.AssetSendOperation
-	reqDataAssetSend.Init()
-	reqDataAssetSend.SetAmount(reqData.GetAppendSupply())
-	reqDataAssetSend.SetCode(reqData.GetCode())
-	reqDataAssetSend.SetMetadata(reqData.GetMetadata())
-	reqDataAssetSend.SetSourceAddress(reqData.GetSourceAddress())
-	reqDataAssetSend.SetDestAddress(reqData.GetDestAddress())
-	reqDataAssetSend.SetSourceAddress(sourceAddress)
-	resDataAssetSend := AssetSend(reqDataAssetSend)
-	if resDataAssetSend.ErrorCode != 0 {
-		resData.ErrorCode = resDataAssetSend.ErrorCode
-		resData.ErrorDesc = resDataAssetSend.ErrorDesc
-		return resData
-	}
 	return resData
 }
