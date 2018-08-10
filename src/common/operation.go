@@ -239,7 +239,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 	return operations, exception.GetSDKRes(exception.SUCCESS)
 }
 
-//激活账户 activate the account 1
+// activate the account 1
 func Activate(reqData model.AccountActivateOperation, url string) model.AccountActivateResponse {
 	var resData model.AccountActivateResponse
 	if reqData.GetSourceAddress() != "" {
@@ -286,7 +286,7 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 
 }
 
-//设置metadata SetMetadata 2
+// SetMetadata 2
 func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMetadataResponse {
 	var resData model.AccountSetMetadataResponse
 	if reqData.GetSourceAddress() != "" {
@@ -332,7 +332,7 @@ func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMeta
 	return resData
 }
 
-//设置权限 SetPrivilege 3
+// SetPrivilege 3
 func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPrivilegeResponse {
 	var resData model.AccountSetPrivilegeResponse
 	if reqData.GetSourceAddress() != "" {
@@ -418,7 +418,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 	return resData
 }
 
-//发行资产 AssetIssue 4
+// AssetIssue 4
 func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 	var resData model.AssetIssueResponse
 	if reqData.GetSourceAddress() != "" {
@@ -454,7 +454,7 @@ func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 	return resData
 }
 
-//转移资产 AssetSend 5
+// AssetSend 5
 func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 	var resData model.AssetSendResponse
 	if !keypair.CheckAddress(reqData.GetIssuer()) {
@@ -501,7 +501,7 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 	return resData
 }
 
-//交易BU BUSend 6
+// BUSend 6
 func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	var resData model.BUSendResponse
 	if reqData.GetAmount() < 0 {

@@ -17,7 +17,7 @@ type ContractOperation struct {
 	Url string
 }
 
-//检测合约账户的有效性
+//Check Valid
 func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRequest) model.ContractCheckValidResponse {
 	var Account account.AccountOperation
 	Account.Url = contract.Url
@@ -46,7 +46,7 @@ func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRe
 	}
 }
 
-//获取合约信息
+//Get Info
 func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest) model.ContractGetInfoResponse {
 	var resData model.ContractGetInfoResponse
 	var reqDataCheck model.ContractCheckValidRequest
@@ -93,7 +93,7 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 	}
 }
 
-//调试合约代码
+//Call
 func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model.ContractCallResponse {
 	var resData model.ContractCallResponse
 	if reqData.GetContractAddress() == "" && reqData.GetCode() == "" {
@@ -166,7 +166,7 @@ func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model
 	}
 }
 
-//该方法用于查询合约归属账户
+//Get Address
 func (contract *ContractOperation) GetAddress(reqData model.ContractGetAddressRequest) model.ContractGetAddressResponse {
 	var resData model.ContractGetAddressResponse
 	var Transaction blockchain.TransactionOperation

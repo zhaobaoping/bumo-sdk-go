@@ -20,7 +20,7 @@ type TransactionOperation struct {
 	Url string
 }
 
-//生成交易 BuildBlob
+// Build Blob
 func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuildBlobRequest) model.TransactionBuildBlobResponse {
 	var resData model.TransactionBuildBlobResponse
 	if !keypair.CheckAddress(reqData.GetSourceAddress()) {
@@ -128,7 +128,7 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 	return resData
 }
 
-//评估费用 EvaluateFee
+// Evaluate Fee
 func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeResponse {
 	var resDataD model.TransactionEvaluateFeeData
 	var resData model.TransactionEvaluateFeeResponse
@@ -256,7 +256,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	}
 }
 
-//签名 Sign
+// Sign
 func (transaction *TransactionOperation) Sign(reqData model.TransactionSignRequest) model.TransactionSignResponse {
 	var resData model.TransactionSignResponse
 	if reqData.GetBlob() == "" {
@@ -318,7 +318,7 @@ func (transaction *TransactionOperation) Sign(reqData model.TransactionSignReque
 	return resData
 }
 
-//提交 Submit
+// Submit
 func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitRequest) model.TransactionSubmitResponse {
 	var resDatas model.TransactionSubmitData
 	var resData model.TransactionSubmitResponse
@@ -399,7 +399,7 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 	}
 }
 
-//根据hash查询交易 GetInfo
+// Get Info
 func (transaction *TransactionOperation) GetInfo(reqData model.TransactionGetInfoRequest) model.TransactionGetInfoResponse {
 	var resData model.TransactionGetInfoResponse
 	if len(reqData.GetHash()) != 64 {

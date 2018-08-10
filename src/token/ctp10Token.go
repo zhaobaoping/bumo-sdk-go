@@ -17,7 +17,7 @@ type Ctp10TokenOperation struct {
 	Url string
 }
 
-//该接口用于检测Ctp10Token是否有效
+//Check Valid
 func (Ctp10Token *Ctp10TokenOperation) CheckValid(reqData model.Ctp10TokenCheckValidRequest) model.Ctp10TokenCheckValidResponse {
 	var Contract contract.ContractOperation
 	Contract.Url = Ctp10Token.Url
@@ -109,7 +109,7 @@ func (Ctp10Token *Ctp10TokenOperation) CheckValid(reqData model.Ctp10TokenCheckV
 	}
 }
 
-//获取Allowance
+//Allowance
 func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowanceRequest) model.Ctp10TokenAllowanceResponse {
 	var resData model.Ctp10TokenAllowanceResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
@@ -178,7 +178,7 @@ func (Ctp10Token *Ctp10TokenOperation) Allowance(reqData model.Ctp10TokenAllowan
 	}
 }
 
-//获取合约Ctp10Token的信息
+//Get Info
 func (Ctp10Token *Ctp10TokenOperation) GetInfo(reqData model.Ctp10TokenGetInfoRequest) model.Ctp10TokenGetInfoResponse {
 	var resData model.Ctp10TokenGetInfoResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
@@ -238,7 +238,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetInfo(reqData model.Ctp10TokenGetInfoRe
 	}
 }
 
-//获取合约Ctp10Token的名称
+//Get Name
 func (Ctp10Token *Ctp10TokenOperation) GetName(reqData model.Ctp10TokenGetNameRequest) model.Ctp10TokenGetNameResponse {
 	var resData model.Ctp10TokenGetNameResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
@@ -290,7 +290,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetName(reqData model.Ctp10TokenGetNameRe
 	}
 }
 
-//获取合约Ctp10Token的符号
+//Get Symbol
 func (Ctp10Token *Ctp10TokenOperation) GetSymbol(reqData model.Ctp10TokenGetSymbolRequest) model.Ctp10TokenGetSymbolResponse {
 
 	var resData model.Ctp10TokenGetSymbolResponse
@@ -343,7 +343,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetSymbol(reqData model.Ctp10TokenGetSymb
 	}
 }
 
-//获取合约Ctp10Token的精度
+//Get Decimals
 func (Ctp10Token *Ctp10TokenOperation) GetDecimals(reqData model.Ctp10TokenGetDecimalsRequest) model.Ctp10TokenGetDecimalsResponse {
 	var resData model.Ctp10TokenGetDecimalsResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
@@ -401,7 +401,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetDecimals(reqData model.Ctp10TokenGetDe
 	}
 }
 
-//获取合约Ctp10Token的总供应量
+//Get TotalSupply
 func (Ctp10Token *Ctp10TokenOperation) GetTotalSupply(reqData model.Ctp10TokenGetTotalSupplyRequest) model.Ctp10TokenGetTotalSupplyResponse {
 	var resData model.Ctp10TokenGetTotalSupplyResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
@@ -459,7 +459,7 @@ func (Ctp10Token *Ctp10TokenOperation) GetTotalSupply(reqData model.Ctp10TokenGe
 	}
 }
 
-//获取合约Ctp10Token拥有者的账户余额
+//Get Balance
 func (Ctp10Token *Ctp10TokenOperation) GetBalance(reqData model.Ctp10TokenGetBalanceRequest) model.Ctp10TokenGetBalanceResponse {
 	var resData model.Ctp10TokenGetBalanceResponse
 	var reqDataCheck model.Ctp10TokenCheckValidRequest
