@@ -368,7 +368,7 @@ func Test_Account_GetMetadata(t *testing.T) {
 	}
 }
 
-//Check account Activated
+//check account Activated
 func Test_Account_CheckActivated(t *testing.T) {
 	var reqData model.AccountCheckActivatedRequest
 	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
