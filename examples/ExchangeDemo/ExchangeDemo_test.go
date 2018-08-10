@@ -3,7 +3,6 @@ package exchangeDemo_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/bumoproject/bumo-sdk-go/src/model"
@@ -30,7 +29,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+		t.Log("IsSynchronous:", resData.Result.IsSynchronous)
 		t.Log("Test_Block_CheckStatus succeed", resData.Result)
 	}
 
@@ -70,7 +69,7 @@ func Test_Account_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Account_GetInfo succeed", resData.Result)
 	}
 }
@@ -84,7 +83,7 @@ func Test_Account_GetBalance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Account_GetBalance succeed", resData.Result)
 	}
 }
@@ -98,7 +97,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Nonce:", resData.Result.Nonce)
+		t.Log("Nonce:", resData.Result.Nonce)
 		t.Log("Test_Account_GetNonce succeed", resData.Result)
 	}
 }
@@ -128,7 +127,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
-		fmt.Println(resDataBlob.ErrorDesc)
+		t.Log(resDataBlob.ErrorDesc)
 	} else {
 		//Sign
 		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
@@ -138,7 +137,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 		resDataSign := testSdk.Transaction.Sign(reqData)
 		if resDataSign.ErrorCode != 0 {
-			fmt.Println(resDataSign.ErrorDesc)
+			t.Log(resDataSign.ErrorDesc)
 		} else {
 			//Submit
 			var reqData model.TransactionSubmitRequest
@@ -149,7 +148,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 			if resDataSubmit.ErrorCode != 0 {
 				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
-				fmt.Println("Hash:", resDataSubmit.Result.Hash)
+				t.Log("Hash:", resDataSubmit.Result.Hash)
 				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
 			}
 		}
@@ -166,7 +165,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Transaction_GetInfo succeed", resData.Result)
 	}
 }
@@ -177,7 +176,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("BlockNumber:", resData.Result.Header.BlockNumber)
+		t.Log("BlockNumber:", resData.Result.Header.BlockNumber)
 		t.Log("Test_Block_GetNumber", resData.Result)
 	}
 }
@@ -192,7 +191,7 @@ func Test_Block_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetInfo succeed", resData.Result)
 	}
 }
@@ -204,7 +203,7 @@ func Test_Block_GetLatest(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetLatest succeed", resData.Result)
 	}
 }

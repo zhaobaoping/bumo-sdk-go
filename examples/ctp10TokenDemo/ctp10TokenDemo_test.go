@@ -3,7 +3,6 @@ package ctp10TokenDemo_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/bumoproject/bumo-sdk-go/src/model"
@@ -37,7 +36,7 @@ func Test_Ctp10Token_Allowance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Allowance:", resData.Result.Allowance)
+		t.Log("Allowance:", resData.Result.Allowance)
 		t.Log("Test_Ctp10Token_Allowance succeed", resData.Result)
 	}
 }
@@ -49,11 +48,11 @@ func Test_Ctp10Token_GetInfo(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println(resData)
+		t.Log(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Ctp10Token_GetInfo succeed", resData.Result)
 	}
 }
@@ -67,7 +66,7 @@ func Test_Ctp10Token_GetName(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Name:", resData.Result.Name)
+		t.Log("Name:", resData.Result.Name)
 		t.Log("Test_Ctp10Token_GetName succeed", resData.Result)
 	}
 }
@@ -81,7 +80,7 @@ func Test_Ctp10Token_GetSymbol(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Symbol:", resData.Result.Symbol)
+		t.Log("Symbol:", resData.Result.Symbol)
 		t.Log("Test_Ctp10Token_GetSymbol succeed", resData.Result)
 	}
 }
@@ -95,7 +94,7 @@ func Test_Ctp10Token_GetDecimals(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Decimals:", resData.Result.Decimals)
+		t.Log("Decimals:", resData.Result.Decimals)
 		t.Log("Test_Ctp10Token_GetDecimals succeed", resData.Result)
 	}
 }
@@ -109,7 +108,7 @@ func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("TotalSupply:", resData.Result.TotalSupply)
+		t.Log("TotalSupply:", resData.Result.TotalSupply)
 		t.Log("Test_Ctp10Token_GetTotalSupply succeed", resData.Result)
 	}
 }
@@ -123,10 +122,10 @@ func Test_Ctp10Token_GetBalance(t *testing.T) {
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println(resData)
+		t.Log(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Ctp10Token_GetBalance succeed", resData.Result)
 	}
 }

@@ -3,7 +3,6 @@ package digitalAssetsDemo_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/bumoproject/bumo-sdk-go/src/model"
@@ -30,7 +29,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+		t.Log("IsSynchronous:", resData.Result.IsSynchronous)
 		t.Log("Test_Block_CheckStatus succeed", resData.Result)
 	}
 
@@ -70,7 +69,7 @@ func Test_Account_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Account_GetInfo succeed", resData.Result)
 	}
 }
@@ -84,7 +83,7 @@ func Test_Account_GetBalance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Account_GetBalance succeed", resData.Result)
 	}
 }
@@ -99,7 +98,7 @@ func Test_Account_GetAssets(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Assets)
-		fmt.Println("Assets:", string(data))
+		t.Log("Assets:", string(data))
 		t.Log("Test_Account_GetAssets succeed", resData.Result)
 
 	}
@@ -117,7 +116,7 @@ func Test_Account_GetMetadata(t *testing.T) {
 	} else {
 		data, _ := json.Marshal(resData.Result.Metadatas[0].Value)
 
-		fmt.Println("Metadatas:", string(data))
+		t.Log("Metadatas:", string(data))
 		t.Log("Test_Account_GetMetadata succeed", resData.Result)
 	}
 }
@@ -134,7 +133,7 @@ func Test_Asset_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Assets)
-		fmt.Println("Assets:", string(data))
+		t.Log("Assets:", string(data))
 		t.Log("Test_Asset_GetInfo succeed", resData.Result.Assets)
 	}
 }
@@ -149,7 +148,7 @@ func Test_Contract_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Contract)
-		fmt.Println("Contract:", string(data))
+		t.Log("Contract:", string(data))
 		t.Log("Test_Contract_GetInfo succeed", resData.Result)
 	}
 }
@@ -163,7 +162,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Nonce:", resData.Result.Nonce)
+		t.Log("Nonce:", resData.Result.Nonce)
 		t.Log("Test_Account_GetNonce succeed", resData.Result)
 	}
 }
@@ -193,7 +192,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
-		fmt.Println(resDataBlob.ErrorDesc)
+		t.Log(resDataBlob.ErrorDesc)
 	} else {
 		//Sign
 		PrivateKey := []string{"PrivateKey"}
@@ -203,7 +202,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 		resDataSign := testSdk.Transaction.Sign(reqData)
 		if resDataSign.ErrorCode != 0 {
-			fmt.Println(resDataSign.ErrorDesc)
+			t.Log(resDataSign.ErrorDesc)
 		} else {
 			//Submit
 			var reqData model.TransactionSubmitRequest
@@ -214,7 +213,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 			if resDataSubmit.ErrorCode != 0 {
 				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
-				fmt.Println("Hash:", resDataSubmit.Result.Hash)
+				t.Log("Hash:", resDataSubmit.Result.Hash)
 				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
 			}
 		}
@@ -231,7 +230,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Transaction_GetInfo succeed", resData.Result)
 	}
 }
@@ -242,7 +241,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("BlockNumber:", resData.Result.Header.BlockNumber)
+		t.Log("BlockNumber:", resData.Result.Header.BlockNumber)
 		t.Log("Test_Block_GetNumber", resData.Result)
 	}
 }
@@ -257,7 +256,7 @@ func Test_Block_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetInfo succeed", resData.Result)
 	}
 }
@@ -269,7 +268,7 @@ func Test_Block_GetLatest(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetLatest succeed", resData.Result)
 	}
 }
@@ -297,11 +296,11 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
 	if resDataEvaluate.ErrorCode != 0 {
-		fmt.Println(resDataEvaluate)
+		t.Log(resDataEvaluate)
 		t.Errorf(resDataEvaluate.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resDataEvaluate.Result)
-		fmt.Println("Evaluate:", string(data))
+		t.Log("Evaluate:", string(data))
 		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
 	}
 }
