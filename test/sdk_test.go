@@ -386,8 +386,10 @@ func Test_Asset_GetInfo(t *testing.T) {
 	var reqData model.AssetGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqData.SetAddress(address)
-	reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
-	reqData.SetCode("HNC")
+	var issuer string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
+	reqData.SetIssuer(issuer)
+	var code string = "HNC"
+	reqData.SetCode(code)
 	resData := testSdk.Token.Asset.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
@@ -410,6 +412,57 @@ func Test_Contract_GetInfo(t *testing.T) {
 		data, _ := json.Marshal(resData.Result.Contract)
 		t.Log("Contract:", string(data))
 		t.Log("Test_Contract_GetInfo succeed", resData.Result)
+	}
+}
+
+//check valid
+func Test_Contract_CheckValid(t *testing.T) {
+	var reqData model.ContractCheckValidRequest
+	var address string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	reqData.SetAddress(address)
+	resData := testSdk.Contract.CheckValid(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_CheckValid succeed", resData.Result)
+	}
+}
+
+//call
+func Test_Contract_Call(t *testing.T) {
+	var reqData model.ContractCallRequest
+	var contractAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	reqData.SetContractAddress(contractAddress)
+	var contractBalance string = "100000000000"
+	reqData.SetContractBalance(contractBalance)
+	var feeLimit int64 = 1000000
+	reqData.SetFeeLimit(feeLimit)
+	var gasPrice int64 = 1000
+	reqData.SetGasPrice(gasPrice)
+	var input string = "input"
+	reqData.SetInput(input)
+	var optType int64 = 2
+	reqData.SetOptType(optType)
+	var code string = "HNC"
+	reqData.SetCode(code)
+	resData := testSdk.Contract.Call(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_CheckValid succeed", resData.Result)
+	}
+}
+
+//get address
+func Test_Contract_GetAddress(t *testing.T) {
+	var reqData model.ContractGetAddressRequest
+	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
+	reqData.SetHash(hash)
+	resData := testSdk.Contract.GetAddress(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_GetAddress succeed", resData.Result.ContractAddresInfos)
 	}
 }
 
