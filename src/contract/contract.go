@@ -40,8 +40,7 @@ func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRe
 		resData.Result.IsValid = true
 		return resData
 	} else {
-		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		resData.Result.IsValid = false
 		return resData
 	}
 }
@@ -57,6 +56,11 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 		resData.ErrorDesc = resDataCheck.ErrorDesc
 		return resData
 	}
+	if resDataCheck.Result.IsValid == false {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		return resData
+	}
 	get := "/getAccount?address="
 	response, SDKRes := common.GetRequest(contract.Url, get, reqData.GetAddress())
 	if SDKRes.ErrorCode != 0 {
@@ -70,9 +74,8 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 		decoder.UseNumber()
 		err := decoder.Decode(&resData)
 		if err != nil {
-			SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.SYSTEM_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 		if resData.ErrorCode == 0 {

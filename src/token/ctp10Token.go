@@ -27,10 +27,15 @@ func (Ctp10Token *Ctp10TokenOperation) CheckValid(reqData model.Ctp10TokenCheckV
 	resData.Result.IsValid = false
 	var raqDataCheck model.ContractCheckValidRequest
 	raqDataCheck.SetAddress(reqData.GetContractAddress())
-	rasDataCheck := Contract.CheckValid(raqDataCheck)
-	if rasDataCheck.ErrorCode != 0 {
-		resData.ErrorCode = rasDataCheck.ErrorCode
-		resData.ErrorDesc = rasDataCheck.ErrorDesc
+	resDataCheck := Contract.CheckValid(raqDataCheck)
+	if resDataCheck.ErrorCode != 0 {
+		resData.ErrorCode = resDataCheck.ErrorCode
+		resData.ErrorDesc = resDataCheck.ErrorDesc
+		return resData
+	}
+	if resDataCheck.Result.IsValid == false {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var raqDataMetadata model.AccountGetMetadataRequest
