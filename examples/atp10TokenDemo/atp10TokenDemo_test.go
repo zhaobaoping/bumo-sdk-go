@@ -12,9 +12,8 @@ import (
 var testSdk sdk.Sdk
 
 type Atp10Metadata struct {
-	Atp         string `json:"atp"`
-	Code        string `json:"code"`
-	Issuer      string `json:"issuer"`
+	Version     string `json:"version"`
+	Name        string `json:"name"`
 	TotalSupply int64  `json:"total_supply"`
 	Decimals    int64  `json:"decimals"`
 	Description string `json:"description"`
@@ -35,22 +34,23 @@ func Test_Init(t *testing.T) {
 //
 func Test_Atp10Issue(t *testing.T) {
 	var atp10Metadata Atp10Metadata
-	atp10Metadata.Atp = "1.0"
-	atp10Metadata.Code = "code"
+	atp10Metadata.Version = "1.0"
+	atp10Metadata.Name = "code"
 	atp10Metadata.Decimals = 8
-	atp10Metadata.Issuer = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	atp10Metadata.TotalSupply = 1000000000000
 	metadataStr, err := json.Marshal(atp10Metadata)
 	if err != nil {
 		t.Errorf(err.Error())
 	}
 	var metadata string = "abc"
+	var code string = "ABC"
 	var amount int64 = 1000000
+	var issuer string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	var reqDataIssue model.AssetIssueOperation
 	reqDataIssue.Init()
 	reqDataIssue.SetAmount(amount)
-	reqDataIssue.SetCode(atp10Metadata.Code)
-	reqDataIssue.SetSourceAddress(atp10Metadata.Issuer)
+	reqDataIssue.SetCode(code)
+	reqDataIssue.SetSourceAddress(issuer)
 	reqDataIssue.SetMetadata(metadata)
 	hashIssue, ErrorDesc := atp10BlobSubmit(testSdk, reqDataIssue, string(metadataStr))
 	if ErrorDesc != "" {
@@ -62,9 +62,9 @@ func Test_Atp10Issue(t *testing.T) {
 	var destAddress string = "buQtjhgK9SakQPYGzoZ3iHodfRvd8qTGoaYd"
 	var sourceAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 	reqDataSend.SetAmount(amount)
-	reqDataSend.SetCode(atp10Metadata.Code)
+	reqDataSend.SetCode(code)
 	reqDataSend.SetDestAddress(destAddress)
-	reqDataSend.SetIssuer(atp10Metadata.Issuer)
+	reqDataSend.SetIssuer(issuer)
 	reqDataSend.SetMetadata(metadata)
 	reqDataSend.SetSourceAddress(sourceAddress)
 	hashSend, ErrorDesc := atp10BlobSubmit(testSdk, reqDataIssue, "")
@@ -96,6 +96,12 @@ func Test_Atp10AppendToIssue(t *testing.T) {
 	}
 	var reqDataSend model.AssetSendOperation
 	var destAddress string = "buQtjhgK9SakQPYGzoZ3iHodfRvd8qTGoaYd"
+	var reqDataCheckActivated model.AccountCheckActivatedRequest
+	reqDataCheckActivated.SetAddress(destAddress)
+	reqDataCheckActivated := testSdk.Account.CheckActivated(reqDataCheckActivated)
+	if reqDataCheckActivated.ErrorCode != 0 || reqDataCheckActivated.Result.IsActivated == false {
+		t.Log("destAddress not Activated")
+	}
 	var sourceAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 	reqDataSend.SetAmount(amount)
 	reqDataSend.SetCode(code)
