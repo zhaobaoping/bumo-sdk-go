@@ -11,7 +11,7 @@ import (
 
 var testSdk sdk.Sdk
 
-//To initialize the SDK
+//to initialize the sdk
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -23,7 +23,7 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//Check that the blocks are synchronized
+//check that the blocks are synchronized
 func Test_Block_CheckStatus(t *testing.T) {
 	resData := testSdk.Block.CheckStatus()
 	if resData.ErrorCode != 0 {
@@ -35,7 +35,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 
 }
 
-//Create account
+//create account
 func Test_Account_Create(t *testing.T) {
 	resData := testSdk.Account.Create()
 	if resData.ErrorCode != 0 {
@@ -45,7 +45,7 @@ func Test_Account_Create(t *testing.T) {
 	}
 }
 
-//Verify account address
+//verify account address
 func Test_Account_checkValid(t *testing.T) {
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -59,7 +59,7 @@ func Test_Account_checkValid(t *testing.T) {
 	}
 }
 
-//Enquiry of account details
+//enquiry of account details
 func Test_Account_GetInfo(t *testing.T) {
 	var reqData model.AccountGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -74,7 +74,7 @@ func Test_Account_GetInfo(t *testing.T) {
 	}
 }
 
-//Checking account balance
+//checking account balance
 func Test_Account_GetBalance(t *testing.T) {
 	var reqData model.AccountGetBalanceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -88,7 +88,7 @@ func Test_Account_GetBalance(t *testing.T) {
 	}
 }
 
-//Check the account transaction serial number
+//check the account transaction serial number
 func Test_Account_GetNonce(t *testing.T) {
 	var reqData model.AccountGetNonceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -102,7 +102,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	}
 }
 
-//Submit and send BU transactions
+//submit and send bu transactions
 func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	//Operation
 	var reqDataOperation model.BUSendOperation
@@ -155,7 +155,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	}
 }
 
-//Enquiry of transaction details
+//enquiry of transaction details
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
 	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
@@ -170,7 +170,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 	}
 }
 
-//Get block height
+//get block height
 func Test_Block_GetNumber(t *testing.T) {
 	resData := testSdk.Block.GetNumber()
 	if resData.ErrorCode != 0 {
@@ -181,7 +181,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	}
 }
 
-//Get block details
+//get block details
 func Test_Block_GetInfo(t *testing.T) {
 	var reqData model.BlockGetInfoRequest
 	var blockNumber int64 = 581283
@@ -196,7 +196,7 @@ func Test_Block_GetInfo(t *testing.T) {
 	}
 }
 
-//Get the latest block information
+//get the latest block information
 func Test_Block_GetLatest(t *testing.T) {
 	resData := testSdk.Block.GetLatest()
 	if resData.ErrorCode != 0 {

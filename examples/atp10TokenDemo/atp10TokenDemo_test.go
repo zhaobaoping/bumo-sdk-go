@@ -37,6 +37,7 @@ func Test_Atp10Issue(t *testing.T) {
 	atp10Metadata.Version = "1.0"
 	atp10Metadata.Name = "code"
 	atp10Metadata.Decimals = 8
+	//If the TotalSupply is greater than 0, it means limited release;Less than or equal to 0 means it's an unlimited distribution
 	atp10Metadata.TotalSupply = 1000000000000
 	metadataStr, err := json.Marshal(atp10Metadata)
 	if err != nil {
@@ -60,6 +61,12 @@ func Test_Atp10Issue(t *testing.T) {
 	}
 	var reqDataSend model.AssetSendOperation
 	var destAddress string = "buQtjhgK9SakQPYGzoZ3iHodfRvd8qTGoaYd"
+	var reqDataCheckActivated model.AccountCheckActivatedRequest
+	reqDataCheckActivated.SetAddress(destAddress)
+	reqDataCheckActivated := testSdk.Account.CheckActivated(reqDataCheckActivated)
+	if reqDataCheckActivated.ErrorCode != 0 || reqDataCheckActivated.Result.IsActivated == false {
+		t.Log("destAddress not Activated")
+	}
 	var sourceAddress string = "buQfnVYgXuMo3rvCEpKA6SfRrDpaz8D8A9Ea"
 	reqDataSend.SetAmount(amount)
 	reqDataSend.SetCode(code)

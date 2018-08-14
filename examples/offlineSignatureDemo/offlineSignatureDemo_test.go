@@ -11,7 +11,7 @@ import (
 
 var testSdk sdk.Sdk
 
-//To initialize the SDK
+//to initialize the sdk
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -23,7 +23,7 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//Offline_SignTransactionBlob
+//offline sign transaction blob
 func Test_Offline_SignTransactionBlob(t *testing.T) {
 	var reqData model.TransactionSignRequest
 	var transactionBlob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
@@ -40,7 +40,7 @@ func Test_Offline_SignTransactionBlob(t *testing.T) {
 	}
 }
 
-//submitTransaction
+//submit transaction
 func Test_submitTransaction(t *testing.T) {
 	var reqData model.TransactionSubmitRequest
 	var transactionBlob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
