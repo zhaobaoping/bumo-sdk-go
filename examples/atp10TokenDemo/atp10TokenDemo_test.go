@@ -19,7 +19,7 @@ type Atp10Metadata struct {
 	Description string `json:"description"`
 }
 
-//To initialize the SDK
+//to initialize the SDK
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -31,7 +31,7 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//
+//issued assets (limited issue & unlimited issue)
 func Test_Atp10Issue(t *testing.T) {
 	var atp10Metadata Atp10Metadata
 	atp10Metadata.Version = "1.0"
@@ -83,7 +83,7 @@ func Test_Atp10Issue(t *testing.T) {
 
 }
 
-//
+//append the issuance of corresponding assets
 func Test_Atp10AppendToIssue(t *testing.T) {
 	code := "code"
 	issuer := "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"

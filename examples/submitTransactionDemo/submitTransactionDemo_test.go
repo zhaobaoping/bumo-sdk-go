@@ -8,7 +8,7 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/sdk"
 )
 
-//Take send BU, for example
+//take send BU, for example
 func Test_submitTransactionDemo(t *testing.T) {
 	//Building SDK objects
 	var testSdk sdk.Sdk
