@@ -3,7 +3,6 @@ package sdk_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/bumoproject/bumo-sdk-go/src/model"
@@ -30,7 +29,7 @@ func Test_Block_GetNumber(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("BlockNumber:", resData.Result.Header.BlockNumber)
+		t.Log("BlockNumber:", resData.Result.Header.BlockNumber)
 		t.Log("Test_Block_GetNumber", resData.Result)
 	}
 }
@@ -41,7 +40,7 @@ func Test_Block_CheckStatus(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+		t.Log("IsSynchronous:", resData.Result.IsSynchronous)
 		t.Log("Test_Block_CheckStatus succeed", resData.Result)
 	}
 
@@ -57,7 +56,7 @@ func Test_Block_GetTransactions(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("Result:", string(data))
+		t.Log("Result:", string(data))
 		t.Log("Test_Block_GetTransactions succeed", resData.Result)
 	}
 }
@@ -72,7 +71,7 @@ func Test_Block_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetInfo succeed", resData.Result)
 	}
 }
@@ -84,7 +83,7 @@ func Test_Block_GetLatest(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetLatest succeed", resData.Result)
 	}
 }
@@ -99,7 +98,7 @@ func Test_Block_GetValidators(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Validators)
-		fmt.Println("Validators:", string(data))
+		t.Log("Validators:", string(data))
 		t.Log("Test_Block_GetValidators succeed", resData.Result)
 	}
 }
@@ -111,7 +110,7 @@ func Test_Block_GetLatestValidators(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Validators)
-		fmt.Println("Validators:", string(data))
+		t.Log("Validators:", string(data))
 		t.Log("Test_Block_GetLatestValidators succeed", resData.Result)
 	}
 }
@@ -125,7 +124,7 @@ func Test_Block_GetReward(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+		t.Log("ValidatorsReward:", resData.Result.ValidatorsReward)
 		t.Log("Test_Block_GetReward succeed", resData.Result)
 	}
 }
@@ -136,7 +135,7 @@ func Test_Block_GetLatestReward(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("ValidatorsReward:", resData.Result.ValidatorsReward)
+		t.Log("ValidatorsReward:", resData.Result.ValidatorsReward)
 		t.Log("Test_Block_GetLatestReward succeed", resData.Result)
 	}
 }
@@ -151,7 +150,7 @@ func Test_Block_GetFees(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Fees)
-		fmt.Println("Fees:", string(data))
+		t.Log("Fees:", string(data))
 		t.Log("Test_Block_GetFees succeed", resData.Result)
 	}
 }
@@ -163,7 +162,7 @@ func Test_Block_GetLatestFees(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Fees)
-		fmt.Println("Fees:", string(data))
+		t.Log("Fees:", string(data))
 		t.Log("Test_Block_GetLatestFees succeed", resData.Result)
 	}
 }
@@ -191,11 +190,11 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	reqDataEvaluate.SetOperation(reqDataOperation)
 	resDataEvaluate := testSdk.Transaction.EvaluateFee(reqDataEvaluate)
 	if resDataEvaluate.ErrorCode != 0 {
-		fmt.Println(resDataEvaluate)
+		t.Log(resDataEvaluate)
 		t.Errorf(resDataEvaluate.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resDataEvaluate.Result)
-		fmt.Println("Evaluate:", string(data))
+		t.Log("Evaluate:", string(data))
 		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
 	}
 }
@@ -226,27 +225,26 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
-		fmt.Println(resDataBlob.ErrorDesc)
+		t.Log(resDataBlob.ErrorDesc)
 	} else {
-		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
-
+		PrivateKeys := []string{"privbtYzJ6miiFktK9BsDAMRNd3J4eKkuszfXqJ2huQ2h8DGUnRs9nuq"}
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
-		reqData.SetPrivateKeys(PrivateKey)
-
+		reqData.SetPrivateKeys(PrivateKeys)
 		resDataSign := testSdk.Transaction.Sign(reqData)
 		if resDataSign.ErrorCode != 0 {
-			fmt.Println(resDataSign.ErrorDesc)
+			t.Log(resDataSign.ErrorDesc)
 		} else {
 			var reqData model.TransactionSubmitRequest
 			reqData.SetBlob(resDataBlob.Result.Blob)
+			t.Log(resDataSign.Result.Signatures[0].SignData)
 			reqData.SetSignatures(resDataSign.Result.Signatures)
 			resDataSubmit := testSdk.Transaction.Submit(reqData)
 
 			if resDataSubmit.ErrorCode != 0 {
 				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
-				fmt.Println("Hash:", resDataSubmit.Result.Hash)
+				t.Log("Hash:", resDataSubmit.Result.Hash)
 				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
 			}
 		}
@@ -263,7 +261,7 @@ func Test_Transaction_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Transaction_GetInfo succeed", resData.Result)
 	}
 }
@@ -288,6 +286,8 @@ func Test_Account_Create(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
+		str, _ := json.Marshal(resData.Result)
+		t.Log(string(str))
 		t.Log("Test_Account_Create", resData.Result)
 	}
 }
@@ -302,7 +302,7 @@ func Test_Account_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Account_GetInfo succeed", resData.Result)
 	}
 }
@@ -316,7 +316,7 @@ func Test_Account_GetNonce(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Nonce:", resData.Result.Nonce)
+		t.Log("Nonce:", resData.Result.Nonce)
 		t.Log("Test_Account_GetNonce succeed", resData.Result)
 	}
 }
@@ -330,7 +330,7 @@ func Test_Account_GetBalance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Account_GetBalance succeed", resData.Result)
 	}
 }
@@ -345,7 +345,7 @@ func Test_Account_GetAssets(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Assets)
-		fmt.Println("Assets:", string(data))
+		t.Log("Assets:", string(data))
 		t.Log("Test_Account_GetAssets succeed", resData.Result)
 
 	}
@@ -363,8 +363,21 @@ func Test_Account_GetMetadata(t *testing.T) {
 	} else {
 		data, _ := json.Marshal(resData.Result.Metadatas[0].Value)
 
-		fmt.Println("Metadatas:", string(data))
+		t.Log("Metadatas:", string(data))
 		t.Log("Test_Account_GetMetadata succeed", resData.Result)
+	}
+}
+
+//check account Activated
+func Test_Account_CheckActivated(t *testing.T) {
+	var reqData model.AccountCheckActivatedRequest
+	var address string = "buQXoNR24p2pPqnXPyiDprmTWsU4SYLtBNCG"
+	reqData.SetAddress(address)
+	resData := testSdk.Account.CheckActivated(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Account_CheckActivated succeed", resData.Result)
 	}
 }
 
@@ -373,14 +386,16 @@ func Test_Asset_GetInfo(t *testing.T) {
 	var reqData model.AssetGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqData.SetAddress(address)
-	reqData.SetIssuer("buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo")
-	reqData.SetCode("HNC")
+	var issuer string = "buQnc3AGCo6ycWJCce516MDbPHKjK7ywwkuo"
+	reqData.SetIssuer(issuer)
+	var code string = "HNC"
+	reqData.SetCode(code)
 	resData := testSdk.Token.Asset.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Assets)
-		fmt.Println("Assets:", string(data))
+		t.Log("Assets:", string(data))
 		t.Log("Test_Asset_GetInfo succeed", resData.Result.Assets)
 	}
 }
@@ -395,8 +410,59 @@ func Test_Contract_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Contract)
-		fmt.Println("Contract:", string(data))
+		t.Log("Contract:", string(data))
 		t.Log("Test_Contract_GetInfo succeed", resData.Result)
+	}
+}
+
+//check valid
+func Test_Contract_CheckValid(t *testing.T) {
+	var reqData model.ContractCheckValidRequest
+	var address string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	reqData.SetAddress(address)
+	resData := testSdk.Contract.CheckValid(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_CheckValid succeed", resData.Result)
+	}
+}
+
+//call
+func Test_Contract_Call(t *testing.T) {
+	var reqData model.ContractCallRequest
+	var contractAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	reqData.SetContractAddress(contractAddress)
+	var contractBalance string = "100000000000"
+	reqData.SetContractBalance(contractBalance)
+	var feeLimit int64 = 1000000
+	reqData.SetFeeLimit(feeLimit)
+	var gasPrice int64 = 1000
+	reqData.SetGasPrice(gasPrice)
+	var input string = "input"
+	reqData.SetInput(input)
+	var optType int64 = 2
+	reqData.SetOptType(optType)
+	var code string = "HNC"
+	reqData.SetCode(code)
+	resData := testSdk.Contract.Call(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_CheckValid succeed", resData.Result)
+	}
+}
+
+//get address
+func Test_Contract_GetAddress(t *testing.T) {
+	var reqData model.ContractGetAddressRequest
+	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
+	reqData.SetHash(hash)
+	resData := testSdk.Contract.GetAddress(reqData)
+	if resData.ErrorCode != 0 {
+		t.Errorf(resData.ErrorDesc)
+	} else {
+		t.Log("Test_Contract_GetAddress succeed", resData.Result.ContractAddresInfos)
 	}
 }
 
@@ -413,7 +479,7 @@ func Test_Ctp10Token_Allowance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Allowance:", resData.Result.Allowance)
+		t.Log("Allowance:", resData.Result.Allowance)
 		t.Log("Test_Ctp10Token_Allowance succeed", resData.Result)
 	}
 }
@@ -425,11 +491,11 @@ func Test_Ctp10Token_GetInfo(t *testing.T) {
 	reqData.SetContractAddress(contractAddress)
 	resData := testSdk.Token.Ctp10Token.GetInfo(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println(resData)
+		t.Log(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Ctp10Token_GetInfo succeed", resData.Result)
 	}
 }
@@ -443,7 +509,7 @@ func Test_Ctp10Token_GetName(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Name:", resData.Result.Name)
+		t.Log("Name:", resData.Result.Name)
 		t.Log("Test_Ctp10Token_GetName succeed", resData.Result)
 	}
 }
@@ -457,7 +523,7 @@ func Test_Ctp10Token_GetSymbol(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Symbol:", resData.Result.Symbol)
+		t.Log("Symbol:", resData.Result.Symbol)
 		t.Log("Test_Ctp10Token_GetSymbol succeed", resData.Result)
 	}
 }
@@ -471,7 +537,7 @@ func Test_Ctp10Token_GetDecimals(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Decimals:", resData.Result.Decimals)
+		t.Log("Decimals:", resData.Result.Decimals)
 		t.Log("Test_Ctp10Token_GetDecimals succeed", resData.Result)
 	}
 }
@@ -485,7 +551,7 @@ func Test_Ctp10Token_GetTotalSupply(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("TotalSupply:", resData.Result.TotalSupply)
+		t.Log("TotalSupply:", resData.Result.TotalSupply)
 		t.Log("Test_Ctp10Token_GetTotalSupply succeed", resData.Result)
 	}
 }
@@ -499,10 +565,10 @@ func Test_Ctp10Token_GetBalance(t *testing.T) {
 	reqData.SetTokenOwner(tokenOwner)
 	resData := testSdk.Token.Ctp10Token.GetBalance(reqData)
 	if resData.ErrorCode != 0 {
-		fmt.Println(resData)
+		t.Log(resData)
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Ctp10Token_GetBalance succeed", resData.Result)
 	}
 }

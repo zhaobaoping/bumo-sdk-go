@@ -17,7 +17,7 @@ type ContractOperation struct {
 	Url string
 }
 
-//检测合约账户的有效性
+//Check Valid
 func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRequest) model.ContractCheckValidResponse {
 	var Account account.AccountOperation
 	Account.Url = contract.Url
@@ -40,13 +40,12 @@ func (contract *ContractOperation) CheckValid(reqData model.ContractCheckValidRe
 		resData.Result.IsValid = true
 		return resData
 	} else {
-		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
-		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
+		resData.Result.IsValid = false
 		return resData
 	}
 }
 
-//获取合约信息
+//Get Info
 func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest) model.ContractGetInfoResponse {
 	var resData model.ContractGetInfoResponse
 	var reqDataCheck model.ContractCheckValidRequest
@@ -55,6 +54,11 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 	if resDataCheck.ErrorCode != 0 {
 		resData.ErrorCode = resDataCheck.ErrorCode
 		resData.ErrorDesc = resDataCheck.ErrorDesc
+		return resData
+	}
+	if resDataCheck.Result.IsValid == false {
+		resData.ErrorCode = exception.INVALID_CONTRACTADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	get := "/getAccount?address="
@@ -70,9 +74,8 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 		decoder.UseNumber()
 		err := decoder.Decode(&resData)
 		if err != nil {
-			SDKRes := exception.GetSDKRes(exception.SYSTEM_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.SYSTEM_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 		if resData.ErrorCode == 0 {
@@ -93,7 +96,7 @@ func (contract *ContractOperation) GetInfo(reqData model.ContractGetInfoRequest)
 	}
 }
 
-//调试合约代码
+//Call
 func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model.ContractCallResponse {
 	var resData model.ContractCallResponse
 	if reqData.GetContractAddress() == "" && reqData.GetCode() == "" {
@@ -166,7 +169,7 @@ func (contract *ContractOperation) Call(reqData model.ContractCallRequest) model
 	}
 }
 
-//该方法用于查询合约归属账户
+//Get Address
 func (contract *ContractOperation) GetAddress(reqData model.ContractGetAddressRequest) model.ContractGetAddressResponse {
 	var resData model.ContractGetAddressResponse
 	var Transaction blockchain.TransactionOperation

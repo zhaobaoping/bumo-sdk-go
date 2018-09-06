@@ -74,6 +74,7 @@ const (
 	INVALID_PAYLOAD_ERROR
 	THE_QUERY_FAILED
 	QUERY_NO_RESULTS
+	OPERATION_NOT_INIT
 )
 
 var errm = map[int]string{
@@ -142,6 +143,7 @@ var errm = map[int]string{
 	INVALID_PAYLOAD_ERROR:  "The parameter 'payload' is invalid.",
 	THE_QUERY_FAILED:       "The query failed.",
 	QUERY_NO_RESULTS:       "Query no results",
+	OPERATION_NOT_INIT:     "Operation is not initialized",
 }
 
 //GetSDKRes

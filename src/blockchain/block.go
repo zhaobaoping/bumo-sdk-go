@@ -15,7 +15,7 @@ type BlockOperation struct {
 	Url string
 }
 
-//获取区块高度 GetNumber
+// get number
 func (block *BlockOperation) GetNumber() model.BlockGetNumberResponse {
 	var resData model.BlockGetNumberResponse
 	get := "/getLedger"
@@ -53,7 +53,7 @@ func (block *BlockOperation) GetNumber() model.BlockGetNumberResponse {
 	}
 }
 
-//检查区块同步 CheckStatus
+// check status
 func (block *BlockOperation) CheckStatus() model.BlockCheckStatusResponse {
 	var resData model.BlockCheckStatusResponse
 	resData.Result.IsSynchronous = false
@@ -93,7 +93,7 @@ func (block *BlockOperation) CheckStatus() model.BlockCheckStatusResponse {
 
 }
 
-//根据高度查询交易 GetTransactions
+// get transactions
 func (block *BlockOperation) GetTransactions(reqData model.BlockGetTransactionRequest) model.BlockGetTransactionResponse {
 	var resData model.BlockGetTransactionResponse
 	if reqData.GetBlockNumber() <= 0 {
@@ -139,7 +139,7 @@ func (block *BlockOperation) GetTransactions(reqData model.BlockGetTransactionRe
 	}
 }
 
-//获取区块信息 GetInfo
+// get info
 func (block *BlockOperation) GetInfo(reqData model.BlockGetInfoRequest) model.BlockGetInfoResponse {
 	var resData model.BlockGetInfoResponse
 	if reqData.GetBlockNumber() <= 0 {
@@ -185,7 +185,7 @@ func (block *BlockOperation) GetInfo(reqData model.BlockGetInfoRequest) model.Bl
 	}
 }
 
-//获取最新区块信息 GetLatest
+// get latest
 func (block *BlockOperation) GetLatest() model.BlockGetLatestResponse {
 	var resData model.BlockGetLatestResponse
 	get := "/getLedger"
@@ -224,7 +224,7 @@ func (block *BlockOperation) GetLatest() model.BlockGetLatestResponse {
 	}
 }
 
-//获取指定区块中所有验证节点数 GetValidators
+// get validators
 func (block *BlockOperation) GetValidators(reqData model.BlockGetValidatorsRequest) model.BlockGetValidatorsResponse {
 	var resData model.BlockGetValidatorsResponse
 	if reqData.GetBlockNumber() <= 0 {
@@ -276,7 +276,7 @@ func (block *BlockOperation) GetValidators(reqData model.BlockGetValidatorsReque
 	}
 }
 
-//获取最新区块中所有验证节点数 GetLatestValidators
+// get latestvalidators
 func (block *BlockOperation) GetLatestValidators() model.BlockGetLatestValidatorsResponse {
 	var resData model.BlockGetLatestValidatorsResponse
 	get := "/getLedger?"
@@ -320,7 +320,7 @@ func (block *BlockOperation) GetLatestValidators() model.BlockGetLatestValidator
 	}
 }
 
-//获取指定区块中的区块奖励和验证节点奖励 GetReward
+// get reward
 func (block *BlockOperation) GetReward(reqData model.BlockGetRewardRequest) model.BlockGetRewardResponse {
 	var resData model.BlockGetRewardResponse
 	var resDataWeb model.WebBlockGetRewardResponse
@@ -381,7 +381,7 @@ func (block *BlockOperation) GetReward(reqData model.BlockGetRewardRequest) mode
 	}
 }
 
-//获取最新区块中的区块奖励和验证节点奖励 GetLatestReward
+// getlatestreward
 func (block *BlockOperation) GetLatestReward() model.BlockGetLatestRewardResponse {
 	var resData model.BlockGetLatestRewardResponse
 	var resDataWeb model.WebBlockGetLatestRewardResponse
@@ -434,7 +434,7 @@ func (block *BlockOperation) GetLatestReward() model.BlockGetLatestRewardRespons
 	}
 }
 
-//获取指定区块中的账户最低资产限制和打包费用 GetFees
+// get fees
 func (block *BlockOperation) GetFees(reqData model.BlockGetFeesRequest) model.BlockGetFeesResponse {
 	var resData model.BlockGetFeesResponse
 	if reqData.GetBlockNumber() <= 0 {
@@ -486,7 +486,7 @@ func (block *BlockOperation) GetFees(reqData model.BlockGetFeesRequest) model.Bl
 	}
 }
 
-//获取最新区块中的账户最低资产限制和打包费用 GetLatestFees
+// get latestfees
 func (block *BlockOperation) GetLatestFees() model.BlockGetLatestFeesResponse {
 	var resData model.BlockGetLatestFeesResponse
 	get := "/getLedger?"

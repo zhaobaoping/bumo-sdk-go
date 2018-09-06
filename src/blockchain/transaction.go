@@ -4,6 +4,7 @@ package blockchain
 import (
 	"encoding/hex"
 	"encoding/json"
+	"math"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/common"
@@ -19,7 +20,7 @@ type TransactionOperation struct {
 	Url string
 }
 
-//生成交易 BuildBlob
+// build blob
 func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuildBlobRequest) model.TransactionBuildBlobResponse {
 	var resData model.TransactionBuildBlobResponse
 	if !keypair.CheckAddress(reqData.GetSourceAddress()) {
@@ -85,6 +86,7 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 				resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 				return resData
 			}
+		default:
 		}
 	}
 	if SDKRes.ErrorCode != 0 {
@@ -126,7 +128,7 @@ func (transaction *TransactionOperation) BuildBlob(reqData model.TransactionBuil
 	return resData
 }
 
-//评估费用 EvaluateFee
+// evaluate fee
 func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEvaluateFeeRequest) model.TransactionEvaluateFeeResponse {
 	var resDataD model.TransactionEvaluateFeeData
 	var resData model.TransactionEvaluateFeeResponse
@@ -158,7 +160,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	if len(reqData.GetSignatureNumber()) != 0 {
 		var err error
 		SignatureNumber, err = strconv.ParseInt(reqData.GetSignatureNumber(), 10, 64)
-		if err != nil || SignatureNumber <= 0 || SignatureNumber > 2147483648 {
+		if err != nil || SignatureNumber <= 0 || SignatureNumber > math.MaxInt32 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNATURENUMBER_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
@@ -254,7 +256,7 @@ func (transaction *TransactionOperation) EvaluateFee(reqData model.TransactionEv
 	}
 }
 
-//签名 Sign
+// sign
 func (transaction *TransactionOperation) Sign(reqData model.TransactionSignRequest) model.TransactionSignResponse {
 	var resData model.TransactionSignResponse
 	if reqData.GetBlob() == "" {
@@ -316,7 +318,7 @@ func (transaction *TransactionOperation) Sign(reqData model.TransactionSignReque
 	return resData
 }
 
-//提交 Submit
+// submit
 func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitRequest) model.TransactionSubmitResponse {
 	var resDatas model.TransactionSubmitData
 	var resData model.TransactionSubmitResponse
@@ -397,7 +399,7 @@ func (transaction *TransactionOperation) Submit(reqData model.TransactionSubmitR
 	}
 }
 
-//根据hash查询交易 GetInfo
+// get info
 func (transaction *TransactionOperation) GetInfo(reqData model.TransactionGetInfoRequest) model.TransactionGetInfoResponse {
 	var resData model.TransactionGetInfoResponse
 	if len(reqData.GetHash()) != 64 {

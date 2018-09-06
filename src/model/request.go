@@ -88,6 +88,18 @@ func (reqData *AccountGetMetadataRequest) GetKey() string {
 }
 
 //GetInfo
+type AccountCheckActivatedRequest struct {
+	address string
+}
+
+func (reqData *AccountCheckActivatedRequest) SetAddress(Address string) {
+	reqData.address = Address
+}
+func (reqData *AccountCheckActivatedRequest) GetAddress() string {
+	return reqData.address
+}
+
+//GetInfo
 type AssetGetInfoRequest struct {
 	address string `json:"address"`
 	code    string `json:"code"`
