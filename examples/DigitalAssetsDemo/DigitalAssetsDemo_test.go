@@ -167,59 +167,6 @@ func Test_Account_GetNonce(t *testing.T) {
 	}
 }
 
-//submit and send bu transactions
-func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
-	//Operation
-	var reqDataOperation model.BUSendOperation
-	reqDataOperation.Init()
-	var amount int64 = 100
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("63")
-	reqDataOperation.SetDestAddress(destAddress)
-	//Blob
-	var reqDataBlob model.TransactionBuildBlobRequest
-	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
-	reqDataBlob.SetSourceAddress(sourceAddressBlob)
-	var feeLimit int64 = 1000000000
-	reqDataBlob.SetFeeLimit(feeLimit)
-	var gasPrice int64 = 1000
-	reqDataBlob.SetGasPrice(gasPrice)
-	var nonce int64 = 97
-	reqDataBlob.SetNonce(nonce)
-	reqDataBlob.SetMetadata("63")
-	reqDataBlob.SetOperation(reqDataOperation)
-
-	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
-	if resDataBlob.ErrorCode != 0 {
-		t.Log(resDataBlob.ErrorDesc)
-	} else {
-		//Sign
-		PrivateKey := []string{"PrivateKey"}
-		var reqData model.TransactionSignRequest
-		reqData.SetBlob(resDataBlob.Result.Blob)
-		reqData.SetPrivateKeys(PrivateKey)
-
-		resDataSign := testSdk.Transaction.Sign(reqData)
-		if resDataSign.ErrorCode != 0 {
-			t.Log(resDataSign.ErrorDesc)
-		} else {
-			//Submit
-			var reqData model.TransactionSubmitRequest
-			reqData.SetBlob(resDataBlob.Result.Blob)
-			reqData.SetSignatures(resDataSign.Result.Signatures)
-			resDataSubmit := testSdk.Transaction.Submit(reqData)
-
-			if resDataSubmit.ErrorCode != 0 {
-				t.Errorf(resDataSubmit.ErrorDesc)
-			} else {
-				t.Log("Hash:", resDataSubmit.Result.Hash)
-				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
-			}
-		}
-	}
-}
-
 //enquiry of transaction details
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
@@ -302,5 +249,99 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 		data, _ := json.Marshal(resDataEvaluate.Result)
 		t.Log("Evaluate:", string(data))
 		t.Log("Test_EvaluateFee succeed", resDataEvaluate.Result)
+	}
+}
+
+//Asset Issue
+func Test_Asset_Issue(t *testing.T) {
+	//Operation
+	var reqDataOperation model.AssetIssueOperation
+	reqDataOperation.Init()
+	var amount int64 = 100
+	var nonce int64 = 98
+	//	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("")
+	reqDataOperation.SetCode("ABC")
+	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	if errorCode != 0 {
+		t.Log("errorDesc:", errorDesc)
+	}
+	t.Log("Test_Asset_Issue succeed", hash)
+}
+
+//Asset Send
+func Test_Asset_Send(t *testing.T) {
+	//Operation
+	var reqDataOperation model.AssetSendOperation
+	reqDataOperation.Init()
+	var amount int64 = 100
+	var nonce int64 = 98
+	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	var issuer string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("send")
+	reqDataOperation.SetCode("ABC")
+	reqDataOperation.SetDestAddress(destAddress)
+	reqDataOperation.SetIssuer(issuer)
+
+	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	if errorCode != 0 {
+		t.Log("errorDesc:", errorDesc)
+	}
+	t.Log("Test_BU_Send succeed", hash)
+}
+
+//BU Send
+func Test_BU_Send(t *testing.T) {
+	//Operation
+	var reqDataOperation model.BUSendOperation
+	reqDataOperation.Init()
+	var amount int64 = 100
+	var nonce int64 = 111
+	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqDataOperation.SetAmount(amount)
+	reqDataOperation.SetMetadata("send")
+	reqDataOperation.SetDestAddress(destAddress)
+	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	if errorCode != 0 {
+		t.Log("errorDesc:", errorDesc)
+	}
+	t.Log("Test_BU_Send succeed", hash)
+}
+func Transaction_BuildBlob_Sign_Submit(reqDataOperation model.BaseOperation, nonce int64) (errorCode int, errorDesc string, hash string) {
+	//Blob
+	var reqDataBlob model.TransactionBuildBlobRequest
+	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	reqDataBlob.SetSourceAddress(sourceAddressBlob)
+	var feeLimit int64 = 1000000000
+	reqDataBlob.SetFeeLimit(feeLimit)
+	var gasPrice int64 = 1000
+	reqDataBlob.SetGasPrice(gasPrice)
+	reqDataBlob.SetNonce(nonce)
+	reqDataBlob.SetMetadata("63")
+	reqDataBlob.SetOperation(reqDataOperation)
+
+	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
+	if resDataBlob.ErrorCode != 0 {
+		return resDataBlob.ErrorCode, resDataBlob.ErrorDesc, ""
+	} else {
+		//Sign
+		PrivateKey := []string{"privby5RZU6pj5NvmY6az9vCyD6rRJXT4ubTcyfKwANQF9yu56zpjpG3"}
+		var reqData model.TransactionSignRequest
+		reqData.SetBlob(resDataBlob.Result.Blob)
+		reqData.SetPrivateKeys(PrivateKey)
+
+		resDataSign := testSdk.Transaction.Sign(reqData)
+		if resDataSign.ErrorCode != 0 {
+			return resDataSign.ErrorCode, resDataSign.ErrorDesc, ""
+		} else {
+			//Submit
+			var reqData model.TransactionSubmitRequest
+			reqData.SetBlob(resDataBlob.Result.Blob)
+			reqData.SetSignatures(resDataSign.Result.Signatures)
+			resDataSubmit := testSdk.Transaction.Submit(reqData)
+			return resDataSubmit.ErrorCode, resDataSubmit.ErrorDesc, resDataSubmit.Result.Hash
+		}
 	}
 }
