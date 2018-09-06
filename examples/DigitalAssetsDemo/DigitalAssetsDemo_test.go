@@ -252,6 +252,27 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 	}
 }
 
+//Activate Account
+func Test_activate_Account(t *testing.T) {
+	//Operation
+	var reqDataOperation model.AccountActivateOperation
+	reqDataOperation.Init()
+	var initBalance int64 = 1000000000
+	var nonce int64 = 98
+	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	reqDataOperation.SetDestAddress(destAddress)
+	reqDataOperation.SetMetadata("send")
+	reqDataOperation.SetInitBalance(initBalance)
+
+	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	if errorCode != 0 {
+		t.Log("errorDesc:", errorDesc)
+	} else {
+		t.Log("Test_BU_Send succeed", hash)
+	}
+
+}
+
 //Asset Issue
 func Test_Asset_Issue(t *testing.T) {
 	//Operation
@@ -266,8 +287,10 @@ func Test_Asset_Issue(t *testing.T) {
 	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
+
+	} else {
+		t.Log("Test_BU_Send succeed", hash)
 	}
-	t.Log("Test_Asset_Issue succeed", hash)
 }
 
 //Asset Send
@@ -288,8 +311,9 @@ func Test_Asset_Send(t *testing.T) {
 	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
+	} else {
+		t.Log("Test_BU_Send succeed", hash)
 	}
-	t.Log("Test_BU_Send succeed", hash)
 }
 
 //BU Send
@@ -306,8 +330,9 @@ func Test_BU_Send(t *testing.T) {
 	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
+	} else {
+		t.Log("Test_BU_Send succeed", hash)
 	}
-	t.Log("Test_BU_Send succeed", hash)
 }
 func Transaction_BuildBlob_Sign_Submit(reqDataOperation model.BaseOperation, nonce int64) (errorCode int, errorDesc string, hash string) {
 	//Blob
