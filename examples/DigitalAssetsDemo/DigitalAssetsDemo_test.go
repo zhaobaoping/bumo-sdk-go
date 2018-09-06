@@ -327,7 +327,7 @@ func Transaction_BuildBlob_Sign_Submit(reqDataOperation model.BaseOperation, non
 		return resDataBlob.ErrorCode, resDataBlob.ErrorDesc, ""
 	} else {
 		//Sign
-		PrivateKey := []string{"privby5RZU6pj5NvmY6az9vCyD6rRJXT4ubTcyfKwANQF9yu56zpjpG3"}
+		PrivateKey := []string{"privKey"}
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
 		reqData.SetPrivateKeys(PrivateKey)
