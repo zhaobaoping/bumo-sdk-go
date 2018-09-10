@@ -103,15 +103,15 @@ func Test_Account_GetNonce(t *testing.T) {
 }
 
 //submit and send bu transactions
-func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
+func Test_submitTransaction(t *testing.T) {
 	//Operation
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
 	var amount int64 = 100
 	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("63")
 	reqDataOperation.SetDestAddress(destAddress)
+	//reqDataOperation.SetMetadata("send BU")
 	//Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
 	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -122,8 +122,8 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	reqDataBlob.SetGasPrice(gasPrice)
 	var nonce int64 = 97
 	reqDataBlob.SetNonce(nonce)
-	reqDataBlob.SetMetadata("63")
 	reqDataBlob.SetOperation(reqDataOperation)
+	//reqDataBlob.SetMetadata("send BU")
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
@@ -149,7 +149,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
 				t.Log("Hash:", resDataSubmit.Result.Hash)
-				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
+				t.Log("Test_submitTransaction succeed", resDataSubmit.Result)
 			}
 		}
 	}

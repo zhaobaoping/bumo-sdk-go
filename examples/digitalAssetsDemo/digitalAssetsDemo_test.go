@@ -254,17 +254,25 @@ func Test_Transaction_EvaluateFee(t *testing.T) {
 
 //Activate Account
 func Test_activate_Account(t *testing.T) {
+	// The account private key to activate a new account
+	var activatePrivateKey string = "privbtZbKbz4CtsjtN9GnLsUgSG2vKGuMDri9ADnQ7AzYg5kHqcdCH4y"
+	var activateAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	var initBalance int64 = 100000000000
+	// The fixed write 1000L, the unit is MO
+	var gasPrice int64 = 1000
+	// Set up the maximum cost 0.01BU
+	var feeLimit int64 = 100000000
+	// Transaction initiation account's nonce + 1
+	var nonce int64 = 8
+	// The account to be activated
+	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	//Operation
 	var reqDataOperation model.AccountActivateOperation
 	reqDataOperation.Init()
-	var initBalance int64 = 1000000000
-	var nonce int64 = 98
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetDestAddress(destAddress)
-	reqDataOperation.SetMetadata("send")
 	reqDataOperation.SetInitBalance(initBalance)
 
-	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	errorCode, errorDesc, hash := submitTransaction(testSdk, reqDataOperation, activatePrivateKey, activateAddress, nonce, gasPrice, feeLimit)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
 	} else {
@@ -275,16 +283,32 @@ func Test_activate_Account(t *testing.T) {
 
 //Asset Issue
 func Test_Asset_Issue(t *testing.T) {
+	// Init variable
+	// The account private key to issue asset
+	var issuePrivateKey string = "privbtZbKbz4CtsjtN9GnLsUgSG2vKGuMDri9ADnQ7AzYg5kHqcdCH4y"
+	// The account address to send this transaction
+	var issueAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	// Asset code
+	var assetCode string = "TST"
+	// Asset amount
+	var assetAmount int64 = 10000000000000
+	// metadata
+	var metadata string = "issue TST"
+	// The fixed write 1000L, the unit is MO
+	var gasPrice int64 = 1000
+	// Set up the maximum cost 50.01BU
+	var feeLimit int64 = 10000000000000
+	// Transaction initiation account's nonce + 1
+	var nonce int64 = 7
+
 	//Operation
 	var reqDataOperation model.AssetIssueOperation
 	reqDataOperation.Init()
-	var amount int64 = 100
-	var nonce int64 = 98
-	//	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("")
-	reqDataOperation.SetCode("ABC")
-	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+
+	reqDataOperation.SetAmount(assetAmount)
+	reqDataOperation.SetCode(assetCode)
+	reqDataOperation.SetMetadata(metadata)
+	errorCode, errorDesc, hash := submitTransaction(testSdk, reqDataOperation, issuePrivateKey, issueAddress, nonce, gasPrice, feeLimit)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
 
@@ -295,20 +319,35 @@ func Test_Asset_Issue(t *testing.T) {
 
 //Asset Send
 func Test_Asset_Send(t *testing.T) {
+	// Init variable
+	// The account private key to start this transaction
+	var senderPrivateKey string = "privbtZbKbz4CtsjtN9GnLsUgSG2vKGuMDri9ADnQ7AzYg5kHqcdCH4y"
+	// The account address to send this transaction
+	var senderAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	// The account to receive asset
+	var destAddress string = "buQhapCK83xPPdjQeDuBLJtFNvXYZEKb6tKB"
+	// Asset code
+	var assetCode string = "TST"
+	// The accout address of issuing asset
+	var assetIssuer string = "buQcGP2a1PY45dauMfhk9QsFbn7a6BKKAM9x"
+	// The asset amount to be sent
+	var amount int64 = 1000000000000000
+	// The fixed write 1000L, the unit is MO
+	var gasPrice int64 = 1000
+	// Set up the maximum cost 0.01BU
+	var feeLimit int64 = 1000000000000000
+	// Transaction initiation account's nonce + 1
+	var nonce int64 = 2
+
 	//Operation
 	var reqDataOperation model.AssetSendOperation
 	reqDataOperation.Init()
-	var amount int64 = 100
-	var nonce int64 = 98
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
-	var issuer string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
 	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("send")
-	reqDataOperation.SetCode("ABC")
+	reqDataOperation.SetCode(assetCode)
 	reqDataOperation.SetDestAddress(destAddress)
-	reqDataOperation.SetIssuer(issuer)
+	reqDataOperation.SetIssuer(assetIssuer)
 
-	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	errorCode, errorDesc, hash := submitTransaction(testSdk, reqDataOperation, senderPrivateKey, senderAddress, nonce, gasPrice, feeLimit)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
 	} else {
@@ -318,41 +357,50 @@ func Test_Asset_Send(t *testing.T) {
 
 //BU Send
 func Test_BU_Send(t *testing.T) {
+	// Init variable
+	// The account private key to start this transaction
+	var senderPrivateKey string = "privbtZbKbz4CtsjtN9GnLsUgSG2vKGuMDri9ADnQ7AzYg5kHqcdCH4y"
+	// The account address to send this transaction
+	var senderAddress string = "buQXmYrmqt6ohcKtLFKgWFSZ5CjYKaSzaMjT"
+	// The account address to receive bu
+	var destAddress string = "buQsurH1M4rjLkfjzkxR9KXJ6jSu2r9xBNEw"
+	// The amount to be sent
+	var amount int64 = 1000000000000
+	// The fixed write 1000L, the unit is MO
+	var gasPrice int64 = 1000
+	// Set up the maximum cost 0.01BU
+	var feeLimit int64 = 10000000000
+	// Transaction initiation account's nonce + 1
+	var nonce int64 = 25
+
 	//Operation
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
-	var amount int64 = 100
-	var nonce int64 = 111
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("send")
 	reqDataOperation.SetDestAddress(destAddress)
-	errorCode, errorDesc, hash := Transaction_BuildBlob_Sign_Submit(reqDataOperation, nonce)
+	errorCode, errorDesc, hash := submitTransaction(testSdk, reqDataOperation, senderPrivateKey, senderAddress, nonce, gasPrice, feeLimit)
 	if errorCode != 0 {
 		t.Log("errorDesc:", errorDesc)
 	} else {
 		t.Log("Test_BU_Send succeed", hash)
 	}
 }
-func Transaction_BuildBlob_Sign_Submit(reqDataOperation model.BaseOperation, nonce int64) (errorCode int, errorDesc string, hash string) {
+func submitTransaction(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, senderPrivateKey string, senderAddresss string, senderNonce int64, gasPrice int64, feeLimit int64) (errorCode int, errorDesc string, hash string) {
 	//Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
-	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
-	reqDataBlob.SetSourceAddress(sourceAddressBlob)
-	var feeLimit int64 = 1000000000
+	reqDataBlob.SetSourceAddress(senderAddresss)
 	reqDataBlob.SetFeeLimit(feeLimit)
-	var gasPrice int64 = 1000
 	reqDataBlob.SetGasPrice(gasPrice)
-	reqDataBlob.SetNonce(nonce)
-	reqDataBlob.SetMetadata("63")
+	reqDataBlob.SetNonce(senderNonce)
 	reqDataBlob.SetOperation(reqDataOperation)
+	//reqDataBlob.SetMetadata("abc")
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
 		return resDataBlob.ErrorCode, resDataBlob.ErrorDesc, ""
 	} else {
 		//Sign
-		PrivateKey := []string{"privKey"}
+		PrivateKey := []string{senderPrivateKey}
 		var reqData model.TransactionSignRequest
 		reqData.SetBlob(resDataBlob.Result.Blob)
 		reqData.SetPrivateKeys(PrivateKey)

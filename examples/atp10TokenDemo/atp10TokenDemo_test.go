@@ -82,9 +82,9 @@ func Test_issueUnlimitedAtp10Token(t *testing.T) {
 	// Record txhash for subsequent confirmation of the real result of the transaction.
 	// After recommending five blocks, call again through txhash Get the transaction information
 	// from the transaction Hash to confirm the final result of the transaction
-	hash, ErrorDesc := atp10BlobSubmit(testSdk, reqDataIssue, issuerPrivateKey, issuerAddresss, nonce, gasPrice, feeLimit, string(metadataStr))
-	if ErrorDesc != "" {
-		t.Errorf(ErrorDesc)
+	errorCode, errorDesc, hash := atp10BlobSubmit(testSdk, reqDataIssue, issuerPrivateKey, issuerAddresss, nonce, gasPrice, feeLimit, string(metadataStr))
+	if errorCode != 0 {
+		t.Errorf(errorDesc)
 	} else {
 		t.Log("hash succeed", hash)
 	}
@@ -141,9 +141,9 @@ func Test_issuelimitedAtp10Token(t *testing.T) {
 	// Record txhash for subsequent confirmation of the real result of the transaction.
 	// After recommending five blocks, call again through txhash Get the transaction information
 	// from the transaction Hash to confirm the final result of the transaction
-	hash, ErrorDesc := atp10BlobSubmit(testSdk, reqDataIssue, issuerPrivateKey, issuerAddresss, nonce, gasPrice, feeLimit, string(metadataStr))
-	if ErrorDesc != "" {
-		t.Errorf(ErrorDesc)
+	errorCode, errorDesc, hash := atp10BlobSubmit(testSdk, reqDataIssue, issuerPrivateKey, issuerAddresss, nonce, gasPrice, feeLimit, string(metadataStr))
+	if errorCode != 0 {
+		t.Errorf(errorDesc)
 	} else {
 		t.Log("hash succeed", hash)
 	}
@@ -187,15 +187,15 @@ func Test_sendAtp10Token(t *testing.T) {
 	// Record txhash for subsequent confirmation of the real result of the transaction.
 	// After recommending five blocks, call again through txhash Get the transaction information
 	// from the transaction Hash to confirm the final result of the transaction
-	hash, ErrorDesc := atp10BlobSubmit(testSdk, reqDataIssue, senderPrivateKey, senderAddresss, nonce, gasPrice, feeLimit, "")
-	if ErrorDesc != "" {
-		t.Errorf(ErrorDesc)
+	errorCode, errorDesc, hash := atp10BlobSubmit(testSdk, reqDataIssue, senderPrivateKey, senderAddresss, nonce, gasPrice, feeLimit, "")
+	if errorCode != 0 {
+		t.Errorf(errorDesc)
 	} else {
 		t.Log("hash succeed", hash)
 	}
 }
 
-func atp10BlobSubmit(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, senderPrivateKey string, senderAddresss string, senderNonce int64, gasPrice int64, feeLimit int64, transMetadata string) (hash string, ErrorDesc string) {
+func atp10BlobSubmit(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, senderPrivateKey string, senderAddresss string, senderNonce int64, gasPrice int64, feeLimit int64, transMetadata string) (errorCode int, errorDesc string, hash string) {
 	//Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
 	reqDataBlob.SetSourceAddress(senderAddresss)
@@ -206,7 +206,7 @@ func atp10BlobSubmit(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, send
 	reqDataBlob.SetOperation(reqDataOperation)
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
-		return "", resDataBlob.ErrorDesc
+		return resDataBlob.ErrorCode, resDataBlob.ErrorDesc, ""
 	} else {
 		//Sign
 		PrivateKey := []string{senderPrivateKey}
@@ -215,7 +215,7 @@ func atp10BlobSubmit(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, send
 		reqData.SetPrivateKeys(PrivateKey)
 		resDataSign := testSdk.Transaction.Sign(reqData)
 		if resDataSign.ErrorCode != 0 {
-			return "", resDataSign.ErrorDesc
+			return resDataSign.ErrorCode, resDataSign.ErrorDesc, ""
 		} else {
 			//Submit
 			var reqData model.TransactionSubmitRequest
@@ -223,9 +223,9 @@ func atp10BlobSubmit(testSdk sdk.Sdk, reqDataOperation model.BaseOperation, send
 			reqData.SetSignatures(resDataSign.Result.Signatures)
 			resDataSubmit := testSdk.Transaction.Submit(reqData)
 			if resDataSubmit.ErrorCode != 0 {
-				return "", resDataSubmit.ErrorDesc
+				return resDataSubmit.ErrorCode, resDataSubmit.ErrorDesc, ""
 			} else {
-				return resDataBlob.Result.Blob, resDataBlob.ErrorDesc
+				return resDataSubmit.ErrorCode, resDataSubmit.ErrorDesc, resDataBlob.Result.Blob
 			}
 		}
 	}
