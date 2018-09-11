@@ -3,7 +3,6 @@ package exchangeDemo_test
 
 import (
 	"encoding/json"
-	"fmt"
 	"testing"
 
 	"github.com/bumoproject/bumo-sdk-go/src/model"
@@ -12,7 +11,7 @@ import (
 
 var testSdk sdk.Sdk
 
-//To initialize the SDK
+//to initialize the sdk
 func Test_Init(t *testing.T) {
 	var reqData model.SDKInitRequest
 	reqData.SetUrl("http://seed1.bumotest.io:26002")
@@ -24,19 +23,19 @@ func Test_Init(t *testing.T) {
 	}
 }
 
-//Check that the blocks are synchronized
+//check that the blocks are synchronized
 func Test_Block_CheckStatus(t *testing.T) {
 	resData := testSdk.Block.CheckStatus()
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("IsSynchronous:", resData.Result.IsSynchronous)
+		t.Log("IsSynchronous:", resData.Result.IsSynchronous)
 		t.Log("Test_Block_CheckStatus succeed", resData.Result)
 	}
 
 }
 
-//Create account
+//create account
 func Test_Account_Create(t *testing.T) {
 	resData := testSdk.Account.Create()
 	if resData.ErrorCode != 0 {
@@ -46,7 +45,7 @@ func Test_Account_Create(t *testing.T) {
 	}
 }
 
-//Verify account address
+//verify account address
 func Test_Account_checkValid(t *testing.T) {
 	var reqData model.AccountCheckValidRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -60,7 +59,7 @@ func Test_Account_checkValid(t *testing.T) {
 	}
 }
 
-//Enquiry of account details
+//enquiry of account details
 func Test_Account_GetInfo(t *testing.T) {
 	var reqData model.AccountGetInfoRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -70,12 +69,12 @@ func Test_Account_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Account_GetInfo succeed", resData.Result)
 	}
 }
 
-//Checking account balance
+//checking account balance
 func Test_Account_GetBalance(t *testing.T) {
 	var reqData model.AccountGetBalanceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -84,12 +83,12 @@ func Test_Account_GetBalance(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Balance:", resData.Result.Balance)
+		t.Log("Balance:", resData.Result.Balance)
 		t.Log("Test_Account_GetBalance succeed", resData.Result)
 	}
 }
 
-//Check the account transaction serial number
+//check the account transaction serial number
 func Test_Account_GetNonce(t *testing.T) {
 	var reqData model.AccountGetNonceRequest
 	var address string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -98,21 +97,21 @@ func Test_Account_GetNonce(t *testing.T) {
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("Nonce:", resData.Result.Nonce)
+		t.Log("Nonce:", resData.Result.Nonce)
 		t.Log("Test_Account_GetNonce succeed", resData.Result)
 	}
 }
 
-//Submit and send BU transactions
-func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
+//submit and send bu transactions
+func Test_submitTransaction(t *testing.T) {
 	//Operation
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
 	var amount int64 = 100
 	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
 	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("63")
 	reqDataOperation.SetDestAddress(destAddress)
+	//reqDataOperation.SetMetadata("send BU")
 	//Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
 	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
@@ -123,12 +122,12 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 	reqDataBlob.SetGasPrice(gasPrice)
 	var nonce int64 = 97
 	reqDataBlob.SetNonce(nonce)
-	reqDataBlob.SetMetadata("63")
 	reqDataBlob.SetOperation(reqDataOperation)
+	//reqDataBlob.SetMetadata("send BU")
 
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
-		fmt.Println(resDataBlob.ErrorDesc)
+		t.Log(resDataBlob.ErrorDesc)
 	} else {
 		//Sign
 		PrivateKey := []string{"privbUPxs6QGkJaNdgWS2hisny6ytx1g833cD7V9C3YET9mJ25wdcq6h"}
@@ -138,7 +137,7 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 
 		resDataSign := testSdk.Transaction.Sign(reqData)
 		if resDataSign.ErrorCode != 0 {
-			fmt.Println(resDataSign.ErrorDesc)
+			t.Log(resDataSign.ErrorDesc)
 		} else {
 			//Submit
 			var reqData model.TransactionSubmitRequest
@@ -149,14 +148,14 @@ func Test_Transaction_BuildBlob_Sign_Submit(t *testing.T) {
 			if resDataSubmit.ErrorCode != 0 {
 				t.Errorf(resDataSubmit.ErrorDesc)
 			} else {
-				fmt.Println("Hash:", resDataSubmit.Result.Hash)
-				t.Log("Test_Transaction_BuildBlob_Sign_Submit succeed", resDataSubmit.Result)
+				t.Log("Hash:", resDataSubmit.Result.Hash)
+				t.Log("Test_submitTransaction succeed", resDataSubmit.Result)
 			}
 		}
 	}
 }
 
-//Enquiry of transaction details
+//enquiry of transaction details
 func Test_Transaction_GetInfo(t *testing.T) {
 	var reqData model.TransactionGetInfoRequest
 	var hash string = "c738fb80dc401d6aba2cf3802ec85ac07fbc23366c003537b64cd1a59ab307d8"
@@ -166,23 +165,23 @@ func Test_Transaction_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result)
-		fmt.Println("info:", string(data))
+		t.Log("info:", string(data))
 		t.Log("Test_Transaction_GetInfo succeed", resData.Result)
 	}
 }
 
-//Get block height
+//get block height
 func Test_Block_GetNumber(t *testing.T) {
 	resData := testSdk.Block.GetNumber()
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
-		fmt.Println("BlockNumber:", resData.Result.Header.BlockNumber)
+		t.Log("BlockNumber:", resData.Result.Header.BlockNumber)
 		t.Log("Test_Block_GetNumber", resData.Result)
 	}
 }
 
-//Get block details
+//get block details
 func Test_Block_GetInfo(t *testing.T) {
 	var reqData model.BlockGetInfoRequest
 	var blockNumber int64 = 581283
@@ -192,19 +191,19 @@ func Test_Block_GetInfo(t *testing.T) {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetInfo succeed", resData.Result)
 	}
 }
 
-//Get the latest block information
+//get the latest block information
 func Test_Block_GetLatest(t *testing.T) {
 	resData := testSdk.Block.GetLatest()
 	if resData.ErrorCode != 0 {
 		t.Errorf(resData.ErrorDesc)
 	} else {
 		data, _ := json.Marshal(resData.Result.Header)
-		fmt.Println("Header:", string(data))
+		t.Log("Header:", string(data))
 		t.Log("Test_Block_GetLatest succeed", resData.Result)
 	}
 }

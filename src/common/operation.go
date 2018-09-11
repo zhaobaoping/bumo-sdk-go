@@ -4,6 +4,7 @@ package common
 import (
 	"container/list"
 	"encoding/json"
+	"math"
 	"strconv"
 
 	"github.com/bumoproject/bumo-sdk-go/src/crypto/keypair"
@@ -12,17 +13,21 @@ import (
 	"github.com/bumoproject/bumo-sdk-go/src/model"
 )
 
+const (
+	INIT_BALANCE int64 = 20000000
+)
+
 //GetOperations
 func GetOperations(operationsList list.List, url string, sourceAddress string) ([]*protocol.Operation, exception.SDKResponse) {
-	operations := make([]*protocol.Operation, operationsList.Len())
-	var i int = 0
+	var operations []*protocol.Operation
 	for e := operationsList.Front(); e != nil; e = e.Next() {
-		operations[i] = new(protocol.Operation)
 		operationsData, ok := e.Value.(model.BaseOperation)
 		if !ok {
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}
 		switch operationsData.Get() {
+		case 0:
+			return operations, exception.GetSDKRes(exception.OPERATION_NOT_INIT)
 		case 1:
 			operationsReqData, ok := operationsData.(model.AccountActivateOperation)
 			if !ok {
@@ -35,7 +40,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 2:
 			operationsReqData, ok := operationsData.(model.AccountSetMetadataOperation)
 			if !ok {
@@ -45,7 +50,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 3:
 			operationsReqData, ok := operationsData.(model.AccountSetPrivilegeOperation)
 			if !ok {
@@ -55,7 +60,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 4:
 			operationsReqData, ok := operationsData.(model.AssetIssueOperation)
 			if !ok {
@@ -65,7 +70,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 5:
 			operationsReqData, ok := operationsData.(model.AssetSendOperation)
 			if !ok {
@@ -78,7 +83,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 6:
 			operationsReqData, ok := operationsData.(model.BUSendOperation)
 			if !ok {
@@ -91,7 +96,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 7:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenIssueOperation)
 			if !ok {
@@ -101,7 +106,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 8:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferOperation)
 			if !ok {
@@ -116,7 +121,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 9:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenTransferFromOperation)
 			if !ok {
@@ -131,7 +136,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 10:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenApproveOperation)
 			if !ok {
@@ -146,7 +151,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 11:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenAssignOperation)
 			if !ok {
@@ -161,7 +166,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 12:
 			operationsReqData, ok := operationsData.(model.Ctp10TokenChangeOwnerOperation)
 			if !ok {
@@ -176,7 +181,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 13:
 			operationsReqData, ok := operationsData.(model.ContractCreateOperation)
 			if !ok {
@@ -186,7 +191,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 14:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByAssetOperation)
 			if !ok {
@@ -201,7 +206,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 15:
 			operationsReqData, ok := operationsData.(model.ContractInvokeByBUOperation)
 			if !ok {
@@ -216,7 +221,7 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		case 16:
 			operationsReqData, ok := operationsData.(model.LogCreateOperation)
 			if !ok {
@@ -226,16 +231,15 @@ func GetOperations(operationsList list.List, url string, sourceAddress string) (
 			if operationsResData.ErrorCode != 0 {
 				return operations, exception.GetSDKRes(operationsResData.ErrorCode)
 			}
-			operations[i] = &operationsResData.Result.Operation
+			operations = append(operations, &operationsResData.Result.Operation)
 		default:
 			return operations, exception.GetSDKRes(exception.OPERATIONS_ONE_ERROR)
 		}
-		i++
 	}
 	return operations, exception.GetSDKRes(exception.SUCCESS)
 }
 
-//激活账户 activate the account 1
+//activate the account 1
 func Activate(reqData model.AccountActivateOperation, url string) model.AccountActivateResponse {
 	var resData model.AccountActivateResponse
 	if reqData.GetSourceAddress() != "" {
@@ -282,7 +286,7 @@ func Activate(reqData model.AccountActivateOperation, url string) model.AccountA
 
 }
 
-//设置metadata SetMetadata 2
+//set metadata 2
 func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMetadataResponse {
 	var resData model.AccountSetMetadataResponse
 	if reqData.GetSourceAddress() != "" {
@@ -328,7 +332,7 @@ func SetMetadata(reqData model.AccountSetMetadataOperation) model.AccountSetMeta
 	return resData
 }
 
-//设置权限 SetPrivilege 3
+//set privilege 3
 func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPrivilegeResponse {
 	var resData model.AccountSetPrivilegeResponse
 	if reqData.GetSourceAddress() != "" {
@@ -341,7 +345,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 	}
 	if reqData.GetMasterWeight() != "" {
 		masterWeightInt, err := strconv.ParseInt(reqData.GetMasterWeight(), 10, 64)
-		if err != nil || masterWeightInt < 0 || masterWeightInt > 4294967295 {
+		if err != nil || masterWeightInt < 0 || masterWeightInt > math.MaxUint32 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_MASTERWEIGHT_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
@@ -355,7 +359,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 			resData.ErrorDesc = SDKRes.ErrorDesc
 			return resData
 		}
-		if reqData.GetSigners()[i].Weight > 4294967295 || reqData.GetSigners()[i].Weight < 0 {
+		if reqData.GetSigners()[i].Weight > math.MaxUint32 || reqData.GetSigners()[i].Weight < 0 {
 			SDKRes := exception.GetSDKRes(exception.INVALID_SIGNER_WEIGHT_ERROR)
 			resData.ErrorCode = SDKRes.ErrorCode
 			resData.ErrorDesc = SDKRes.ErrorDesc
@@ -414,7 +418,7 @@ func SetPrivilege(reqData model.AccountSetPrivilegeOperation) model.AccountSetPr
 	return resData
 }
 
-//发行资产 AssetIssue 4
+//asset issue 4
 func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 	var resData model.AssetIssueResponse
 	if reqData.GetSourceAddress() != "" {
@@ -450,7 +454,7 @@ func AssetIssue(reqData model.AssetIssueOperation) model.AssetIssueResponse {
 	return resData
 }
 
-//转移资产 AssetSend 5
+//asset send 5
 func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 	var resData model.AssetSendResponse
 	if !keypair.CheckAddress(reqData.GetIssuer()) {
@@ -497,7 +501,7 @@ func AssetSend(reqData model.AssetSendOperation) model.AssetSendResponse {
 	return resData
 }
 
-//交易BU BUSend 6
+//bu send 6
 func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	var resData model.BUSendResponse
 	if reqData.GetAmount() < 0 {
@@ -533,7 +537,7 @@ func BUSend(reqData model.BUSendOperation) model.BUSendResponse {
 	return resData
 }
 
-//发行合约token 7
+//Ctp10token 7
 func Ctp10TokenIssue(reqData model.Ctp10TokenIssueOperation) model.Ctp10TokenIssueResponse {
 	var resData model.Ctp10TokenIssueResponse
 	if reqData.GetSourceAddress() != "" {
@@ -603,7 +607,7 @@ func Ctp10TokenIssue(reqData model.Ctp10TokenIssueOperation) model.Ctp10TokenIss
 	return resData
 }
 
-//转移合约token 8
+//Ctp10token 8
 func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransferResponse {
 	var resData model.Ctp10TokenTransferResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -653,7 +657,7 @@ func Transfer(reqData model.Ctp10TokenTransferOperation) model.Ctp10TokenTransfe
 	return resData
 }
 
-//转移合约token 9
+//Ctp10token 9
 func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10TokenTransferFromResponse {
 	var resData model.Ctp10TokenTransferFromResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -704,7 +708,7 @@ func TransferFrom(reqData model.Ctp10TokenTransferFromOperation) model.Ctp10Toke
 	return resData
 }
 
-//授权从交易发送者账户转出合约token 10
+//Ctp10token 10
 func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveResponse {
 	var resData model.Ctp10TokenApproveResponse
 	if !keypair.CheckAddress(reqData.GetSpender()) {
@@ -749,7 +753,7 @@ func Approve(reqData model.Ctp10TokenApproveOperation) model.Ctp10TokenApproveRe
 	return resData
 }
 
-//分配合约token 11
+//Ctp10token 11
 func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignResponse {
 	var resData model.Ctp10TokenAssignResponse
 	if !keypair.CheckAddress(reqData.GetDestAddress()) {
@@ -805,7 +809,7 @@ func Assign(reqData model.Ctp10TokenAssignOperation) model.Ctp10TokenAssignRespo
 	return resData
 }
 
-//转移合约token拥有权 12
+//Ctp10token 12
 func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenChangeOwnerResponse {
 	var resData model.Ctp10TokenChangeOwnerResponse
 	if !keypair.CheckAddress(reqData.GetTokenOwner()) {
@@ -849,7 +853,7 @@ func ChangeOwner(reqData model.Ctp10TokenChangeOwnerOperation) model.Ctp10TokenC
 	return resData
 }
 
-//创建合约账户 ContractCreate 13
+//contract create 13
 func ContractCreate(reqData model.ContractCreateOperation) model.ContractCreateResponse {
 	var resData model.ContractCreateResponse
 	if reqData.GetSourceAddress() != "" {
@@ -896,7 +900,7 @@ func ContractCreate(reqData model.ContractCreateOperation) model.ContractCreateR
 	return resData
 }
 
-//转移资产并触发合约 InvokeByAsset 14
+//invoke by asset 14
 func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractInvokeByBUResponse {
 	var resData model.ContractInvokeByBUResponse
 	if reqData.GetSourceAddress() != "" {
@@ -919,21 +923,18 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 		return resData
 	}
 	if len(reqData.GetCode()) > 64 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ASSET_CODE_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ASSET_CODE_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetAmount() < 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ASSET_AMOUNT_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ASSET_AMOUNT_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetIssuer() != "" && !keypair.CheckAddress(reqData.GetIssuer()) {
-		SDKRes := exception.GetSDKRes(exception.INVALID_ISSUER_ADDRESS_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_ISSUER_ADDRESS_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	var PayAsset protocol.OperationPayAsset
@@ -968,14 +969,13 @@ func InvokeByAsset(reqData model.ContractInvokeByAssetOperation) model.ContractI
 	return resData
 }
 
-//发送BU并触发合约 InvokeByBU 15
+//invoke by bu 15
 func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeByBUResponse {
 	var resData model.ContractInvokeByBUResponse
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			SDKRes := exception.GetSDKRes(exception.INVALID_SOURCEADDRESS_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 	}
@@ -1011,27 +1011,24 @@ func InvokeByBU(reqData model.ContractInvokeByBUOperation) model.ContractInvokeB
 	return resData
 }
 
-//在区块链上写日志信息 LogCreate 16
+//log create 16
 func LogCreate(reqData model.LogCreateOperation) model.LogCreateResponse {
 	var resData model.LogCreateResponse
 	if reqData.GetSourceAddress() != "" {
 		if !keypair.CheckAddress(reqData.GetSourceAddress()) {
-			SDKRes := exception.GetSDKRes(exception.INVALID_SOURCEADDRESS_ERROR)
-			resData.ErrorCode = SDKRes.ErrorCode
-			resData.ErrorDesc = SDKRes.ErrorDesc
+			resData.ErrorCode = exception.INVALID_SOURCEADDRESS_ERROR
+			resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 			return resData
 		}
 	}
 	if len(reqData.GetTopic()) > 128 || len(reqData.GetTopic()) <= 0 {
-		SDKRes := exception.GetSDKRes(exception.INVALID_LOG_TOPIC_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_LOG_TOPIC_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	if reqData.GetDatas() == nil {
-		SDKRes := exception.GetSDKRes(exception.INVALID_LOG_DATA_ERROR)
-		resData.ErrorCode = SDKRes.ErrorCode
-		resData.ErrorDesc = SDKRes.ErrorDesc
+		resData.ErrorCode = exception.INVALID_LOG_DATA_ERROR
+		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
 	for i := range reqData.GetDatas() {

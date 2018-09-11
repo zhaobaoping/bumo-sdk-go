@@ -19,7 +19,7 @@ type Sdk struct {
 	Token       token.TokenOperation
 }
 
-//新建
+//Init
 func (sdk *Sdk) Init(reqData model.SDKInitRequest) model.SDKInitResponse {
 	var resData model.SDKInitResponse
 	if reqData.GetUrl() == "" {

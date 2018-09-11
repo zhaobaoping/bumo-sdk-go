@@ -28,6 +28,16 @@ type CheckValidResult struct {
 	IsValid bool
 }
 
+//CheckActivated
+type AccountCheckActivatedResponse struct {
+	ErrorCode int                  `json:"error_code"`
+	ErrorDesc string               `json:"error_desc"`
+	Result    CheckActivatedResult `json:"result"`
+}
+type CheckActivatedResult struct {
+	IsActivated bool
+}
+
 //Create
 type AccountCreateResponse struct {
 	ErrorCode int                 `json:"error_code"`
@@ -594,6 +604,26 @@ type Ctp10TokenIssueResponse struct {
 }
 type Ctp10TokenIssueResult struct {
 	Operation protocol.Operation `json:"operation"`
+}
+
+//Atp10TokenIssue
+type Atp10TokenIssueResponse struct {
+	ErrorCode int                   `json:"error_code"`
+	ErrorDesc string                `json:"error_desc"`
+	Result    Atp10TokenIssueResult `json:"result"`
+}
+type Atp10TokenIssueResult struct {
+	Operations []protocol.Operation `json:"operations"`
+}
+
+//Atp10TokenAppendToIssue
+type Atp10TokenAppendToIssueResponse struct {
+	ErrorCode int                           `json:"error_code"`
+	ErrorDesc string                        `json:"error_desc"`
+	Result    Atp10TokenAppendToIssueResult `json:"result"`
+}
+type Atp10TokenAppendToIssueResult struct {
+	Operations []protocol.Operation `json:"operations"`
 }
 type Ctp10TokenTransferResponse struct {
 	ErrorCode int                      `json:"error_code"`

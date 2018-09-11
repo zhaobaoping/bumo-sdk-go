@@ -15,7 +15,7 @@ type AccountOperation struct {
 	Url string
 }
 
-//检查地址合法性 Check the validity of the address
+// Check the validity of the address
 func (account *AccountOperation) CheckValid(reqData model.AccountCheckValidRequest) model.AccountCheckValidResponse {
 	var resData model.AccountCheckValidResponse
 	resData.Result.IsValid = keypair.CheckAddress(reqData.GetAddress())
@@ -23,7 +23,7 @@ func (account *AccountOperation) CheckValid(reqData model.AccountCheckValidReque
 	return resData
 }
 
-//生成公私钥对 Create public and private key pairs
+// Create public and private key pairs
 func (account *AccountOperation) Create() model.AccountCreateResponse {
 	var resData model.AccountCreateResponse
 	var err error
@@ -37,7 +37,7 @@ func (account *AccountOperation) Create() model.AccountCreateResponse {
 	return resData
 }
 
-//查询账户信息 Get account info
+// Get account info
 func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) model.AccountGetInfoResponse {
 	var resData model.AccountGetInfoResponse
 	if !keypair.CheckAddress(reqData.GetAddress()) {
@@ -45,8 +45,7 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
 	}
-	get := "/getAccount?address="
-	response, SDKRes := common.GetRequest(account.Url, get, reqData.GetAddress())
+	response, SDKRes := common.GetRequest(account.Url, "/getAccount?address=", reqData.GetAddress())
 	if SDKRes.ErrorCode != 0 {
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
@@ -76,11 +75,10 @@ func (account *AccountOperation) GetInfo(reqData model.AccountGetInfoRequest) mo
 		resData.ErrorCode = exception.CONNECTNETWORK_ERROR
 		resData.ErrorDesc = exception.GetErrDesc(resData.ErrorCode)
 		return resData
-
 	}
 }
 
-//查询账户交易序号 GetNonce
+// Get Nonce
 func (account *AccountOperation) GetNonce(reqData model.AccountGetNonceRequest) model.AccountGetNonceResponse {
 	var resData model.AccountGetNonceResponse
 	if !keypair.CheckAddress(reqData.GetAddress()) {
@@ -125,7 +123,7 @@ func (account *AccountOperation) GetNonce(reqData model.AccountGetNonceRequest) 
 	}
 }
 
-//查询账户余额 GetBalance
+// Get Balance
 func (account *AccountOperation) GetBalance(reqData model.AccountGetBalanceRequest) model.AccountGetBalanceResponse {
 	var resData model.AccountGetBalanceResponse
 	if !keypair.CheckAddress(reqData.GetAddress()) {
@@ -171,7 +169,7 @@ func (account *AccountOperation) GetBalance(reqData model.AccountGetBalanceReque
 	}
 }
 
-//查询账户资产 GetAssets
+// Get Assets
 func (account *AccountOperation) GetAssets(reqData model.AccountGetAssetsRequest) model.AccountGetAssetsResponse {
 	var resData model.AccountGetAssetsResponse
 	if !keypair.CheckAddress(reqData.GetAddress()) {
@@ -219,7 +217,7 @@ func (account *AccountOperation) GetAssets(reqData model.AccountGetAssetsRequest
 	}
 }
 
-//获取账户的metadata信息 GetMetadata
+// Get Metadata
 func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataRequest) model.AccountGetMetadataResponse {
 	var resData model.AccountGetMetadataResponse
 	if !keypair.CheckAddress(reqData.GetAddress()) {
@@ -275,6 +273,25 @@ func (account *AccountOperation) GetMetadata(reqData model.AccountGetMetadataReq
 		SDKRes := exception.GetSDKRes(exception.CONNECTNETWORK_ERROR)
 		resData.ErrorCode = SDKRes.ErrorCode
 		resData.ErrorDesc = SDKRes.ErrorDesc
+		return resData
+	}
+}
+
+// Check Activated
+func (account *AccountOperation) CheckActivated(reqData model.AccountCheckActivatedRequest) model.AccountCheckActivatedResponse {
+	var resData model.AccountCheckActivatedResponse
+	resData.Result.IsActivated = false
+	var reqDataInfo model.AccountGetInfoRequest
+	reqDataInfo.SetAddress(reqData.GetAddress())
+	resDataInfo := account.GetInfo(reqDataInfo)
+	if resDataInfo.ErrorCode == 0 {
+		resData.Result.IsActivated = true
+		return resData
+	} else if resDataInfo.ErrorCode == 4 {
+		return resData
+	} else {
+		resData.ErrorCode = resDataInfo.ErrorCode
+		resData.ErrorDesc = resDataInfo.ErrorDesc
 		return resData
 	}
 }
