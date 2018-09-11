@@ -10,17 +10,28 @@ import (
 
 //take send BU, for example
 func Test_submitTransactionDemo(t *testing.T) {
+	// The token amount to be sent
+	var amount int64 = 100000
+	// The account to receive
+	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+	var url string = "http://seed1.bumotest.io:26002"
+	// The account that BU
+	var sourceAddress string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
+	// The fixed write 1000L, the unit is MO
+	var gasPrice int64 = 1000
+	// Set up the maximum cost 0.01BU
+	var feeLimit int64 = 5003000000
 	//Building SDK objects
 	var testSdk sdk.Sdk
 	var reqDataInit model.SDKInitRequest
-	reqDataInit.SetUrl("http://seed1.bumotest.io:26002")
+	reqDataInit.SetUrl(url)
 	resDataInit := testSdk.Init(reqDataInit)
 	if resDataInit.ErrorCode != 0 {
 		t.Errorf(resDataInit.ErrorDesc)
 	}
 	//Gets the latest Nonce
 	var reqDataNonce model.AccountGetNonceRequest
-	reqDataNonce.SetAddress("buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo")
+	reqDataNonce.SetAddress(sourceAddress)
 	resDataNonce := testSdk.Account.GetNonce(reqDataNonce)
 	if resDataNonce.ErrorCode != 0 {
 		t.Errorf(resDataNonce.ErrorDesc)
@@ -28,24 +39,17 @@ func Test_submitTransactionDemo(t *testing.T) {
 	//Building Operation
 	var reqDataOperation model.BUSendOperation
 	reqDataOperation.Init()
-	var amount int64 = 1
-	var destAddress string = "buQVU86Jm4FeRW4JcQTD9Rx9NkUkHikYGp6z"
+
 	reqDataOperation.SetAmount(amount)
-	reqDataOperation.SetMetadata("63")
 	reqDataOperation.SetDestAddress(destAddress)
 	//Building Blob
 	var reqDataBlob model.TransactionBuildBlobRequest
-	var sourceAddressBlob string = "buQemmMwmRQY1JkcU7w3nhruoX5N3j6C29uo"
-	reqDataBlob.SetSourceAddress(sourceAddressBlob)
-	var feeLimit int64 = 10000000
+	reqDataBlob.SetSourceAddress(sourceAddress)
 	reqDataBlob.SetFeeLimit(feeLimit)
-	var gasPrice int64 = 1000
 	reqDataBlob.SetGasPrice(gasPrice)
 	var nonce int64 = resDataNonce.Result.Nonce + 1
 	reqDataBlob.SetNonce(nonce)
-	reqDataBlob.SetMetadata("63")
 	reqDataBlob.SetOperation(reqDataOperation)
-
 	resDataBlob := testSdk.Transaction.BuildBlob(reqDataBlob)
 	if resDataBlob.ErrorCode != 0 {
 		t.Errorf(resDataBlob.ErrorDesc)
