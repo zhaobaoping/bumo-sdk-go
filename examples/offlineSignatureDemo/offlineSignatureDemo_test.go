@@ -72,29 +72,30 @@ func Test_Online_BuildTransactionBlob(t *testing.T) {
 	}
 
 }
-func Test_Offline_ParseBlob(t *testing.T) {
-	// Get transactionBlobResult from 1 (Network Environment)
-	var blob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
-	// Parsing the transaction Blob
-	transaction := ParseBlob(blob)
-	if transaction != true {
-		fmt.Println(blob)
-	} else {
-		fmt.Println("blob is false")
-	}
-}
-func Test_Offline_SignTransactionBlob(t *testing.T) {
-	// When the transaction Blob is confirmed, it begins to sign a signature
 
-	// Transaction Blob
-	var transactionBlob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
-	// The account private key to send BU
-	var senderPrivateKey string = "privbyQCRp7DLqKtRFCqKQJr81TurTqG6UKXMMtGAmPG3abcM9XHjWvq"
+//func Test_Offline_ParseBlob(t *testing.T) {
+//	// Get transactionBlobResult from 1 (Network Environment)
+//	var blob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
+//	// Parsing the transaction Blob
+//	transaction := ParseBlob(blob)
+//	if transaction != true {
+//		fmt.Println(blob)
+//	} else {
+//		fmt.Println("blob is false")
+//	}
+//}
+//func Test_Offline_SignTransactionBlob(t *testing.T) {
+//	// When the transaction Blob is confirmed, it begins to sign a signature
 
-	// Sign transaction
-	signature := signTransaction(transactionBlob, senderPrivateKey)
-	fmt.Println(signature)
-}
+//	// Transaction Blob
+//	var transactionBlob string = "0a24627551656d6d4d776d525159314a6b63553777336e6872756f58354e336a36433239756f106d18c0843d20e80728eff135320236333a3008071a02363352280a24627551565538364a6d3446655257344a63515444395278394e6b556b48696b594770367a1064"
+//	// The account private key to send BU
+//	var senderPrivateKey string = "privbyQCRp7DLqKtRFCqKQJr81TurTqG6UKXMMtGAmPG3abcM9XHjWvq"
+
+//	// Sign transaction
+//	signature := signTransaction(transactionBlob, senderPrivateKey)
+//	fmt.Println(signature)
+//}
 func signTransaction(transactionBlob string, senderPrivateKey string) string {
 	privateKey, err := keypair.GetEncPublicKey(senderPrivateKey)
 	if err != nil {
